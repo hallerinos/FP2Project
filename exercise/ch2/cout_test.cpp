@@ -1,3 +1,6 @@
+/*
+ * Listing of std::cout and test for any compiler bugs
+ * */
 #include <iostream>
 
 int main()
