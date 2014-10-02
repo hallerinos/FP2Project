@@ -1,5 +1,5 @@
 # include <iostream>
-# include "area.h"
+# include "area.hpp"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ int main()
 	cout << "\nHow long is your yard? ";
 	cin >> lengthOfYard;
 
-	areaOfYard = area( lengthOfYard );
+	areaOfYard = area( lengthOfYard, widthOfYard );
 
 	cout << "\nYour yard is ";
 	cout << areaOfYard;
