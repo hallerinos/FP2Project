@@ -3,7 +3,7 @@
 
 typedef unsigned short int USHORT;
 
-Employee::Employee( USHORT age, USHORT yearsOfService, float salary ) {
+Employee::Employee( USHORT age, USHORT yearsOfService = 0, float salary = 0) {
 	itsAge = age;
 	itsYearsOfService = yearsOfService;
 	itsSalary = salary;
