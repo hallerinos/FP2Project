@@ -40,8 +40,8 @@ int main()
 	empOne.setSalary( empOne.getSalary() + 1000 );
 	empOne.setYearsOfService( empOne.getYearsOfService() + 1 );
 
-	std::cout << "In his " << empOne.getYearsOfService()
-		<< "'th year of service, he earns: " 
+	std::cout << "In his " 
+		<< empOne.getYearsOfService() << "'th year of service, he earns: " 
 		<< empOne.getSalary() << " Dollars a month and "
 		<< empOne.getTotalIncome() << " per year.\n\n";
 	return 0;
