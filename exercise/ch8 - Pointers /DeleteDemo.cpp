@@ -8,11 +8,12 @@ class SimpleCat
 		SimpleCat();
 		~SimpleCat();
 		void setAge( int newAge ) { 
-			cout << "Set Age Called" << endl;
-			cout << "Adress of newAge: " << &newAge << endl;
-			cout << "Adress of itsAge: " << &newAge << endl;
+			cout << "setAge called" << endl;
+			cout << "Adress of itsAge: " << &itsAge << endl;
 			itsAge = newAge; };
-		int getAge() { return itsAge; };
+		int getAge() { 
+			cout << "getAge called, adress of itsAge: " << &itsAge;
+			return itsAge; };
 	private:
 		int itsAge;
 };
