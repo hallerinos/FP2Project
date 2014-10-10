@@ -1,0 +1,34 @@
+\subsection{Resolution of the Fabry-P\'erot Interferometer}
+\label{toc:ResolutionFPI}
+The Full Width at Half Maximum $\delta\lambda$ is the wavelenght difference of two hardly distinguishable neighbouring maxima.
+\begin{align}
+	\delta\lambda = \Delta\lambda = \left|\lambda_{\text{max}_1}-\lambda_{\text{max}_2}\right|
+\end{align}
+During the observation of the Zeeman effect it was unfortunately neglected to memorise the current value for the splitting to start. 
+However it is possible to estimate the resolution of the Fabry-P\'erot interferometer based on the available data, but the result is expected to be different from the actual value.
+Therefore the wavelength difference of $\lambda_{\text{max}_1}-\lambda_{\text{max}_2}$ was chosen to be $\lambda_{\sigma_1}-\lambda_{\sigma_2}$.
+The resolution estimates to
+\begin{align}
+	\left(\frac{\lambda}{\delta\lambda}\right) &= \frac{\lambda}{\left|\lambda_{\sigma_1}-\lambda_{\sigma_2}\right|}\\
+	\left(\frac{\lambda}{\delta\lambda}\right) &= \frac{\lambda}{\left|\lambda_{\sigma_1}-\lambda_{\sigma_2}\right|}\cdot \sqrt{\left(\frac{\Delta\lambda}{\lambda}\right)^2 + \left(\frac{\Delta\lambda_{\sigma_1}}{\lambda_{\sigma_1}}\right)^2 + \left(\frac{\Delta\lambda_{\sigma_2}}{\lambda_{\sigma_2}}\right)^2}
+\end{align}
+Theoretically, the finesse $\mathcal{F}$ should be a reference value for the interferometer's resolution, if it is multiplied by $n_0$ (which was determined in chapter~\ref{toc:Wavelength}).
+	\begin{align}
+	\begin{split}
+	\left(\frac{\lambda}{\delta\lambda}\right)_{\text{ref}} 	&= \frac{2 \mu d}{\lambda_\text{lit}} \cdot \frac{\pi \sqrt{R}}{1-R}\\
+	\Delta \left(\frac{\lambda}{\delta\lambda}\right)_{\text{ref}}	&= \frac{2 \mu \Delta d}{\lambda_\text{lit}} \cdot \frac{\pi \sqrt{R}}{1-R}
+	\end{split}
+	\end{align}
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{c c c c}
+	Element		& $\left(\frac{\lambda}{\delta\lambda}\right)_{\text{exp}}$	& $\left(\frac{\lambda}{\delta\lambda}\right)_{\text{ref}}$	& Deviation Order \\
+	\hline
+	Cd		& \num{186.329 \pm 3.1533}					& \num{146.619 \pm 0.971 e5}					& $\mathcal{O}(\num{e5})$	\\
+	Sn		& \num{34.573 \pm 0.991}					& \num{14.838 \pm 0.098 e6}					& $\mathcal{O}(\num{e6})$	\\
+	\end{tabular}
+	\caption[Determination of the FPI's resolution]{Determination of the FPI's resolution using the zeeman splitting of cadmium and tin at $D\approx 1/4$}
+	\label{tab:SpecCharge_e}
+\end{table}\\
+Therefore the deviation is of $\mathcal{O}(>10^5)$.
+Possible origins of this are explained in more detail in chapter~\ref{toc:PlausibilityZeeman}.

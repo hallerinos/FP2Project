@@ -1,0 +1,35 @@
+\subsubsection{Finesse of the Fabry-P\'erot Interferometer}
+\label{toc:FPIFinesse}
+The intensity distribution of a Fabry-P\'erot interferometer is given by the Airy-Function
+\begin{align}
+	\begin{split}
+	I(\theta,\nu)	 	&=\frac{I_0}{1 + F\sin^2(\pi\frac{2d\cos(\theta)}{\lambda})}	\hspace{1.0cm}\text{with } F=\frac{4R}{(1-R)^2}\\
+				&=\frac{I_0}{1 + F\sin^2(\pi\nu\cdot2d\cos(\theta))}		\hspace{1.0cm}\text{with } \nu=\frac{1}{\lambda}\ .
+	\end{split}
+\end{align}
+To resolve it to the setup's capacity, one has to evaluate an expression for the Full Width at Half Maximum $\delta \nu$.
+\begin{align}
+	\begin{split}
+	\frac{I(\theta,0)}{2} 	&= I(\theta, \frac{\delta \nu}{2}) \\
+	\frac{1}{2}		&= \frac{1}{1 + F \sin^2(\pi \frac{\delta \nu}{2} \cdot 2d \cos(\theta))}\\
+				&\mathrel{\makebox[\widthof{=}]{\vdots}} \\
+	\frac{1}{\delta \nu}	&= \sqrt{F}\cdot\pi d
+	\end{split}
+\end{align}
+This expression can be resolved to the setup's finesse $\mathcal{F}$
+\begin{align}
+	\label{eq:FPIFinesse}
+	\mathcal{F} = \frac{\nu}{\delta\nu} = \frac{\pi\sqrt{F}}{2} = \frac{\pi \sqrt{R}}{1-R}\ ,
+\end{align}
+which is the usual quality reference value of the resolution.
+The setup's Fabry-P\'erot interferometer has a reflection coefficient of $R=\num{0.99}$, which is a completely ideal and not measured value.
+Therefore it is difficult to reckon the finesse's error.
+The distance of the reflecting planes is denoted to $d=\SI{1.51\pm 0.01}{\centi\meter}$.\\
+\\
+\\
+\textbf{Explanatory Note}\\
+\\
+It is important to know, that the Fabry-P\'erot interferometer used in this experiment is not as suitable to measure absolute wavelengths. 
+To do so, it would be neccessary to insert a prism into the course of beam in order so separate the wavelengths first. 
+This would cause a smaller spectrum of wavelengths, so that the interference pattern would be more suitable to measure the separated wavelength precisely.\\
+However this experimental setup is qualified to measure small wavelength differences, hence it can be used to precisely measure wavelength shifts.

@@ -2,20 +2,17 @@
 
 using namespace std;
 
-class SimpleCat
+class SimpleCat 
 {
 	public:
 		SimpleCat();
 		~SimpleCat();
 		void setAge( int newAge ) { 
-			itsAge = newAge; 
+			(*this).itsAge = newAge; 
 		};
-		int getAge() { 
+		int getAge() const { 
 			return itsAge;
 	 };
-		int *getAdress() {
-			return &itsAge;
-		};
 	private:
 		int itsAge;
 };
@@ -25,16 +22,17 @@ SimpleCat::SimpleCat() {
 }
 
 SimpleCat::~SimpleCat() {
-	cout << "Destructor called." << endl;
 }
 
 int main()
 {
-	SimpleCat *Frisky = new SimpleCat;
-	int *privateAdress = Frisky->getAdress();
-	cout << "Friskys age: " << Frisky->getAge() << endl;
-	*privateAdress = 10;
-	cout << "Friskys age: " << Frisky->getAge() << endl;
+	int num = 10;
+	int &rNum = num;
+	num = 9;
 
+	cout << "num: " << num
+		<< " rNum: " << rNum
+		<< " &num: " << &num
+		<< " &rNum: " << &rNum;
 	return 0;
 }

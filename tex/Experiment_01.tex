@@ -1,0 +1,144 @@
+\documentclass[12pt,a4paper,oneside]{article}
+\usepackage[top=2.5cm, bottom=3.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{color}
+\usepackage[ngerman, english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{setspace}
+\usepackage{amsmath,calc}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\usepackage[babel, german=quotes]{csquotes}
+\usepackage{lastpage}
+\usepackage[german]{babelbib}
+\usepackage{packages/fancyhdr}
+\usepackage[german]{nomencl}
+\usepackage{hyperref}
+\usepackage[justification=centerlast,width=0.85\textwidth]{caption}
+\usepackage{textgreek}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{siunitx}
+\usepackage{wrapfig}
+\usepackage[latin1]{inputenc}
+\usepackage[x11names, rgb]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{%
+    decorations.pathreplacing,%
+    decorations.pathmorphing%
+}
+\usetikzlibrary{calc}
+\usepackage[font=footnotesize,labelfont=bf]{caption}
+\usepackage{braket}
+% Drawing Package
+\usepackage{tikz}
+%\usetikzlibrary{arrows,shapes,trees,..}
+
+%Anzahl Tabellen auf einer Seite
+\setcounter{secnumdepth}{4}
+\setcounter{topnumber}{4}
+\setcounter{totalnumber}{6}
+% Percentage of text on a single page
+\renewcommand{\textfraction}{0.0}
+
+%SI Unit Package Fehler separat anzeigen
+\sisetup{separate-uncertainty}
+\DeclareSIUnit[number-unit-product = \,]{\promille}{\textperthousand}
+\DeclareSIUnit[number-unit-product = \,]{\channel}{channel}
+
+%Beschriftung von Formeln
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+\numberwithin{equation}{section}
+
+%Einstellungen zu den Verlinkungen innerhalb des PDFs
+\definecolor{dunkelgrau}{rgb}{0.55,0.55,0.55}
+\hypersetup{colorlinks=true, linkcolor=dunkelgrau, urlcolor=black, citecolor=black, filecolor=black, breaklinks=true}
+
+
+
+%Abkürzungsverzeichnis einstellen
+%Umbenennen Befehl \nomenclature[]{}{} in \abk[]{}{}
+\let\abk\nomenclature
+
+%Regel für die Untergruppen im Symbolverzeichnis
+\RequirePackage{ifthen}
+\renewcommand{\nomgroup}[1]{%
+	\ifthenelse{\equal{#1}{A}}{\item[\textbf{Abk\"urzungen}]}{%
+	\ifthenelse{\equal{#1}{F}}{\item[\textbf{Formelzeichen}]}{}}}
+
+%Erstellen Sysmbolverzeichnis
+\makenomenclature
+
+%Erste Zeile der Absätze nicht einrücken
+\parindent0cm
+
+%Daten des Versuchs/ der Autoren
+\newcommand{\Title}{Advanced Placement I \\ \vspace{0.4cm}Experiment 01 - \dq Zeeman Effect\dq}	% Thema
+\newcommand{\Authora}{Andreas Haller} 																% Autor A
+\newcommand{\Authorb}{Philipp Schmoll} 																% Autor B
+\newcommand{\Date}{October 22, 2013}															% Versuchsdurchführung
+\newcommand{\Time}{2 Weeks}																		% Bearbeitungszeit
+\newcommand{\Group}{Group 35}																		% Gruppenbezeichnung
+\newcommand{\IDa}{2680414}																			% Matrikelnummer
+\newcommand{\IDb}{2685312}																			% Matrikelnummer
+\newcommand{\Assistant}{Matteo Cardinali}																	% Betreuer des Versuchs
+\newcommand{\eMaila}{ahaller@students.uni-mainz.de}														% eMail Autor A
+\newcommand{\eMailb}{pschmoll@students.uni-mainz.de}													% eMail Autor B
+
+%Header und Footer
+%\setlength{\headheight}{34.80278pt}
+\setlength{\headheight}{35.64824pt}
+\setlength{\footskip}{26pt}
+\pagestyle{fancy}
+
+%Header
+\lhead{
+	\begin{small}Johannes Gutenberg University Mainz\\
+	Winter Term 2013\end{small}}
+\chead{}
+\rhead{
+	%\hspace{0.5cm}
+	%\includegraphics[height=1.1cm]{Images/Logo_UniMainz.pdf}
+}
+%Footer
+\lfoot{
+	\begin{tiny}
+		\begin{tabular}{l p{11cm} r}
+			Updated \today & & Page \thepage\ of  \pageref{LastPage}\\
+		\end{tabular}
+	\end{tiny}}
+\cfoot{}
+\rfoot{}
+
+\begin{document}
+
+%Umbenennen Literatur
+%\renewcommand{\refname}{References}
+
+\input{Title}
+\input{Indices}
+
+\setlength{\parskip}{12pt}
+\onehalfspacing
+%\include{01_Introduction/01_Introduction}
+\include{02_TheoreticalConcepts/02_TheoreticalConcepts}
+\include{03_Experiment/03_Experiment}
+\include{04_DataAnalysis/04_DataAnalysis}
+%\include{05_Appendix/05_Appendix}
+
+
+\singlespacing
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{babalpha}
+\bibliography{References/References}
+
+\appendix
+\onehalfspacing
+
+\end{document}

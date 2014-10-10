@@ -1,0 +1,14 @@
+\subsubsection{Hysteresis Loop}
+The method used for fitting is clearly a wrong model for the real behaviour of a magnetic hysteresis loop. 
+Usual magnetisation models use compositions of exponential functions of the form $\exp(-\beta H + \mu N)$, where $H$ is the systems Hamiltonian and $N$ the particlenumber operator.
+This was tried to reproduce with arguments $\propto I^2$, but the result is not satisfying because of the huge parameter errors.
+A set of measurements with smaller steps would probably yield a better result, the parameter errors are way to high to rate the plausibility of this model.
+But since further analysis needs a propagation of the field's error, a polynomial fit is more suitable.
+The good $\chi^2_{\text{red}}$ values for both loop branches support the satisfying approximation.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width = 0.7\textwidth]{images/HysExp.pdf}
+	\caption[Hysteresis Loop with a More Realistic Fit Model]{This model with compositions of exponential functions and arguments $\propto I^2$ should be more effective to fit the magnetising loop of a conductor, but since the error of $b$ and $e$ is huge, a more simply model has been used for the analysis.}
+\end{figure}\\
+Another error may be the delay between setting the current and the change of the magnetic field caused by self inductance.
+The impact of this effect can not be easily estimated, because the power supply is not stable enough.

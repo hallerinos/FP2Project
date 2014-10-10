@@ -1,0 +1,61 @@
+\subsubsection{Wavelength of Tin}
+\label{toc:WavelengthSn}
+For the singlet line of the tin lamp the center position of the interference pattern was determined to be $x_0 = \SI{11.20 \pm 0.01}{\mm}$, the values for each measurement are listed in the following table.
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{c c c}
+	Ring Number		& $x_\text{left}$ [\si{\mm}]	& $x_\text{right}$ [\si{\mm}]	\\
+	\hline
+	1			& \num{10.28 \pm 0.03} 		& \num{12.13 \pm 0.03}		 \\
+	2			& \num{9.07 \pm 0.03} 		& \num{13.31 \pm 0.03}		 \\
+	3			& \num{8.33 \pm 0.03} 		& \num{14.06 \pm 0.03}		 \\
+	4			& \num{7.74 \pm 0.03} 		& \num{14.65 \pm 0.03}		 \\
+	\end{tabular}
+	\caption[Measurement - Center Position Sn]{Measured values to determine the center position for Sn}
+	\label{tab:SnCenter}
+\end{table}\\
+Propagation of uncertainty again yields a small error for the center position. 
+The methode of calculation the standard derivation leads to an even smaller error, which shows a precise measurement. 
+The values used for the linear fit are listed in table~\ref{tab:SnRings}, the fit itself is shown in figure~\ref{fig:SnWavelengthFit}.
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{c c c c c}
+	Ring Number		& $x_\text{left}$ [\si{\mm}]	& $x_\text{right}$ [\si{\mm}]	& $r$ [\si{\mm}]		& $r^2$ [\si{\mm\squared}]	\\
+	\hline
+	1			& \num{9.97 \pm 0.03} 		& \num{10.37 \pm 0.03} 		& \num{1.03 \pm 0.02} 		& \num{1.05 \pm 0.05} \\
+	2			& \num{8.92 \pm 0.03} 		& \num{9.19 \pm 0.03} 		& \num{2.14 \pm 0.02} 		& \num{4.58 \pm 0.10} \\
+	3			& \num{8.24 \pm 0.03} 		& \num{8.43 \pm 0.03} 		& \num{2.86 \pm 0.02} 		& \num{8.19 \pm 0.14} \\
+	4			& \num{7.68 \pm 0.03} 		& \num{7.84 \pm 0.03} 		& \num{3.44 \pm 0.02} 		& \num{11.81 \pm 0.16} \\
+	5			& \num{7.17 \pm 0.03} 		& \num{7.30 \pm 0.03} 		& \num{3.96 \pm 0.02} 		& \num{15.69 \pm 0.19} \\
+	6			& \num{6.72 \pm 0.03} 		& \num{6.86 \pm 0.03} 		& \num{4.41 \pm 0.02} 		& \num{19.42 \pm 0.21} \\
+	7			& \num{6.31 \pm 0.03} 		& \num{6.47 \pm 0.03} 		& \num{4.81 \pm 0.02} 		& \num{23.10 \pm 0.23} \\
+	8			& \num{5.89 \pm 0.03} 		& \num{6.10 \pm 0.03} 		& \num{5.20 \pm 0.02} 		& \num{27.05 \pm 0.25} \\
+	9			& \num{5.61 \pm 0.03} 		& \num{5.76 \pm 0.03} 		& \num{5.51 \pm 0.02} 		& \num{30.37 \pm 0.26} \\
+	10			& \num{5.31 \pm 0.03} 		& \num{5.45 \pm 0.03} 		& \num{5.82 \pm 0.02} 		& \num{33.83 \pm 0.28} \\
+%	11			& \num{5.02 \pm 0.03} 		& \num{5.17 \pm 0.03} 		& \num{6.10 \pm 0.02} 		& \num{37.23 \pm 0.29} \\
+	\end{tabular}
+	\caption[Measurement - Ring Positions Sn]{Measured values to determine the radii for Sn}
+	\label{tab:SnRings}
+\end{table}\\
+The relevant fit parameter is determined to be $m = \SI{3.68 \pm 0.02}{\mm\squared}$, which results in an experimental wavelength of
+\begin{align}
+	\lambda_\text{Sn,exp} = \SI{617.66 \pm 5.22}{\nm}
+\end{align}
+for the singlet tin line. 
+Compared to the literature value of $\lambda_\text{Sn,lit} = \SI{636.23}{\nm}$, the measurement shows a better conformity than for the singlet line of cadmium. 
+Still the experimental value does not include the literature value in its interval. 
+The reasons are the same as for the determination of the cadmium wavelength.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Images/zeeman3.pdf}
+	\caption[Determination of the Wavelength of Sn]{Determination of the wavelength of Sn using a linear fit modell}
+	\label{fig:SnWavelengthFit}
+\end{figure}\\
+With the specified wavelength the order of the center ring can be determined to be
+\begin{align}
+	n_0 = \num{48894.2 \pm 525.0}\ ,
+\end{align}
+which yields the order of the first maximum using $\epsilon = \num{0.74 \pm 0.03}$
+\begin{align}
+	n_1 = \num{48893 \pm 525}\ .
+\end{align}

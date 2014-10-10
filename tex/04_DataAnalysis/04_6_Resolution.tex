@@ -1,0 +1,42 @@
+\subsection{Resolution of the Fabry-P\'erot Interferometer}
+\label{toc:ResolutionFPI}
+During the observation of the Zeeman effect it was unfortunately neglected to memorise the current value for the splitting to start. 
+However it is possible to estimate the resolution of the Fabry-P\'erot interferometer based on the available data, but the result is expected to be far from the actual value.
+One can calculate the resolution, starting from equation
+\begin{align}
+	\begin{split}
+	\Delta E	&= h (\nu_{\sigma^+} - \nu_{\sigma^-})\\
+			&= h c \frac{\lambda_{\sigma^-}-\lambda_{\sigma^+}}{\lambda_{\sigma^+}\lambda_{\sigma^-}}\\
+			&\approx hc \frac{\delta\lambda}{\lambda^2}
+	\end{split}
+\end{align}
+and eliminating $\Delta E = \mu_{\text{B}} \cdot B$ to
+\begin{align}
+	\delta\lambda	&= \frac{e}{m_e}\cdot\frac{B\lambda^2}{4\pi c}\ ,
+\end{align}
+which can be resolved to
+	\begin{align}
+	\begin{split}
+	\left(\frac{\lambda}{\delta\lambda}\right)_{\text{exp}}		&= \frac{1}{\frac{e}{m_e}}\frac{4\pi c}{B \lambda}\\
+	\Delta\left(\frac{\lambda}{\delta\lambda}\right)_{\text{exp}} 	&= \frac{1}{\frac{e}{m_e}}\frac{4\pi c}{B \lambda}\sqrt{\left(\frac{\Delta \left(\frac{e}{m_e}\right)}{\frac{e}{m_e}}\right)^2 + \left(\frac{\Delta B}{B}\right)^2 +\left(\frac{\Delta \lambda}{\lambda}\right)^2}\ .
+	\end{split}
+	\end{align}
+Applying the calculated values for $B$ and $\lambda$ the resolution is denoted to
+	%\begin{align}
+	%\left(\frac{\lambda}{\delta\lambda}\right)_{Cd} = \num{0.914 \pm 0.039 e5} \hspace{1.0cm} \left(\frac{\lambda}{\delta\lambda}\right)_{Zn} = \num{0.877 \pm 0.036 e5}\ .
+	%\end{align}
+	\begin{align}
+	\left(\frac{\lambda}{\delta\lambda}\right)_{\text{exp, Cd}} = \num{1.555 \pm 0.036 e5} \hspace{1.0cm} \left(\frac{\lambda}{\delta\lambda}\right)_{\text{exp, Sn}} = \num{2.221 \pm 0.628 e5}\ .
+	\end{align}
+Theoretically, the finesse $\mathcal{F}$ should be a reference value for the interferometer's resolution, if it is multiplied by $n_0$ (which was determined in chapter~\ref{toc:Wavelength}).
+	\begin{align}
+	\begin{split}
+	\left(\frac{\lambda}{\delta\lambda}\right)_{\text{ref}} 	&= \frac{2 d}{\lambda_\text{lit}} \cdot \frac{\pi \sqrt{R}}{1-R}\\
+	\Delta \left(\frac{\lambda}{\delta\lambda}\right)_{\text{ref}}	&= \frac{2 \Delta d}{\lambda_\text{lit}} \cdot \frac{\pi \sqrt{R}}{1-R}
+	\end{split}
+	\end{align}
+	\begin{align}
+	\left(\frac{\lambda}{\delta\lambda}\right)_{\text{ref, Cd}} = \num{146.619 \pm 0.971 e5} \hspace{1.0cm} \left(\frac{\lambda}{\delta\lambda}\right)_{\text{ref, Sn}} = \num{148.375 \pm 0.983 e5}
+	\end{align}
+Therefore the deviation is of $\mathcal{O}(10^2)$.
+This will be discussed in chapter~\ref{toc:PlausibilityZeeman}.

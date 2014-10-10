@@ -1,0 +1,71 @@
+\subsection{Determination of Wavelengths}
+\label{toc:WavelengthDetermination}
+The wavelength of the cadmium and tin lamp is calculatable with the radii of the inner interference rings up to the tenth order.
+It is measured with the experiment's setup without polarisation filters.
+An adjustable needle with fixed camera is placed at the focal plane of the FPI to read out its relative position.
+To calibrate the scaling, it is important to determine the spectrum's center position.
+If one wants to measure the wavelength difference $\Delta \lambda$ and to compare it to a theoretical model, it is sufficient to use the relation resulting from following calculations.
+Starting from equation~\ref{eq:ConstructiveInterferenceFabry}, one can write this expression as
+\begin{align}
+	\label{eq:neq1}
+	\begin{split}
+	n = n_0 \cdot (1 - \sin^2\frac{\theta_n}{2}) \hspace{1.0cm} \text{with }  n_0=\frac{2d}{\lambda}\\
+	n = n_0\left(1-\left(\frac{\theta_n}{2}\right)^2\right) \Leftrightarrow \theta_n = \sqrt{\frac{2(n_0 - n)}{n_0}}
+	\end{split}
+\end{align}
+for small angles $\theta$.
+Because $n_0$ referring to equation~\ref{eq:neq1} is not an integer in general, the first maximum closest to the inner ring $n_1$ is given by 
+\begin{align}
+	\label{eq:neq2}
+	\begin{split}
+	n_1 	&= \left[n_0-\epsilon\right] \hspace{1.0cm} \text{with } n_1 \widehat{=} \text{ closest integer to } n_0 - \epsilon \text{ , or}\\
+	n_p 	&=n_1 - p + 1 \ ,
+	\end{split}
+\end{align}
+respecting to enumberate the maxima beginning at the center ring of the intensity spectrum.
+This equation can be simplified using equation~\ref{eq:FocussalRadius}.
+\begin{align}
+	\label{eq:RSqLambda}
+	\begin{split}
+	r_p			&= \sqrt{\frac{2f}{n_0} \cdot \left((p-1) + \epsilon\right)}\\
+	r_{p+1}^2-r_{p}^2 	&= \frac{2f}{n_0}
+	\end{split}
+\end{align}
+To determine the wavelength, $n_0$ (therefore $\lambda$ in eq.~\ref{eq:neq1}) is given by the slope of a $r_p^2$ versus $p$ plot.
+It is also possible to determine the parameter $\epsilon$ when this fit is extrapolated to\newline$r_p^2 = 0$.
+With respect to that one can calculate the order of the first maximum, using relation~\ref{eq:neq2}.
+If there is a splitting of the wavelengths, one can seperate $\epsilon_{\sigma^{\pm}}$ from equation~\ref{eq:neq2}
+\begin{align}
+	\begin{split}
+	\epsilon_{\sigma^+} 	&= 2d \cdot \nu_{\sigma^+} - n_{{\sigma^+},i}\\
+	\epsilon_{\sigma^-}	&= 2d \cdot \nu_{\sigma^-} - n_{{\sigma^-},i} \hspace{1.0cm} \text{with } \nu_{{\sigma^+},{\sigma^-}} = \frac{1}{\lambda_{{\sigma^+},{\sigma^-}}}
+	\end{split}
+\end{align}
+Considering the order of the two rings $\nu_{{\sigma^+}{\sigma^-},i}$ as the same, the wavelength difference of $\left|\nu_{\sigma^+}-\nu_{\sigma^-}\right| =: \delta \nu$ is resolved to
+\begin{align}
+	\delta \nu	&= \frac{\epsilon_{\sigma^+} - \epsilon_{\sigma^-}}{2d}\ .
+\end{align}
+Equations~\ref{eq:RSqLambda} allow to eliminate $\epsilon$ and yield
+\begin{align}
+	\label{eq:NuOrder}
+	\begin{split}
+	\delta \nu_p 	&= \frac{1}{2d} \cdot \left(\frac{r_{{\sigma^+},p+1}^2}{r_{{\sigma^+},p+1}^2-r_{{\sigma^+},p}^2} - \frac{r_{{\sigma^-},p+1}^2}{r_{{\sigma^-},p+1}^2-r_{{\sigma^-},p}^2}\right)\\
+			&= \frac{1}{2d} \cdot \frac{\xi^{p+1}}{\eta^{p+1,p}}\ ,
+	\end{split}
+\end{align}
+because $r^2_{{\sigma^+},p+1} - r^2_{{\sigma^-},p+1}$ and $r^2_{{\sigma^+},p+1} - r^2_{{\sigma^+},p} = r^2_{{\sigma^-},p+1} - r^2_{{\sigma^-},p}$ have to be the same for every $p$.
+The average of $\xi^{p+1}$ and $\eta^{p+1,p}$ then leads to an average of $\delta\nu_p$.\\
+\\
+According to equation~\ref{eq:ZeemanEnergyShift}, the energy shift is denoted to
+\begin{align}
+\begin{split}
+	\delta E 	&= h\cdot f\\
+			&= h\cdot c\frac{\overline{\delta\nu}}{2} \hspace{1.0cm} \Leftrightarrow \hspace{1.0cm} \mu_\text{B} = h \cdot c \frac{\overline{\delta\nu}}{2B}\ ,
+\end{split}
+	\label{eq:BohrMag1}
+\end{align}
+with an error of
+\begin{align}
+	\Delta \mu_\text{B} 	&= hc \cdot \frac{\overline{\delta\nu}}{2B}\sqrt{\left(\frac{\Delta \overline{\delta\nu}}{\overline{\delta\nu}} \right)^2+\left(\frac{\Delta B}{B} \right)^2}\ .
+	\label{eq:BohrMag2}
+\end{align}
