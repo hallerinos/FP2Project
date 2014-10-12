@@ -20,3 +20,7 @@
 *.out
 
 *.pdf
+
+tex/article/article.pdf
+
+*.pdf

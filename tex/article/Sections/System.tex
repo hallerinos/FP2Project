@@ -1,5 +1,6 @@
 \section{System Considerations}
-If not explicitly mentioned, the system's settings are as follows:\medskip\\
+If not explicitly mentioned, the system's settings are as follows:
+\subsubsection*{Ensemble}
 $N$ particles in a box of volume $V$ and temperature $T$ are considered.
 The closed box is placed in an external heat bath, hence the total energy is not fixed and the probability $P_i$ for a given State $\ket{i}$ with Energy $E_i$ and $\beta \mathrel{\mathop:}= \frac{1}{kT}$ is given by
 \begin{align}
@@ -7,3 +8,22 @@ The closed box is placed in an external heat bath, hence the total energy is not
 	Z = \sum_k \exp\left(-\beta E_k\right).
 \end{align}
 Such an ensemble is called canonical or NVT.
+
+\subsubsection*{Potential and Energy}
+The particles are interacting via a normed Lennard-Jones Potential
+\begin{align}
+	V_{ij} = 4\left(\frac{1}{r_{ij}^{12}} - \frac{1}{r_{ij}^6} + \frac{2^7 - 1}{2^{14}}\right),
+\end{align}
+such that $V_{ij}=0$, if $r_{ij} = 2\sqrt[6]2$.
+The total energy $E_n$ of the system in a state $\ket{n}$ is given by the expression
+\begin{align}
+	E_n = \sum_i\sum_{j\neq i}V_{ij}.
+\end{align}
+
+\subsubsection*{Boundary Conditions}
+For both implementations, periodic boundary conditions (PBC) will be used.
+More detailed - the particles at the border of the box can interact with fake neighbour particles beyond the scope of the border.
+To understand the principle of this condition, a simple example is sufficient: Consider a one dimensional chain with next-neighbour interacting particles at fixed lattice points.
+Each one has exactly two neighbours, except for the two at the border.
+This incident can be terminated when telling the border particles to interact with one another.
+This yields a positive effect on the system's scale parameters - box length $L$ and number of particles $N$ - they are implicitely bigger without the need for significantly more calculation steps.

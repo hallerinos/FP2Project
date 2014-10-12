@@ -22,7 +22,7 @@ which is fulfilled in the equilibrium (left hand side vanishs) by the stricter c
 \begin{align}
 	P_iW_{ij} = P_jW_{ji}.
 \end{align}
-In other words - the system moves towards equilibrium if detailed balance is enforced.
+In other words - the system moves towards equilibrium if detailed balance is enforced\footnote{But not in the classical, newtonian way of motion, every snapshot of the system towards equilibrium is the result of random initialised trial steps.}.
 The key of success is to choose $W_{ij}$ such that detailed balance is fulfilled.
 This is accomplished with the Metropolis Criterion
 \begin{align}
@@ -37,16 +37,18 @@ The according proof is short accepting $\Delta E > 0$ without qualification
 	\frac{W_{ij}}{W_{ji}} = \frac{\exp\left(-\beta\Delta E\right)}{1} = \frac{\exp(-\beta E_j)}{Z}\cdot\frac{Z}{\exp(-\beta E_i)} = \frac{P_j}{P_i}.
 \end{align}
 
-\subsubsection{Explanatory Note}
+\subsubsection*{Explanatory Note}
 This criterion does always accept the trial state, if the energy is lowered and exponentially suppresses those, which raise the energy.
 For the sake of illustration, all simulation steps will be described in detail.
 \begin{enumerate}
 	\item{Initialise the coordinates of all particles - random or sorted}
 	\item{Perform $M$ trial moves $(M \approx\,??)$, i.e.
 		\begin{itemize}
-			\item{Randomly select a particle}
+			\item{Select a particle and move it with vector $\delta r$}
 			\item{Compute the energy difference $\Delta E = E_j - E_i$}
 		\end{itemize}
-	\item{Generate a random number $\sigma$ in $[0, 1]$ and accept the move, if eighter $\Delta E>0$ or $\sigma < \exp(-\beta\Delta E)$}
+	\item{Generate a uniformly distributet random number $x$ in $[0, 1]$ and accept the trial move, if eighter $\Delta E>0$ or $x < \exp(-\beta\Delta E)$, discard otherwise.}
 }
 \end{enumerate}
+
+% \subsection{Convergency Behaviour}
