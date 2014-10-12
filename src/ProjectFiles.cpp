@@ -6,9 +6,6 @@
 using namespace std;
 
 class System {
-	private:	
-		int coords[][3];
-		int n;
 	public:
 		// Con- and Destructor
 		System( int numPart );
@@ -19,27 +16,27 @@ class System {
 		//int MdStep();
 		// Getter
 		int GetCoordinate( int partNumber, int axis );
-
+	private:	
+		int n;
+		int *pCoords[][3];
 };
 
 System::System( int numberOfParticles ) {
 	n = numberOfParticles;
-	int i = 0;
+	pCoords = new int[n][3];
 	cout << "These are the " << n << " Particles:" << endl;
-	while (i < n) {
-		coords[i][0] = rand() % 101 - 50;
-		coords[i][1] = rand() % 101 - 50;
-		coords[i][2] = rand() % 101 - 50;
-		cout << "Particle " << i << ": \t" << coords[i][0] << "\t" << coords[i][1] << "\t" << coords[i][2] << "\t" << endl;
-		cout << "Particle " << i << " created, continuing with Particle " << i + 1 << endl;
-		i++;
+	for ( int i = 0; i < n; i++) {
+		(*pCoords)[i][0] = rand() % 101 - 50;
+		(*pCoords)[i][1] = rand() % 101 - 50;
+		(*pCoords)[i][2] = rand() % 101 - 50;
+		cout << "Particle " << i << ": \t" << (*pCoords)[i][0] << "\t" << (*pCoords)[i][1] << "\t" << (*pCoords)[i][2] << "\t" << endl;
 	}
 }
 
 System::~System() { cout << "Destructor call." << endl; }
 
-int System::GetCoordinate ( int partNumber, int axis ) {
-	return coords[partNumber][axis];
+int System::GetCoordinate ( int partNumber, int axis) {
+	return (*pCoords)[partNumber][axis];
 }
 
 
@@ -51,17 +48,19 @@ int main()
 	cout << "Number of Particles: ";
 	cin >> number;
 
-	struct timeval start, end;
-	gettimeofday(&start,NULL);
+	//struct timeval start, end;
+	//gettimeofday(&end,NULL);
 
 	System MC(number);
 
-	gettimeofday(&end,NULL);
-	cout << "Time needed to create System: " << (float) ((end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec) / 1000000.0 << endl;
+	//gettimeofday(&end,NULL);
+	//cout << "Time needed to create System: " << (float) ((end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec) / 1000000.0 << endl;
 
-	cout << "The Coordinates of which Particle do you want to know? ";
+	cout << "How many of the Coordinates would you like to see again? ";
 	cin >> number;
-	cout << "X: " << MC.GetCoordinate(number, 0) << "\t Y: " << MC.GetCoordinate(number, 1) << "\t Z: " << MC.GetCoordinate(number, 2) << endl;
+	for ( int i = 0; i < number; i++ ){
+		cout << "X: " << MC.GetCoordinate(i, 0) << "\t Y: " << MC.GetCoordinate(i, 1) << "\t Z: " << MC.GetCoordinate(i, 2) << endl;
+	}
 
 	
 
