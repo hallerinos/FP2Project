@@ -1,1 +1,26 @@
 \section{Monte Carlo Simulation}
+It has been already mentioned, that MC approaches can be used to research many body systems which are not solvable analytically.
+Numerical methods simplify this task, but they introduce other challenges - in most cases (especially for large scaling sizes), it is not possible to acces every single state.
+However, for the explanation of the used algorithm, this can be neglected for now.
+
+\subsection{Detailed Balance and the Metropolis Algorithm}
+Consider the particle flow out of state $\ket{i}$
+\begin{align}
+	j^\text{out}_{i} \mathrel{\mathop:}= \sum_j P_i(t) W_{ij},
+\end{align}
+with jump probability $W_{ij}$ from state $\ket{i}$ to $\ket{j}$.
+Analogue, the particle flow into state $\ket{i}$
+\begin{align}
+	j^\text{in}_{i} \mathrel{\mathop:}= \sum_j P_j(t) W_{ji}.
+\end{align}
+This yields to the master equation
+\begin{align}
+	\frac{\mathrm{d}P_i}{\mathrm{d}t} = 
+		\sum_{j}\left(P_j(t)W_{ji} - P_i(t)W_{ij}\right),
+\end{align}
+which is fulfilled in the equilibrium by the stricter condition of detailed balance
+\begin{align}
+	P_iW_{ij} = P_jW_{ji}.
+\end{align}
+In other words - the system moves towards equilibrium if detailed balance is enforced.
+The key of success is to choose $W_{ij}$ such that detailed balance is fulfilled.

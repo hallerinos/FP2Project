@@ -7,14 +7,14 @@
 
 using namespace std;
 
+double Energy( int coords[] );
 
+const int n = 500;
 int main()
 {
 	srand(time(NULL));
 
-	int n,random,i,j;
-	cout << "Number of Vectors: ";
-	cin >> n;
+	int i;
 
 	struct timeval start, end;
 	gettimeofday(&start,NULL);
@@ -56,4 +56,8 @@ int main()
 	return 0;
 }
 
-
+double Energy( int coords[] ) {
+	double energy = 0;
+	int dist[n*(n-1)];
+	return energy;
+}
