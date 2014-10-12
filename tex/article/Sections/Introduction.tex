@@ -1,0 +1,10 @@
+\section{Introduction}
+Many body problems often cannot be resolved analytically because of their huge amount of accessible states, for an instance.
+In order to solve such a problem with computational assistance, a variety of methods have been developed and all of them have their very own applications and limits.
+One of the first models is the Monte Carlo simulation with the Metropolis Criterion.
+Its nature is pure stochastic - the time progression evolves randomly and is not given a set of initial conditions.
+% The timeframe of its creation is the 1950's during the Manhatten Project by Stanislav Ulam\footnote{$^*$April 13, 1909, $^\dag$May 13, 1984. Ulam got the idea of the MC approach indirectly while he was thinking about the probability of the popular game Solitaire's successful outcome.} and Jan Von Neumann\footnote{$^*$December 28, 1903, $^\dag$February 8, 1957.}.
+However, the Molecular Dynamics approach is used for the same initial System - with equal coordinate initialisation and boundary conditions - by solving Newton's equations of motions to all atoms simultaniously.
+This implies that this kind of simulations are deterministic and can be used to look into a system's time evolution.\medskip\\
+The main goal of this work is an implementation of both methods in C++ for a set of noninteracting particles in a finite box with periodic boundary conditions and Lennard-Jones Potential.
+In order to deepen the similarities and differences in computational and physical aspects, a comparison at the very end is suffitient.

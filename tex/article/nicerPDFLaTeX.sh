@@ -13,8 +13,8 @@ if [ $1 ] && [ ${1/*./} = tex ] ; then									# first option is a .tex file
 		echo $2 ;
 		if [ $2 = -a ] ; then
 			pdflatex -halt-on-error -jobname=$fileName -output-directory=$finalPath $1 ;
+			bibtex $fileName.aux ;
 			pdflatex -halt-on-error -jobname=$fileName -output-directory=$finalPath $1 ;
-			bibtex $finalPath/$fileName.aux ;
 		elif [ $2 = -d ] ; then
 			pdflatex -halt-on-error -jobname=$fileName -output-directory=$finalPath $1 ;
 		fi
@@ -22,7 +22,6 @@ if [ $1 ] && [ ${1/*./} = tex ] ; then									# first option is a .tex file
 	pdflatex -halt-on-error -jobname=$fileName -output-directory=$finalPath $1 ;
 
 	cd $finalPath ;											# delete temporary files
- 	rm $(ls -a | egrep '.log|.aux|.bbl|.blg|.lof|.lot|.nlo|.out|.toc') ;
 	open $fileName.pdf ;										# open PDF
 else
 	echo "No files given, compile everything within this folder." ;
@@ -44,7 +43,10 @@ else
  	done
 
  	cd $finalPath ;
- 	rm $(ls -a | egrep '.log|.aux|.bbl|.blg|.lof|.lot|.nlo|.out|.toc') ;
 	open *.pdf ;
 fi
+ 	
+rm $(ls -a | egrep '.log|.aux|.bbl|.blg|.lof|.lol|.lot|.toc|.out') ;
+cd Sections;
+rm $(ls -a | egrep '.log|.aux|.bbl|.blg|.lof|.lol|.lot|.toc|.out') ;
 echo "Finished."

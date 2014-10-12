@@ -15,23 +15,21 @@ class Coordinate
 			myLocation = newLocation;
 		};
 
-		Coordinate( char );
+		Coordinate();
 		Coordinate( vector<int> );
 		~Coordinate();
 };
 
-Coordinate::Coordinate( char ini ) {
-	if ( ini == 'r' ) { 
-		vector<int> ranLocation(3);
-		int nRand;
+Coordinate::Coordinate() {
+	vector<int> ranLocation;
+	int nRand;
 
-		for ( int i = 0; i < 3; i++ ) {
-			nRand = rand() % 100-50;
-			ranLocation[i] = nRand;
-		}
-
-		myLocation = ranLocation;
+	for ( int i = 0; i < 3; i++ ) {
+		nRand = rand() % 100-50;
+		ranLocation.push_back( nRand );
 	}
+
+	myLocation = ranLocation;
 }
 
 Coordinate::Coordinate( vector<int> newLocation ) {

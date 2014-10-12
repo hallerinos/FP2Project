@@ -14,13 +14,15 @@ int main()
 	struct timeval start, end;
 	gettimeofday( &start, NULL );
 	srand ( 1 );
+
 	list<Coordinate> coords;
-	for ( long i = 0; i < 1000; i++ ) {
-		Coordinate newCoord( 'r' );
+	for ( long i = 0; i < 100000000; i++ ) {
+		Coordinate newCoord;
 		coords.push_back( newCoord );
 	}
-	printLocations( coords , "Locations.txt" );
-	printLocations( addStepwise( coords ), "Walk.txt" );
+	
+	// printLocations( coords , "Locations.txt" );
+	// printLocations( addStepwise( coords ), "Walk.txt" );
 	
 	gettimeofday( &end, NULL );
 	cout << (float)(( end.tv_sec - start.tv_sec) * 1000000 + end.tv_usec - start.tv_usec ) / 1000000;	
