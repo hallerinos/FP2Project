@@ -9,7 +9,7 @@ using namespace std;
 
 double Energy( int coords[] );
 
-const int n = 500;
+const int n = 10000000;
 int main()
 {
 	srand(time(NULL));
@@ -55,9 +55,9 @@ int main()
     cout << (float) ((end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec) / 1000000.0 << endl;
 	return 0;
 }
-
+/*
 double Energy( int coords[] ) {
 	double energy = 0;
 	int dist[n*(n-1)];
 	return energy;
-}
+}*/
