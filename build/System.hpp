@@ -3,6 +3,7 @@
 #include <sys/time.h>
 #include <stdlib.h>
 #include <fstream>
+#include <tgmath.h>
 
 using namespace std;
 
@@ -17,6 +18,7 @@ class System {
 		//int MdStep();
 		// Getter
 		int GetCoordinate( int partNumber, int axis ) const;
+		double GetDistance( int coordOne, int coordTwo) const;
 		void PrintCoordinates() const;
 	private:	
 		int numberOfParticles, dimOfSystem;
@@ -66,4 +68,16 @@ void System::PrintCoordinates() const {
 		file << endl;
 	}
 	file.close();
+}
+
+/*--------------------------------------------------------------------
+ * Calculate relative distances 
+ *------------------------------------------------------------------*/
+double System::GetDistance( int coordOne, int coordTwo ) const {
+	double dist = 0;
+	for ( int j = 0; j < dimOfSystem; j++ ) {
+		dist += pow( coords[ coordOne*dimOfSystem + j] -
+			 coords[ coordTwo*dimOfSystem + j], 2 );
+	}
+	return sqrt(dist);
 }

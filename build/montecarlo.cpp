@@ -46,10 +46,7 @@ int main()
 	System MC( numOfParticles, dimOfSystem );
 
 	MC.PrintCoordinates();
-	
-	/*--------------------------------------------------------------------
-	 * Calculate relative distances 
-	 *------------------------------------------------------------------*/
+	cout << MC.GetDistance( 1, 2);	
 	
 	/*--------------------------------------------------------------------
 	 * Calculate energy 
