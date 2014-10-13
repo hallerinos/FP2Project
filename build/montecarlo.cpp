@@ -10,7 +10,7 @@
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 2, dimOfSystem = 3, tempOfSystem = 1;
+int numOfParticles = 2, dimOfSystem = 3, tempOfSystem = 1, sizeOfSys = 50;
 
 int main()
 {
@@ -22,17 +22,17 @@ int main()
 	struct timeval start, end;
 	gettimeofday(&start, NULL);
 
-	System MC( numOfParticles, dimOfSystem, tempOfSystem );
+	System MC( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys);
 
 	MC.PrintCoordinates( "InitialCoordinates.txt" );
 	
-	/*
+/*
 	cout << "Get absolute distance of Particle: " << endl;
 	for ( int i = 0; i < numOfParticles; i++)
 		for ( int j = i+1; j < numOfParticles; j++ )
 			cout << "# " << i  << ", " << j 
 				<< ":\t"<< MC.GetDistance(i, j) << endl;
-	*/
+*/
 
 	cout << "System energy: " << endl;
 	cout << MC.GetEnergy() << endl;

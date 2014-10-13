@@ -11,7 +11,7 @@ using namespace std;
 class System {
 	public:
 		// Con- and Destructor
-		System( int numPart, int dimSys, int tempSys );
+		System( int numPart, int dimSys, int tempSys, int sizeOfSys);
 		~System();
 		// Methods
 		//int GetEnergy();
@@ -24,7 +24,7 @@ class System {
 		void MonteCarloStep( double eps );
 		void PrintCoordinates( string fileName ) const;
 	private:	
-		int numberOfParticles, dimOfSystem, tempOfSystem;
+		int numberOfParticles, dimOfSystem, tempOfSystem, sizeOfSys;
 		double *coords;
 };
 
@@ -32,17 +32,18 @@ class System {
  * Constructor that initialises n*D random coordinates
  *------------------------------------------------------------------*/
 System::System( int newNumberOfParticles, int newDimOfSystem, 
-		int newTempOfSystem) {
+		int newTempOfSystem, int newSizeOfSys) {
 	tempOfSystem = newTempOfSystem;
 	numberOfParticles = newNumberOfParticles;
 	dimOfSystem = newDimOfSystem;
+	sizeOfSys = newSizeOfSys;
 
 	coords = new double[ numberOfParticles * dimOfSystem ];
 	// cout << "These are the " << numberOfParticles 
 	// << " Particles:" << endl;
 	for ( int i = 0; i < numberOfParticles; i++)
  		for ( int j = 0; j < dimOfSystem; j++ )	{
-			(coords)[i*dimOfSystem + j] = rand() % 101 - 50;
+			(coords)[i*dimOfSystem + j] = rand() % sizeOfSys - sizeOfSys/2;
 			// (coords)[i*dimOfSystem + j] = i*dimOfSystem + j;
 			// cout << "Particle: " << i << " Axis: " << j << ": \t" 
 			// << (coords)[i*dimOfSystem + j] << "\t" << endl;
@@ -94,14 +95,12 @@ double System::GetDistance( int partNumOne, int partNumTwo ) const {
 double System::GetEnergy() const {
 	double ene = 0;
 	double dist;
-	double normalisation = 0; // 127./16384;
+	double normalisation = 0; // = 127./16384;
 	
 	for ( int i = 0; i < numberOfParticles; i++ )
 		for ( int j = i + 1; j < numberOfParticles; j++ ) {
 			dist = System::GetDistance( i, j );
 			ene += ( pow(dist, -12) - pow(dist, -6) + normalisation );
-			// cout << setprecision(15) << "# " << i  << ", " << j 
-			// 	<< ":\t"<< ene << endl;
 	}
 
 	return ene;
@@ -117,15 +116,18 @@ void System::MonteCarloStep( double eps ) {
 	// cout << "\rEnergy: " << energyBefore;
 	double energyAfter;
 	double sigma;
-	/*	
+
+/*	
 	cout << "Old coordinates: " << endl;
 	for ( int j = 0; j < dimOfSystem; j++ ) 
 		cout << coords[ choice*dimOfSystem + j ] << "\t";
 	cout << endl;
-	*/
+*/
+
 	for ( int j = 0; j < dimOfSystem; j++ ) {
 		tmp[j] = coords[ choice*dimOfSystem + j ];
-		coords[ choice*dimOfSystem + j ] += eps * ( rand() % 25-25 );
+		coords[ choice*dimOfSystem + j ] += 
+			eps * ( rand() % sizeOfSys - sizeOfSys/2 );
 	}
 	energyAfter = System::GetEnergy();
 	if ( energyBefore > energyAfter && 
@@ -136,10 +138,11 @@ void System::MonteCarloStep( double eps ) {
 			coords[ choice*dimOfSystem + j ] = tmp[j];
 		};
 	}
-	/*
+	
+/*
 	cout << "New coordinates: " << endl;
 	for ( int j = 0; j < dimOfSystem; j++ ) 
 		cout << coords[ choice*dimOfSystem + j ] << "\t";
 	cout << endl;
-	*/
+*/
 }
