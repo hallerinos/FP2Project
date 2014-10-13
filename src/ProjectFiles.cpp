@@ -18,25 +18,24 @@ class System {
 		int GetCoordinate( int partNumber, int axis );
 	private:	
 		int n;
-		int *pCoords[][3];
+		int coords[][3];
 };
 
 System::System( int numberOfParticles ) {
 	n = numberOfParticles;
-	pCoords = new int[n][3];
 	cout << "These are the " << n << " Particles:" << endl;
 	for ( int i = 0; i < n; i++) {
-		(*pCoords)[i][0] = rand() % 101 - 50;
-		(*pCoords)[i][1] = rand() % 101 - 50;
-		(*pCoords)[i][2] = rand() % 101 - 50;
-		cout << "Particle " << i << ": \t" << (*pCoords)[i][0] << "\t" << (*pCoords)[i][1] << "\t" << (*pCoords)[i][2] << "\t" << endl;
+		coords[i][0] = rand() % 101 - 50;
+		coords[i][1] = rand() % 101 - 50;
+		coords[i][2] = rand() % 101 - 50;
+		cout << "Particle " << i << ": \t" << coords[i][0] << "\t" << coords[i][1] << "\t" << coords[i][2] << "\t" << endl;
 	}
 }
 
 System::~System() { cout << "Destructor call." << endl; }
 
 int System::GetCoordinate ( int partNumber, int axis) {
-	return (*pCoords)[partNumber][axis];
+	return coords[partNumber][axis];
 }
 
 
