@@ -5,47 +5,10 @@
 #include <fstream>
 #include <string>
 
+#include "System.hpp"
+
 using namespace std;
 
-class System {
-	public:
-		// Con- and Destructor
-		System( int numPart, int dimSys );
-		~System();
-		// Methods
-		//int GetEnergy();
-		//int McStep();
-		//int MdStep();
-		// Getter
-		int GetCoordinate( int partNumber, int axis );
-	private:	
-		int numberOfParticles, dimOfSystem;
-		int *coords;
-};
-
-System::System( int newNumberOfParticles, int newDimOfSystem ) {
-	numberOfParticles = newNumberOfParticles;
-	dimOfSystem = newDimOfSystem;
-
-	coords = new int[ numberOfParticles * dimOfSystem ];
-	cout << "These are the " << numberOfParticles << " Particles:" << endl;
-	for ( int i = 0; i < numberOfParticles; i++)
- 		for ( int j = 0; j < dimOfSystem; j++ )	{
-			(coords)[i*dimOfSystem + j] = rand() % 101 - 50;
-			cout << "Particle: " << i << " Axis: " << j << ": \t" 
-				<< (coords)[i*dimOfSystem + j] << "\t" << endl;
-		}
-	cout << endl;
-}
-
-System::~System() { 
-	delete coords;
-	cout << "Destructor call." << endl; 
-}
-
-int System::GetCoordinate ( int partNumber, int axis) {
-	return (coords)[partNumber*dimOfSystem + axis];
-}
 
 int main()
 {
@@ -81,28 +44,9 @@ int main()
 	}
 
 	System MC( numOfParticles, dimOfSystem );
-	for ( int j = 0; j < dimOfSystem; j++) {
-		cout << "Axis " << j << " :" << MC.GetCoordinate(1, j) << endl;
-	}
+
+	MC.PrintCoordinates();
 	
-
-
-
-	/*--------------------------------------------------------------------
-	 * Print Coordinates to a *.txt file
-	 *------------------------------------------------------------------
-	ofstream file;
-	file.open( "InitialCoords.txt" );
-	file << "Initial coordinates" << endl;
-	file << "X\tY\tZ" << endl;
-	for ( int i = 0; i < numOfParticles; i++ ) {
-		for ( int j = 0; j < dimOfSystem; j++ ) {
-			file << parts[i*dimOfSystem + j] << "\t";
-		}
-		file << endl;
-	}
-	file.close();*/
-		
 	/*--------------------------------------------------------------------
 	 * Calculate relative distances 
 	 *------------------------------------------------------------------*/
