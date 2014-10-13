@@ -1,16 +1,17 @@
-#include <iostream>
+#include <iostream>		// std::cout, std::fixed
 #include <time.h>
 #include <sys/time.h>
 #include <stdlib.h>
-#include <fstream>
-#include <tgmath.h>
+#include <fstream>		// i/o file streams
+#include <tgmath.h>		// sqrt etc
+#include <iomanip>		// std::setprecision
 
 using namespace std;
 
 class System {
 	public:
 		// Con- and Destructor
-		System( int numPart, int dimSys );
+		System( int numPart, int dimSys, int tempSys );
 		~System();
 		// Methods
 		//int GetEnergy();
@@ -18,26 +19,31 @@ class System {
 		//int MdStep();
 		// Getter
 		int GetCoordinate( int partNumber, int axis ) const;
-		double GetDistance( int coordOne, int coordTwo) const;
-		void PrintCoordinates() const;
+		double GetDistance( int partNumOne, int partNumTwo) const;
+		double GetEnergy() const;
+		void MonteCarloStep( double eps );
+		void PrintCoordinates( string fileName ) const;
 	private:	
-		int numberOfParticles, dimOfSystem;
-		int *coords;
+		int numberOfParticles, dimOfSystem, tempOfSystem;
+		double *coords;
 };
 
 /*--------------------------------------------------------------------
  * Constructor that initialises n*D random coordinates
  *------------------------------------------------------------------*/
-System::System( int newNumberOfParticles, int newDimOfSystem ) {
+System::System( int newNumberOfParticles, int newDimOfSystem, 
+		int newTempOfSystem) {
+	tempOfSystem = newTempOfSystem;
 	numberOfParticles = newNumberOfParticles;
 	dimOfSystem = newDimOfSystem;
 
-	coords = new int[ numberOfParticles * dimOfSystem ];
+	coords = new double[ numberOfParticles * dimOfSystem ];
 	// cout << "These are the " << numberOfParticles 
 	// << " Particles:" << endl;
 	for ( int i = 0; i < numberOfParticles; i++)
  		for ( int j = 0; j < dimOfSystem; j++ )	{
 			(coords)[i*dimOfSystem + j] = rand() % 101 - 50;
+			// (coords)[i*dimOfSystem + j] = i*dimOfSystem + j;
 			// cout << "Particle: " << i << " Axis: " << j << ": \t" 
 			// << (coords)[i*dimOfSystem + j] << "\t" << endl;
 		}
@@ -56,10 +62,10 @@ int System::GetCoordinate ( int partNumber, int axis) const {
 /*--------------------------------------------------------------------
  * Print Coordinates to a *.txt file
  *------------------------------------------------------------------*/
-void System::PrintCoordinates() const {
+void System::PrintCoordinates( string fileName ) const {
 	ofstream file;
-	file.open( "InitialCoords.txt" );
-	file << "Initial coordinates" << endl;
+	file.open( fileName );
+	file << "Coordinates" << endl;
 	file << "X\tY\tZ" << endl;
 	for ( int i = 0; i < numberOfParticles; i++ ) {
 		for ( int j = 0; j < dimOfSystem; j++ ) {
@@ -73,11 +79,67 @@ void System::PrintCoordinates() const {
 /*--------------------------------------------------------------------
  * Calculate relative distances 
  *------------------------------------------------------------------*/
-double System::GetDistance( int coordOne, int coordTwo ) const {
+double System::GetDistance( int partNumOne, int partNumTwo ) const {
 	double dist = 0;
 	for ( int j = 0; j < dimOfSystem; j++ ) {
-		dist += pow( coords[ coordOne*dimOfSystem + j] -
-			 coords[ coordTwo*dimOfSystem + j], 2 );
+		dist += pow( coords[ partNumOne*dimOfSystem + j] -
+			 coords[ partNumTwo*dimOfSystem + j], 2 );
 	}
 	return sqrt(dist);
+}
+
+/*--------------------------------------------------------------------
+ * Calculate total energy 
+ *------------------------------------------------------------------*/
+double System::GetEnergy() const {
+	double ene = 0;
+	double dist;
+	double normalisation = 0; // 127./16384;
+	
+	for ( int i = 0; i < numberOfParticles; i++ )
+		for ( int j = i + 1; j < numberOfParticles; j++ ) {
+			dist = System::GetDistance( i, j );
+			ene += ( pow(dist, -12) - pow(dist, -6) + normalisation );
+			// cout << setprecision(15) << "# " << i  << ", " << j 
+			// 	<< ":\t"<< ene << endl;
+	}
+
+	return ene;
+}
+
+/*--------------------------------------------------------------------
+ * Make trial state
+ *------------------------------------------------------------------*/
+void System::MonteCarloStep( double eps ) {
+	int choice = rand() % numberOfParticles;
+	double tmp[dimOfSystem];
+	double energyBefore = System::GetEnergy();
+	// cout << "\rEnergy: " << energyBefore;
+	double energyAfter;
+	double sigma;
+	/*	
+	cout << "Old coordinates: " << endl;
+	for ( int j = 0; j < dimOfSystem; j++ ) 
+		cout << coords[ choice*dimOfSystem + j ] << "\t";
+	cout << endl;
+	*/
+	for ( int j = 0; j < dimOfSystem; j++ ) {
+		tmp[j] = coords[ choice*dimOfSystem + j ];
+		coords[ choice*dimOfSystem + j ] += eps * ( rand() % 25-25 );
+	}
+	energyAfter = System::GetEnergy();
+	if ( energyBefore > energyAfter && 
+			(sigma = (float)( rand() % 1000 ) / 1000.) 
+			< exp(- 1./tempOfSystem * (energyBefore - energyAfter )) ) {
+	} else {
+		for ( int j = 0; j < dimOfSystem; j++ ) {
+			coords[ choice*dimOfSystem + j ] = tmp[j];
+		};
+	}
+	/*
+	cout << "New coordinates: " << endl;
+	for ( int j = 0; j < dimOfSystem; j++ ) 
+		cout << coords[ choice*dimOfSystem + j ] << "\t";
+	cout << endl;
+	*/
 }
