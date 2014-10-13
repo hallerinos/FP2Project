@@ -46,20 +46,28 @@ int main()
 	 * Particle Coordinates
 	 *------------------------------------------------------------------*/
 	int *parts = new int[ numOfParticles * dimOfSystem ];
-	
-	// assign and print initial coordinates to a *.txt file
+	cout << "Initialising coordinates... ";	
+	for ( int i = 0; i < numOfParticles; i++ ) {
+		for ( int j = 0; j < dimOfSystem; j++ ) {
+			(parts[i*dimOfSystem + j] = rand() % 101 - 50);
+		}
+	}
+	cout << "finished." << endl;
+
+	/*--------------------------------------------------------------------
+	 * Print Coordinates to a *.txt file
+	 *------------------------------------------------------------------*/
 	ofstream file;
-	file.open( "initialCoords.txt" );
+	file.open( "InitialCoords.txt" );
 	file << "Initial coordinates" << endl;
 	file << "X\tY\tZ" << endl;
 	for ( int i = 0; i < numOfParticles; i++ ) {
 		for ( int j = 0; j < dimOfSystem; j++ ) {
-			file << (parts[i*dimOfSystem + j] = rand() % 101 - 50) << "\t";
+			file << parts[i*dimOfSystem + j] << "\t";
 		}
 		file << endl;
 	}
 	file.close();
-
 		
 	/*--------------------------------------------------------------------
 	 * Calculate relative distances 
