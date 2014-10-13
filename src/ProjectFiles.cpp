@@ -3,23 +3,71 @@
 #include <sys/time.h>
 #include <stdlib.h>
 
-
-
 using namespace std;
 
-double Energy( int coords[] );
+class System {
+	public:
+		// Con- and Destructor
+		System( int numPart );
+		~System();
+		// Methods
+		//int GetEnergy();
+		//int McStep();
+		//int MdStep();
+		// Getter
+		int GetCoordinate( int partNumber, int axis );
+	private:	
+		int n;
+		int *pCoords[][3];
+};
 
-const int n = 500;
+System::System( int numberOfParticles ) {
+	n = numberOfParticles;
+	pCoords = new int[n][3];
+	cout << "These are the " << n << " Particles:" << endl;
+	for ( int i = 0; i < n; i++) {
+		(*pCoords)[i][0] = rand() % 101 - 50;
+		(*pCoords)[i][1] = rand() % 101 - 50;
+		(*pCoords)[i][2] = rand() % 101 - 50;
+		cout << "Particle " << i << ": \t" << (*pCoords)[i][0] << "\t" << (*pCoords)[i][1] << "\t" << (*pCoords)[i][2] << "\t" << endl;
+	}
+}
+
+System::~System() { cout << "Destructor call." << endl; }
+
+int System::GetCoordinate ( int partNumber, int axis) {
+	return (*pCoords)[partNumber][axis];
+}
+
+
+
 int main()
 {
 	srand(time(NULL));
+	int number;
+	cout << "Number of Particles: ";
+	cin >> number;
 
-	int i;
+	//struct timeval start, end;
+	//gettimeofday(&end,NULL);
 
-	struct timeval start, end;
-	gettimeofday(&start,NULL);
+	System MC(number);
 
-	int *pVectors = new int[3*n];
+	//gettimeofday(&end,NULL);
+	//cout << "Time needed to create System: " << (float) ((end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec) / 1000000.0 << endl;
+
+	cout << "How many of the Coordinates would you like to see again? ";
+	cin >> number;
+	for ( int i = 0; i < number; i++ ){
+		cout << "X: " << MC.GetCoordinate(i, 0) << "\t Y: " << MC.GetCoordinate(i, 1) << "\t Z: " << MC.GetCoordinate(i, 2) << endl;
+	}
+
+	
+
+	
+
+
+	/*int *pVectors = new int[3*n];
 	int *pI = pVectors;
 	int sum=0;
 
@@ -35,7 +83,7 @@ int main()
 
 	cout << "Sum: " << sum << endl;
 
-/*	int vectors[n][3], sum[3] = {0,0,0};
+	int vectors[n][3], sum[3] = {0,0,0};
 	for (i=0; i < n; i++){
 		for (j=0; j<3; j++){
 			vectors[i][j]=rand() % 101 - 50;
@@ -51,13 +99,12 @@ int main()
 	cout << "Sum: " << result << endl;*/
 
 
-    gettimeofday(&end,NULL);
-    cout << (float) ((end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec) / 1000000.0 << endl;
+    
 	return 0;
 }
-
+/*
 double Energy( int coords[] ) {
 	double energy = 0;
 	int dist[n*(n-1)];
 	return energy;
-}
+}*/
