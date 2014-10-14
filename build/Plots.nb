@@ -10,17 +10,58 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[       779,         34]
-NotebookOptionsPosition[       560,         21]
-NotebookOutlinePosition[       918,         37]
-CellTagsIndexPosition[       875,         34]
+NotebookDataLength[      2339,         80]
+NotebookOptionsPosition[      1976,         62]
+NotebookOutlinePosition[      2334,         78]
+CellTagsIndexPosition[      2291,         75]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SetDirectory", "[", " ", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "\[NonBreakingSpace]", "]"}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.622278590329527*^9, 3.622278600503578*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"snpData", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"Import", "[", 
+     RowBox[{"\"\<Snapshot*.txt\>\"", ",", "\"\<Table\>\""}], "]"}], "[", 
+    RowBox[{"[", 
+     RowBox[{"All", ",", 
+      RowBox[{"3", ";;", 
+       RowBox[{"-", "1"}]}]}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"man", "=", 
+   RowBox[{"Manipulate", "[", 
+    RowBox[{
+     RowBox[{"Graphics3D", "[", 
+      RowBox[{"Sphere", "@", 
+       RowBox[{"snpData", "[", 
+        RowBox[{"[", "i", "]"}], "]"}]}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", 
+       RowBox[{"Length", "[", "snpData", "]"}], ",", "1"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Export", "[", 
+  RowBox[{"\"\<snaps.swf\>\"", ",", "man"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.622278602639051*^9, 3.622278641164781*^9}, {
+   3.622278688954671*^9, 3.622278698430025*^9}, 3.622278747327148*^9, {
+   3.622279376327695*^9, 3.622279551292425*^9}, {3.622279926357362*^9, 
+   3.6222799602915697`*^9}}],
+
+Cell[BoxData["\<\"snaps.swf\"\>"], "Output",
+ CellChangeTimes->{3.6222799493969717`*^9, 3.622279989734632*^9}]
+}, Open  ]]
 },
 WindowSize->{740, 867},
-WindowMargins->{{Automatic, 363}, {124, Automatic}},
+WindowMargins->{{Automatic, 292}, {257, Automatic}},
 FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (January 25, \
 2013)",
 StyleDefinitions->"Default.nb"
@@ -36,9 +77,13 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
+Cell[557, 20, 220, 5, 28, "Input"],
+Cell[CellGroupData[{
+Cell[802, 29, 1045, 27, 63, "Input"],
+Cell[1850, 58, 110, 1, 28, "Output"]
+}, Open  ]]
 }
 ]
 *)
 
 (* End of internal cache information *)
-

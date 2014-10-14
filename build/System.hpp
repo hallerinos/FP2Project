@@ -66,7 +66,7 @@ int System::GetCoordinate ( int partNumber, int axis) const {
  *------------------------------------------------------------------*/
 void System::PrintCoordinates( string fileName ) const {
 	ofstream file;
-	file.open( fileName );
+	file.open( "snapshots/"+fileName );
 	file << "Coordinates" << endl;
 	file << "X\tY\tZ" << endl;
 	for ( int i = 0; i < numberOfParticles; i++ ) {

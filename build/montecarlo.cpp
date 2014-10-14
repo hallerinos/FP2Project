@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <time.h>
 #include <sys/time.h>
 #include <stdlib.h>
@@ -10,7 +11,8 @@
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 10, dimOfSystem = 3, tempOfSystem = 1, sizeOfSys = 10;
+int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 10;
+double tempOfSystem = 0.1;
 
 int main()
 {
@@ -23,8 +25,6 @@ int main()
 	gettimeofday(&start, NULL);
 
 	System MC( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys);
-
-	MC.PrintCoordinates( "InitialCoordinates.txt" );
 	
 /*
 	cout << "Get absolute distance of Particle: " << endl;
@@ -37,9 +37,15 @@ int main()
 	cout << "System energy: " << endl;
 	cout << MC.GetEnergy() << endl;
 
-	double MC_STEPS = 100000.;
-	for ( int i = 0; i < MC_STEPS; i++)	
-		MC.MonteCarloStep( 0.1 );
+	int MC_STEPS = 10000;
+	for ( int i = 0; i < MC_STEPS; i++)	{
+		MC.MonteCarloStep( 0.5 );
+		stringstream ss;
+		ss << "Snapshot";
+		ss << i;
+		ss << ".txt";
+		MC.PrintCoordinates( ss.str() );
+	}
 
 	cout << endl << "System energy: " << endl;
 	cout << setprecision(15) << MC.GetEnergy() << endl;
