@@ -3,7 +3,7 @@
 #include <sys/time.h>
 #include <stdlib.h>
 #include <fstream>		// i/o file streams
-#include <tgmath.h>		// sqrt etc
+#include <cmath>		// sqrt etc
 #include <iomanip>		// std::setprecision
 
 using namespace std;
@@ -43,7 +43,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	// << " Particles:" << endl;
 	for ( int i = 0; i < numberOfParticles; i++)
  		for ( int j = 0; j < dimOfSystem; j++ )	{
-			(coords)[i*dimOfSystem + j] = rand() % sizeOfSys - sizeOfSys/2;
+			(coords)[i*dimOfSystem + j] = rand() % sizeOfSys;
 			// (coords)[i*dimOfSystem + j] = i*dimOfSystem + j;
 			// cout << "Particle: " << i << " Axis: " << j << ": \t" 
 			// << (coords)[i*dimOfSystem + j] << "\t" << endl;
@@ -128,6 +128,11 @@ void System::MonteCarloStep( double eps ) {
 		tmp[j] = coords[ choice*dimOfSystem + j ];
 		coords[ choice*dimOfSystem + j ] += 
 			eps * ( rand() % sizeOfSys - sizeOfSys/2 );
+		if ( coords[ choice*dimOfSystem + j ] < 0 ) {
+			coords[ choice*dimOfSystem + j ] += sizeOfSys;
+		} else if ( coords[ choice*dimOfSystem + j ] > sizeOfSys ) {
+			coords[ choice*dimOfSystem + j ] -= sizeOfSys;
+		}
 	}
 	energyAfter = System::GetEnergy();
 	if ( energyBefore > energyAfter && 
