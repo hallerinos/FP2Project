@@ -10,7 +10,7 @@
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 5, dimOfSystem = 3, tempOfSystem = 1, sizeOfSys = 50;
+int numOfParticles = 10, dimOfSystem = 3, tempOfSystem = 1, sizeOfSys = 10;
 
 int main()
 {

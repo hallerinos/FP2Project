@@ -11,7 +11,7 @@ using namespace std;
 class System {
 	public:
 		// Con- and Destructor
-		System( int numPart, int dimSys, int tempSys, int sizeOfSys);
+		System( int numPart, int dimSys, double tempSys, int sizeOfSys);
 		~System();
 		// Methods
 		//int GetEnergy();
@@ -24,7 +24,8 @@ class System {
 		void MonteCarloStep( double eps );
 		void PrintCoordinates( string fileName ) const;
 	private:	
-		int numberOfParticles, dimOfSystem, tempOfSystem, sizeOfSys;
+		int numberOfParticles, dimOfSystem, sizeOfSys;
+		double tempOfSystem;
 		double *coords;
 };
 
@@ -32,7 +33,7 @@ class System {
  * Constructor that initialises n*D random coordinates
  *------------------------------------------------------------------*/
 System::System( int newNumberOfParticles, int newDimOfSystem, 
-		int newTempOfSystem, int newSizeOfSys) {
+		double newTempOfSystem, int newSizeOfSys) {
 	tempOfSystem = newTempOfSystem;
 	numberOfParticles = newNumberOfParticles;
 	dimOfSystem = newDimOfSystem;
