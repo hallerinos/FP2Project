@@ -83,19 +83,18 @@ void System::PrintCoordinates( string fileName ) const {
  *------------------------------------------------------------------*/
 double System::GetDistance( int partNumOne, int partNumTwo ) const {
 	double dist = 0;
+	double tmp = 0;
 	double coordOne;
 	double coordTwo;
 	for ( int j = 0; j < dimOfSystem; j++ ) {
 		coordOne = coords[ partNumOne*dimOfSystem + j];
 		coordTwo = coords[ partNumTwo*dimOfSystem + j];
-		if( coordOne - coordTwo > sizeOfSys/2 ||
-				coordOne - coordTwo < sizeOfSys/2  ) {
-			dist += pow( coords[ partNumOne*dimOfSystem + j] -
-				 coords[ partNumTwo*dimOfSystem + j], 2 );
-		} else {
-			dist += pow( coords[ partNumOne*dimOfSystem + j] -
-				 coords[ partNumTwo*dimOfSystem + j], 2 );
-		}
+		tmp = coordTwo - coordOne;	
+		if( tmp > sizeOfSys/2 ) {
+			dist += pow( tmp - sizeOfSys, 2 );
+		} else if ( tmp < - sizeOfSys/2 ) {
+			dist += pow( tmp + sizeOfSys, 2 );
+		} else dist += pow( tmp, 2 );
 	}
 	return sqrt( dist );
 }

@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[      2339,         80]
-NotebookOptionsPosition[      1976,         62]
-NotebookOutlinePosition[      2334,         78]
-CellTagsIndexPosition[      2291,         75]
+NotebookDataLength[      3096,         94]
+NotebookOptionsPosition[      2696,         75]
+NotebookOutlinePosition[      3054,         91]
+CellTagsIndexPosition[      3011,         88]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -25,18 +25,17 @@ Cell[BoxData[
   ";"}]], "Input",
  CellChangeTimes->{{3.622278590329527*^9, 3.622278600503578*^9}}],
 
-Cell[CellGroupData[{
-
 Cell[BoxData[{
  RowBox[{
   RowBox[{"snpData", " ", "=", " ", 
    RowBox[{
     RowBox[{"Import", "[", 
-     RowBox[{"\"\<Snapshot*.txt\>\"", ",", "\"\<Table\>\""}], "]"}], "[", 
+     RowBox[{"\"\<snapshots/Snapshot*.txt\>\"", ",", "\"\<Table\>\""}], "]"}],
+     "[", 
     RowBox[{"[", 
      RowBox[{"All", ",", 
       RowBox[{"3", ";;", 
-       RowBox[{"-", "1"}]}]}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+       RowBox[{"-", "1"}]}]}], "]"}], "]"}]}], ";"}], "\n", 
  RowBox[{
   RowBox[{"man", "=", 
    RowBox[{"Manipulate", "[", 
@@ -48,16 +47,30 @@ Cell[BoxData[{
      RowBox[{"{", 
       RowBox[{"i", ",", "1", ",", 
        RowBox[{"Length", "[", "snpData", "]"}], ",", "1"}], "}"}]}], "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{"Export", "[", 
-  RowBox[{"\"\<snaps.swf\>\"", ",", "man"}], "]"}]}], "Input",
+  ";"}]}], "Input",
  CellChangeTimes->{{3.622278602639051*^9, 3.622278641164781*^9}, {
    3.622278688954671*^9, 3.622278698430025*^9}, 3.622278747327148*^9, {
    3.622279376327695*^9, 3.622279551292425*^9}, {3.622279926357362*^9, 
-   3.6222799602915697`*^9}}],
+   3.6222799602915697`*^9}, {3.62228004111941*^9, 3.622280041342754*^9}, {
+   3.62228021952444*^9, 3.622280222690763*^9}, {3.6222805363667097`*^9, 
+   3.622280565013609*^9}, 3.6222806491603518`*^9, 3.622280908000662*^9}],
 
-Cell[BoxData["\<\"snaps.swf\"\>"], "Output",
- CellChangeTimes->{3.6222799493969717`*^9, 3.622279989734632*^9}]
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Export", "[", 
+  RowBox[{"\"\<snaps.flv\>\"", ",", "man"}], "]"}]], "Input",
+ CellChangeTimes->{{3.622278602639051*^9, 3.622278641164781*^9}, {
+   3.622278688954671*^9, 3.622278698430025*^9}, 3.622278747327148*^9, {
+   3.622279376327695*^9, 3.622279551292425*^9}, {3.622279926357362*^9, 
+   3.6222799602915697`*^9}, {3.62228004111941*^9, 3.622280041342754*^9}, {
+   3.62228021952444*^9, 3.622280222690763*^9}, 3.6222805363667097`*^9, 
+   3.622280613313734*^9, {3.6222808085426407`*^9, 3.6222808099412527`*^9}}],
+
+Cell[BoxData["\<\"snaps.flv\"\>"], "Output",
+ CellChangeTimes->{3.6222799493969717`*^9, 3.622279989734632*^9, 
+  3.622280061779594*^9, 3.622280213493698*^9, 3.622280355518283*^9, 
+  3.622280836741506*^9}]
 }, Open  ]]
 },
 WindowSize->{740, 867},
@@ -78,9 +91,10 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[557, 20, 220, 5, 28, "Input"],
+Cell[780, 27, 1134, 28, 46, "Input"],
 Cell[CellGroupData[{
-Cell[802, 29, 1045, 27, 63, "Input"],
-Cell[1850, 58, 110, 1, 28, "Output"]
+Cell[1939, 59, 534, 8, 28, "Input"],
+Cell[2476, 69, 204, 3, 28, "Output"]
 }, Open  ]]
 }
 ]
