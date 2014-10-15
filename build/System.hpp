@@ -60,7 +60,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	// << " Particles:" << endl;
 	for ( int i = 0; i < numberOfParticles; i++)
  		for ( int j = 0; j < dimOfSystem; j++ )	{
-			(coords)[i*dimOfSystem + j] = rand() % sizeOfSys;
+			(coords)[i*dimOfSystem + j] = rand() / INT_MAX * sizeOfSys;
 			// (coords)[i*dimOfSystem + j] = i*dimOfSystem + j;
 			// cout << "Particle: " << i << " Axis: " << j << ": \t" 
 			// << (coords)[i*dimOfSystem + j] << "\t" << endl;
@@ -92,6 +92,8 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
 	mass = newMass;
+	MIN_CUTOFF = pow( 10, -10 );
+	MAX_CUTOFF = 2*pow( 2, 1./3);
 
 	forces2 = new double[ numberOfParticles * dimOfSystem ];
 	forces = new double[ numberOfParticles * dimOfSystem ];
@@ -156,12 +158,13 @@ for ( int i = 0; i < numberOfParticles; i++ ){
 			rsq += pow(diffV[k],2);
 		}
 
-		for ( int k = 0; k < dimOfSystem; k++ ){
-			forces[i*dimOfSystem + k] += 
-				24 * diffV[k] * ( 2/pow(rsq,7) - 1/pow(rsq,4) );
-			forces[j*dimOfSystem + k] -=
-				24 * diffV[k] * ( 2/pow(rsq,7) - 1/pow(rsq,4) );
-		}
+		if ( rsq < MIN_CUTOFF || rsq > MAX_CUTOFF ){} else
+			for ( int k = 0; k < dimOfSystem; k++ ){
+				forces[i*dimOfSystem + k] += 
+					24 * diffV[k] * ( 2/pow(rsq,7) - 1/pow(rsq,4) );
+				forces[j*dimOfSystem + k] -=
+					24 * diffV[k] * ( 2/pow(rsq,7) - 1/pow(rsq,4) );
+			}
 	}			
 }
 	
@@ -181,7 +184,7 @@ for ( int i = 0; i < numberOfParticles; i++ ){
  *------------------------------------------------------------------*/
 void System::PrintCoordinates( string fileName ) const {
 	ofstream file;
-	file.open( "snapshots/"+fileName );
+	file.open( "shizzer.txt" );
 	file << "Coordinates" << endl;
 	file << "X\tY\tZ" << endl;
 	for ( int i = 0; i < numberOfParticles; i++ ) {
