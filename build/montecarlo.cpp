@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <iomanip>
 #include <time.h>
 #include <sys/time.h>
 #include <stdlib.h>
@@ -11,7 +12,7 @@
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 2, dimOfSystem = 3, sizeOfSys = 10;
+int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 10;
 double tempOfSystem = 0.1;
 float particleMass = 1;
 
@@ -51,14 +52,15 @@ int main()
 	cout << "System energy: " << endl;
 	cout << MC.GetEnergy() << endl;
 
-	int MC_STEPS = 2;
+	int MC_STEPS = 100000;
 	for ( int i = 0; i < MC_STEPS; i++)	{
 		MC.MonteCarloStep( 0.1 );
-		stringstream ss;
-		ss << "Snapshot";
-		ss << i;
-		ss << ".txt";
-		MC.PrintCoordinates( ss.str() );
+		// stringstream ss;
+		// ss << "Snapshot";
+		// ss.width(5);
+		// ss << setfill('0') << i;
+		// ss << ".txt";
+		// MC.PrintCoordinates( ss.str() );
 	}
 
 	cout << endl << "System energy: " << endl;
