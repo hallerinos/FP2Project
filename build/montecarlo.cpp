@@ -11,12 +11,25 @@
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 100, dimOfSystem = 3, sizeOfSys = 10;
+int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 10;
 double tempOfSystem = 0.1;
 float particleMass = 1;
 
 int main()
 {
+	stringstream iniConditions;
+	iniConditions << "Number_of_particles:\t";
+	iniConditions << numOfParticles << endl;
+	iniConditions << "Dimension:\t";
+	iniConditions << dimOfSystem << endl;
+	iniConditions << "Size:\t";
+	iniConditions << sizeOfSys << endl;
+	iniConditions << "Temperature:\t";
+	iniConditions << tempOfSystem << endl;
+	ofstream file;
+	file.open( "snapshots/InitialConditions.txt" );
+	file << iniConditions.str();
+	file.close();
 	// initialise random seed	
 	srand( time(NULL) );		// different seeds
 	// srand( 0 );						// same seed 
@@ -38,7 +51,7 @@ int main()
 	cout << "System energy: " << endl;
 	cout << MC.GetEnergy() << endl;
 
-	int MC_STEPS = 50000;
+	int MC_STEPS = 500;
 	for ( int i = 0; i < MC_STEPS; i++)	{
 		MC.MonteCarloStep( 0.1 );
 		stringstream ss;
@@ -51,7 +64,6 @@ int main()
 	cout << endl << "System energy: " << endl;
 	cout << setprecision(15) << MC.GetEnergy() << endl;
 	
-	MC.PrintCoordinates( "FinalCoordinates.txt" );
 /*	
 	cout << "Get absolute distance of Particle: " << endl;
 	for ( int i = 0; i < numOfParticles; i++)

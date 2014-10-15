@@ -6,6 +6,7 @@
 #include <cmath>		// sqrt etc
 #include <iomanip>		// std::setprecision
 #include <climits>
+#include <string>
 
 using namespace std;
 
@@ -224,7 +225,7 @@ double System::GetEnergy() const {
 	for ( int i = 0; i < numberOfParticles; i++ )
 		for ( int j = i + 1; j < numberOfParticles; j++ ) {
 			dist = System::GetDistance( i, j );
-			( dist < pow ( 10, -6 ) || dist > MAX_CUTOFF ) ? ene += 0 :
+			( dist < MIN_CUTOFF || dist > MAX_CUTOFF ) ? ene += 0 :
 				( ene += ( pow(dist, -12) - pow(dist, -6) + normalisation ) );
 	}
 
