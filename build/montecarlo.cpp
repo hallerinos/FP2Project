@@ -13,7 +13,7 @@ using namespace std;
 void readFromFile();
 
 int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 10;
-double tempOfSystem = 0.1;
+double tempOfSystem = 0.0001;
 float particleMass = 1;
 
 int main()
@@ -50,7 +50,7 @@ int main()
 	cout << "System energy: " << endl;
 	cout << MC.GetEnergy() << endl;
 
-	int MC_STEPS = 10000;
+	int MC_STEPS = 1000;
 	for ( int i = 0; i < MC_STEPS; i++)	{
 		MC.MonteCarloStep( 0.1 );
 		stringstream ss;
@@ -58,7 +58,7 @@ int main()
 		ss.width(5);
 		ss << setfill('0') << i;
 		ss << ".txt";
-		MC.PrintCoordinates( "snapshots/"+ss.str() );
+		MC.PrintCoordinates( ss.str() );
 	}
 
 	cout << endl << "System energy: " << endl;
