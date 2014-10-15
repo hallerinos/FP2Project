@@ -50,7 +50,7 @@ int main()
 	cout << "System energy: " << endl;
 	cout << MC.GetEnergy() << endl;
 
-	int MC_STEPS = 10000;
+	int MC_STEPS = 1000;
 	for ( int i = 0; i < MC_STEPS; i++)	{
 		MC.MonteCarloStep( 0.1 );
 		stringstream ss;
