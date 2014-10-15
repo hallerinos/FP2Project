@@ -77,8 +77,8 @@ int System::GetCoordinate ( int partNumber, int axis) const {
 }
 
 /*--------------------------------------------------------------------
- * Constructor that initialises n*D random coordinates and velocities.
- * Takes Mass.
+ * Constructor that initialises n*D random coordinates, velocities,
+ * calculates initial Forces and takes a Mass.
  *------------------------------------------------------------------*/
 
 System::System( int newNumberOfParticles, int newDimOfSystem, 
@@ -97,7 +97,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	// << " Particles:" << endl;
 	for ( int i = 0; i < numberOfParticles; i++)
  		for ( int j = 0; j < dimOfSystem; j++ )	{
-			(coords)[i*dimOfSystem + j] = rand() % sizeOfSys;
+			(coords)[i*dimOfSystem + j] = (float) rand() / INT_MAX * sizeOfSys ;
 			// (coords)[i*dimOfSystem + j] = i*dimOfSystem + j;
 			// cout << "Particle: " << i << " Axis: " << j << ": \t" 
 			// << (coords)[i*dimOfSystem + j] << "\t" << endl;
@@ -187,7 +187,7 @@ void System::PrintCoordinates( string fileName ) const {
 		file << endl;
 	}
 	file.close();
-}
+}*/
 
 /*--------------------------------------------------------------------
  * Calculate minimal distances (PBC)
@@ -302,6 +302,7 @@ void System::VeloVerletStepMD ( double dT ) {
 	for ( int i = 0; i < numberOfParticles; i++ ){
 		for ( int j = i+1; j < numberOfParticles; j++ ){
 			rsq = 0;
+
 			for ( int k = 0; k < dimOfSystem; k++ ){
 				diffV[k] = coords[i*dimOfSystem + k] - coords[j*dimOfSystem + k];
 				if( diffV[k] > sizeOfSys/2 ) {
