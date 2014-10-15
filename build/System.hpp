@@ -256,7 +256,7 @@ void System::MonteCarloStep( double eps ) {
 	for ( int j = 0; j < dimOfSystem; j++ ) {
 		tmp[j] = coords[ choice*dimOfSystem + j ];
 		coords[ choice*dimOfSystem + j ] += 
-			eps * ( rand() % sizeOfSys - sizeOfSys/2 );
+			eps * ( rand() % 3 - 1 );
 		if ( coords[ choice*dimOfSystem + j ] < 0 ) {
 			coords[ choice*dimOfSystem + j ] += sizeOfSys;
 		} else if ( coords[ choice*dimOfSystem + j ] > sizeOfSys ) {
