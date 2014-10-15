@@ -41,26 +41,24 @@ int main()
 
 	System MC( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys );
 	
-/*
 	cout << "Get absolute distance of Particle: " << endl;
 	for ( int i = 0; i < numOfParticles; i++)
 		for ( int j = i+1; j < numOfParticles; j++ )
 			cout << "# " << i  << ", " << j 
 				<< ":\t"<< MC.GetDistance(i, j) << endl;
-*/
 
 	cout << "System energy: " << endl;
 	cout << MC.GetEnergy() << endl;
 
-	int MC_STEPS = 100000;
+	int MC_STEPS = 1000;
 	for ( int i = 0; i < MC_STEPS; i++)	{
 		MC.MonteCarloStep( 0.1 );
-		// stringstream ss;
-		// ss << "Snapshot";
-		// ss.width(5);
-		// ss << setfill('0') << i;
-		// ss << ".txt";
-		// MC.PrintCoordinates( ss.str() );
+		stringstream ss;
+		ss << "Snapshot";
+		ss.width(4);
+		ss << setfill('0') << i;
+		ss << ".txt";
+		MC.PrintCoordinates( ss.str() );
 	}
 
 	cout << endl << "System energy: " << endl;

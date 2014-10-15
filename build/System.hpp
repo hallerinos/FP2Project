@@ -60,7 +60,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	// << " Particles:" << endl;
 	for ( int i = 0; i < numberOfParticles; i++)
  		for ( int j = 0; j < dimOfSystem; j++ )	{
-			(coords)[i*dimOfSystem + j] = rand() / INT_MAX * sizeOfSys;
+			(coords)[i*dimOfSystem + j] = (float)rand() / INT_MAX * sizeOfSys;
 			// (coords)[i*dimOfSystem + j] = i*dimOfSystem + j;
 			// cout << "Particle: " << i << " Axis: " << j << ": \t" 
 			// << (coords)[i*dimOfSystem + j] << "\t" << endl;
@@ -184,7 +184,7 @@ for ( int i = 0; i < numberOfParticles; i++ ){
  *------------------------------------------------------------------*/
 void System::PrintCoordinates( string fileName ) const {
 	ofstream file;
-	file.open( "shizzer.txt" );
+	file.open( fileName );
 	file << "Coordinates" << endl;
 	file << "X\tY\tZ" << endl;
 	for ( int i = 0; i < numberOfParticles; i++ ) {
