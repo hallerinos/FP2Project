@@ -29,6 +29,7 @@ class System {
 		void VeloVerletStepMD( double dT );
 		void PrintCoordinates( string fileName ) const;
 	private:	
+		double MIN_CUTOFF, MAX_CUTOFF;
 		int numberOfParticles, dimOfSystem, sizeOfSys;
 		double tempOfSystem;
 		double *coords;
@@ -47,6 +48,8 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	numberOfParticles = newNumberOfParticles;
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
+	MIN_CUTOFF = pow( 10, -6 );
+	MAX_CUTOFF = 2*pow( 2, 1./6);
 	
 	forces = 0;
 	forces2 = 0;
@@ -174,7 +177,7 @@ for ( int i = 0; i < numberOfParticles; i++ ){
 
 /*--------------------------------------------------------------------
  * Print Coordinates to a *.txt file
- *------------------------------------------------------------------
+ *------------------------------------------------------------------*/
 void System::PrintCoordinates( string fileName ) const {
 	ofstream file;
 	file.open( "snapshots/"+fileName );
@@ -187,7 +190,7 @@ void System::PrintCoordinates( string fileName ) const {
 		file << endl;
 	}
 	file.close();
-}*/
+}
 
 /*--------------------------------------------------------------------
  * Calculate minimal distances (PBC)
@@ -221,7 +224,8 @@ double System::GetEnergy() const {
 	for ( int i = 0; i < numberOfParticles; i++ )
 		for ( int j = i + 1; j < numberOfParticles; j++ ) {
 			dist = System::GetDistance( i, j );
-			ene += ( pow(dist, -12) - pow(dist, -6) + normalisation );
+			( dist < pow ( 10, -6 ) || dist > MAX_CUTOFF ) ? ene += 0 :
+				( ene += ( pow(dist, -12) - pow(dist, -6) + normalisation ) );
 	}
 
 	return ene;
