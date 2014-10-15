@@ -92,8 +92,8 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
 	mass = newMass;
-	MIN_CUTOFF = pow( 10, -10 );
-	MAX_CUTOFF = 2*pow( 2, 1./3);
+	MIN_CUTOFF = pow( 10, -12 );
+	MAX_CUTOFF = sizeOfSys/2;
 
 	forces2 = new double[ numberOfParticles * dimOfSystem ];
 	forces = new double[ numberOfParticles * dimOfSystem ];
@@ -184,7 +184,7 @@ for ( int i = 0; i < numberOfParticles; i++ ){
  *------------------------------------------------------------------*/
 void System::PrintCoordinates( string fileName ) const {
 	ofstream file;
-	file.open( fileName );
+	file.open( (string("snapshots/")+fileName).c_str() );
 	file << "Coordinates" << endl;
 	file << "X\tY\tZ" << endl;
 	for ( int i = 0; i < numberOfParticles; i++ ) {
@@ -287,7 +287,7 @@ void System::MonteCarloStep( double eps ) {
 
 void System::VeloVerletStepMD ( double dT ) {
 
-	cout << "Distance between 1 and 2: " << GetDistance(0,1) << endl;
+	//cout << "Distance between 1 and 2: " << GetDistance(0,1) << endl;
 	//Calculate new Coordinates
 	
 	for (int i = 0; i < dimOfSystem*numberOfParticles; i++){
