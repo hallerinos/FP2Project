@@ -50,7 +50,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
 	MIN_CUTOFF = pow( 10, -6 );
-	MAX_CUTOFF = 2*pow( 2, 1./6);
+	MAX_CUTOFF = sizeOfSys;
 	
 	forces = 0;
 	forces2 = 0;
