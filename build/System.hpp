@@ -26,6 +26,7 @@ class System {
 		int GetCoordinate( int partNumber, int axis ) const;
 		double GetDistance( int partNumOne, int partNumTwo) const;
 		double GetEnergy() const;
+		double GetKinEnergy() const;
 		void MonteCarloStep( double eps );
 		void VeloVerletStepMD( double dT );
 		void PrintCoordinates( string fileName ) const;
@@ -185,6 +186,7 @@ for ( int i = 0; i < numberOfParticles; i++ ){
 void System::PrintCoordinates( string fileName ) const {
 	ofstream file;
 	file.open( (string("snapshots/")+fileName).c_str() );
+	file << "Potential Energy: " << GetEnergy() << endl;
 	file << "Coordinates" << endl;
 	file << "X\tY\tZ" << endl;
 	for ( int i = 0; i < numberOfParticles; i++ ) {
@@ -346,4 +348,11 @@ void System::VeloVerletStepMD ( double dT ) {
 		<< coords[2] << endl;
 	cout << "New Coordinate 2: " << coords[3] << "\t" << coords[2] << "\t"
 		<< coords[3] << endl;*/
+}
+
+double System::GetKinEnergy() const {
+	double vsq = 0;
+	for ( int i = 0; i < dimOfSystem * numberOfParticles; i++ )
+		vsq += pow(velos[i],2);
+	return mass*vsq/2;	
 }
