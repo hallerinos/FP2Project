@@ -13,7 +13,7 @@ using namespace std;
 void readFromFile();
 
 int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 10;
-double tempOfSystem = 10;
+double tempOfSystem = 10000;
 float particleMass = 1;
 
 int main()
@@ -50,7 +50,7 @@ int main()
 	cout << "System energy: " << endl;
 	cout << MC.GetEnergy() << endl;
 
-	int MC_STEPS = 1000;
+	int MC_STEPS = 10000;
 	for ( int i = 0; i < MC_STEPS; i++)	{
 		MC.MonteCarloStep( 0.1 );
 		stringstream ss;
