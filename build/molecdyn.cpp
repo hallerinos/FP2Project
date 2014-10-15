@@ -11,9 +11,9 @@
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 2, dimOfSystem = 3, sizeOfSys = 5;
+int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 15;
 double tempOfSystem = 0.1;
-float particleMass = 1;
+float particleMass = 0.1;
 
 int main()
 {
@@ -27,8 +27,8 @@ int main()
 
 	System MD( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys, particleMass );
 	
-	for (int i = 0; i < 1000; i++){
-	MD.VeloVerletStepMD( 0.05 );
+	for (int i = 0; i < 50; i++){
+	MD.VeloVerletStepMD( 0.0005 );
 	}
 
 

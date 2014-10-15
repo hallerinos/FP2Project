@@ -279,6 +279,7 @@ void System::MonteCarloStep( double eps ) {
 
 void System::VeloVerletStepMD ( double dT ) {
 
+	cout << "Distance between 1 and 2: " << GetDistance(0,1) << endl;
 	//Calculate new Coordinates
 	
 	for (int i = 0; i < dimOfSystem*numberOfParticles; i++){
@@ -336,5 +337,4 @@ void System::VeloVerletStepMD ( double dT ) {
 		<< coords[2] << endl;
 	cout << "New Coordinate 2: " << coords[3] << "\t" << coords[2] << "\t"
 		<< coords[3] << endl;*/
-	cout << "Distance between 1 and 2: " << GetDistance(0,1) << endl;
 }
