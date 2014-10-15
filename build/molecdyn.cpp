@@ -12,7 +12,7 @@
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 2, dimOfSystem = 3, sizeOfSys = 13;
+int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 10;
 double tempOfSystem = 0.1;
 float particleMass = 0.1;
 
@@ -28,21 +28,19 @@ int main()
 
 	System MD( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys, particleMass );
 	
-	for (int i = 0; i < 50; i++){
-	MD.VeloVerletStepMD( 0.0005 );
+	cout << "System Energy: " << MD.GetEnergy() << endl;
+	for ( int j = 0; j < 10; j++){
+	for (int i = 0; i < 10000; i++){
+	MD.VeloVerletStepMD( 0.005 );
 	}
-
-
+	MD.PrintCoordinates("MD.txt");
+	
+	cout << "System Energy: " << MD.GetEnergy() << endl;
+	}
 	gettimeofday(&end, NULL);
 	cout << "Time needed to do this shid: " 
 		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 
 				  end.tv_usec - start.tv_usec ) / 1000000. << endl;
-
-	cout << "Now for an fstream" << endl;
-	ofstream stuff;
-	stuff.open ( "yomamma.txt" );
-	stuff << "Yo Mamma is so fat, daaaaaamn!" << endl;
-	stuff.close();
 
 	return 0;
 }
