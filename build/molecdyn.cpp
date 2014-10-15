@@ -11,7 +11,7 @@
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 10;
+int numOfParticles = 2, dimOfSystem = 3, sizeOfSys = 5;
 double tempOfSystem = 0.1;
 float particleMass = 1;
 
@@ -25,39 +25,12 @@ int main()
 	struct timeval start, end;
 	gettimeofday(&start, NULL);
 
-	System MC( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys );
+	System MD( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys, particleMass );
 	
-/*
-	cout << "Get absolute distance of Particle: " << endl;
-	for ( int i = 0; i < numOfParticles; i++)
-		for ( int j = i+1; j < numOfParticles; j++ )
-			cout << "# " << i  << ", " << j 
-				<< ":\t"<< MC.GetDistance(i, j) << endl;
-*/
-
-	cout << "System energy: " << endl;
-	cout << MC.GetEnergy() << endl;
-
-	int MC_STEPS = 500;
-	for ( int i = 0; i < MC_STEPS; i++)	{
-		MC.MonteCarloStep( 0.1 );
-		stringstream ss;
-		ss << "Snapshot";
-		ss << i;
-		ss << ".txt";
-		MC.PrintCoordinates( ss.str() );
+	for (int i = 0; i < 1000; i++){
+	MD.VeloVerletStepMD( 0.05 );
 	}
 
-	cout << endl << "System energy: " << endl;
-	cout << setprecision(15) << MC.GetEnergy() << endl;
-	
-	MC.PrintCoordinates( "FinalCoordinates.txt" );
-	
-	cout << "Get absolute distance of Particle: " << endl;
-	for ( int i = 0; i < numOfParticles; i++)
-		for ( int j = i+1; j < numOfParticles; j++ )
-			cout << "# " << i  << ", " << j 
-				<< ":\t"<< MC.GetDistance(i, j) << endl;
 
 	gettimeofday(&end, NULL);
 	cout << "Time needed to do this shid: " 
