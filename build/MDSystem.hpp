@@ -81,13 +81,14 @@ double System::GetKinEnergy() const {
  * --------------------------------------------------------------*/
 
 void System::AdjustVelos() {
-	double vsq = 0, vnew = 0, vmax = sqrt(dimOfSystem * tempOfSystem / mass);
+	double vsq = 0, vnew = 0, vmax = sqrt(3 * dimOfSystem * tempOfSystem / mass);
 	double random = 0;
-	double c1 = sqrt( dimOfSystem * mass / (2 * 3.1416 * tempOfSystem) );
-	double c2 = dimOfSystem * mass / (2 * tempOfSystem);
+	double c1 = sqrt( mass / (2 * 3.1416 * dimOfSystem * tempOfSystem) );
+	double c2 = mass / (2 * dimOfSystem * tempOfSystem);
 	for (int i = 0; i < numberOfParticles; i++){
 		// Check if Velocity-Squared fits Boltzmann, if not adjust it
 		random = (double) rand() / INT_MAX;
+		vsq = 0;
 		for (int j = 0; j < dimOfSystem; j++)
 			vsq += pow( velos[i*dimOfSystem + j], 2);
 		if ( random > (c1 * exp(-c2 * vsq )) )  {
