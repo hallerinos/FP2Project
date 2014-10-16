@@ -102,14 +102,15 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	double vmax =  sqrt(dimOfSystem * tempOfSystem / mass) ; // k_B=1
 	double vnew = 0;
 	double random = 0;
-	double constant = sqrt(mass/(2*3.1416*tempOfSystem));
+	double c1 = sqrt(mass/(2*3.1416*tempOfSystem));
+	double c2 = mass / (2 * tempOfSystem);
 	for ( int i = 0; i < numberOfParticles; i+=2 )
 		for ( int j = 0; j < dimOfSystem; j++ ) {
 			//Generate random Velocity and Random Number [0,1]
 			vnew = (double) rand() / INT_MAX * 3 * vmax - 1.5 * vmax;
 			random = (double) rand() / INT_MAX;
 			//Check Boltzmann
-			if ( random < ( constant * exp(-(mass*pow(vnew,2)/(2*tempOfSystem))) ))
+			if ( random < ( c1 * exp(-c2*pow(vnew,2))) )
 			{
 			(velos)[i*dimOfSystem + j] = (double) rand () / INT_MAX * 2 *vmax
 			 	- vmax;

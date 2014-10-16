@@ -67,11 +67,38 @@ void System::VeloVerletStepMD ( double dT ) {
 }
 
 /*------------------------------------------------------------------
- * Molecular Dynamic Step ( Velocity Verlet )
+ * Calculate Kinetic Energy
  * ---------------------------------------------------------------*/
 double System::GetKinEnergy() const {
 	double vsq = 0;
 	for ( int i = 0; i < dimOfSystem * numberOfParticles; i++ )
 		vsq += pow(velos[i],2);
 	return mass*vsq/2;	
+}
+
+/*-----------------------------------------------------------------
+ * Adjust Velocities to Maxwell-Boltzmann Distribution
+ * --------------------------------------------------------------*/
+
+void System::AdjustVelos() {
+	double vsq = 0, vnew = 0, vmax = sqrt(dimOfSystem * tempOfSystem / mass);
+	double random = 0;
+	double c1 = sqrt( dimOfSystem * mass / (2 * 3.1416 * tempOfSystem) );
+	double c2 = dimOfSystem * mass / (2 * tempOfSystem);
+	for (int i = 0; i < numberOfParticles; i++){
+		// Check if Velocity-Squared fits Boltzmann, if not adjust it
+		random = (double) rand() / INT_MAX;
+		for (int j = 0; j < dimOfSystem; j++)
+			vsq += pow( velos[i*dimOfSystem + j], 2);
+		if ( random > (c1 * exp(-c2 * vsq )) )  {
+			// Set new Velocity
+			vnew = (double) rand() / INT_MAX * 5 * vmax;
+			random = (double) rand() / INT_MAX;
+			// Check Boltzmann
+			if ( random < (c1 * exp(-c2 *pow(vnew,2))) ){
+				for (int j = 0; j < dimOfSystem; j++)
+					velos[i*dimOfSystem+j] = velos[i*dimOfSystem+j] * vnew / sqrt(vsq);
+			}
+		}
+	}
 }
