@@ -12,7 +12,7 @@
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 10;
+int numOfParticles = 200, dimOfSystem = 3, sizeOfSys = 10;
 double tempOfSystem = 0.000001;
 float particleMass = 1;
 
@@ -52,7 +52,7 @@ int main()
 
 	int snaps = 100;
 	for ( int i = 0; i < snaps; i++)	{
-		for ( int j = 0; j < 100; j++)
+		for ( int j = 0; j < 10; j++)
 			MC.MonteCarloStep( 0.1 );
 		stringstream ss;
 		ss << "Snapshot";
@@ -73,7 +73,7 @@ int main()
 				<< ":\t"<< MC.GetDistance(i, j) << endl;
 */
 	gettimeofday(&end, NULL);
-	cout << "Time needed to do this shid: " 
+	cout << "Calculation time: " 
 		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 
 				  end.tv_usec - start.tv_usec ) / 1000000. << endl;
 
@@ -101,4 +101,22 @@ void readFromFile() {
 		
 		inputFile.close();
 	}
+}
+
+/*--------------------------------------------------------------------
+ * Print Coordinates to a *.txt file
+ *------------------------------------------------------------------*/
+void System::PrintCoordinates( string fileName ) const {
+	ofstream file;
+	file.open( (string("snapshots/")+fileName).c_str() );
+	file << "Potential Energy: " << GetEnergy() << endl;
+	file << "Coordinates" << endl;
+	file << "X\tY\tZ" << endl;
+	for ( int i = 0; i < numberOfParticles; i++ ) {
+		for ( int j = 0; j < dimOfSystem; j++ ) {
+			file << coords[i*dimOfSystem + j] << "\t";
+		}
+		file << endl;
+	}
+	file.close();
 }
