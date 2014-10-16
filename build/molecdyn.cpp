@@ -12,8 +12,8 @@
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 10;
-double tempOfSystem = 0.0001;
+int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 6;
+double tempOfSystem = 5;
 float particleMass = 1;
 
 int main()
@@ -32,8 +32,8 @@ int main()
 	cout << "System Energy: " << MD.GetEnergy() << endl;
 
 	for ( int j = 0; j < 2000; j++){
-	for (int i = 0; i < 200; i++){
-	MD.VeloVerletStepMD( 0.0001 );
+	for (int i = 0; i < 2000; i++){
+	MD.VeloVerletStepMD( 0.00001 );
 	}
 	if ( j < 750 ) MD.AdjustVelos();
 	stringstream ss;
