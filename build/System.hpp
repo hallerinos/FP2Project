@@ -27,6 +27,7 @@ class System {
 		// Print and Step Methods
 		void MonteCarloStep( double eps );
 		void VeloVerletStepMD( double dT );
+		void AdjustVelos( double temperature );
 		void PrintCoordinates( string fileName ) const;
 		//Member Variables
 	private:	
