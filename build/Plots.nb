@@ -10,10 +10,17 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
+<<<<<<< HEAD
 NotebookDataLength[      5286,        143]
 NotebookOptionsPosition[      4969,        128]
 NotebookOutlinePosition[      5313,        143]
 CellTagsIndexPosition[      5270,        140]
+=======
+NotebookDataLength[      3671,        106]
+NotebookOptionsPosition[      3341,         90]
+NotebookOutlinePosition[      3699,        106]
+CellTagsIndexPosition[      3656,        103]
+>>>>>>> origin/master
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -27,6 +34,7 @@ Cell[BoxData[
 
 Cell[BoxData[{
  RowBox[{
+<<<<<<< HEAD
   RowBox[{"PotEnergys", "=", 
    RowBox[{"Table", "[", 
     RowBox[{
@@ -71,10 +79,32 @@ Cell[BoxData[{
        RowBox[{"Length", "[", "snpData", "]"}], ",", "1"}], "}"}]}], "]"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{"anim", "=", 
+=======
+  RowBox[{"sysSize", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"Import", "[", 
+     RowBox[{
+     "\"\<snapshots/InitialConditions.txt\>\"", ",", "\"\<Table\>\""}], "]"}],
+     "[", 
+    RowBox[{"[", 
+     RowBox[{"3", ",", "2"}], "]"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"snpData", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"Import", "[", 
+     RowBox[{"\"\<snapshots/Snaps*.txt\>\"", ",", "\"\<Table\>\""}], "]"}], 
+    "[", 
+    RowBox[{"[", 
+     RowBox[{"All", ",", 
+      RowBox[{"3", ";;", 
+       RowBox[{"-", "1"}]}]}], "]"}], "]"}]}], ";"}], "\n", 
+ RowBox[{"man", "=", 
+>>>>>>> origin/master
   RowBox[{"Animate", "[", 
    RowBox[{
     RowBox[{"Graphics3D", "[", 
      RowBox[{
+<<<<<<< HEAD
       RowBox[{"{", 
        RowBox[{
         RowBox[{"Sphere", "@", 
@@ -101,11 +131,32 @@ Cell[BoxData[{
      RowBox[{"i", ",", "1", ",", 
       RowBox[{"Length", "[", "snpData", "]"}], ",", "1"}], "}"}], ",", 
     RowBox[{"AnimationRate", "\[Rule]", "40"}]}], "]"}]}]}], "Input",
+=======
+      RowBox[{"Sphere", "[", 
+       RowBox[{
+        RowBox[{"snpData", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], ",", 
+        RowBox[{"1", "/", "2"}]}], "]"}], ",", 
+      RowBox[{"PlotRange", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", "sysSize"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "sysSize"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "sysSize"}], "}"}]}], "}"}]}]}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "1", ",", 
+      RowBox[{"Length", "[", "snpData", "]"}], ",", "1"}], "}"}], ",", 
+    RowBox[{"DefaultDuration", "\[Rule]", "30"}]}], "]"}]}]}], "Input",
+>>>>>>> origin/master
  CellChangeTimes->{{3.622278602639051*^9, 3.622278641164781*^9}, {
    3.622278688954671*^9, 3.622278698430025*^9}, 3.622278747327148*^9, {
    3.622279376327695*^9, 3.622279551292425*^9}, {3.622279926357362*^9, 
    3.6222799602915697`*^9}, {3.62228004111941*^9, 3.622280041342754*^9}, {
    3.62228021952444*^9, 3.622280222690763*^9}, {3.6222805363667097`*^9, 
+<<<<<<< HEAD
    3.622280565013609*^9}, 3.6222806491603518`*^9, 3.622280908000662*^9, {
    3.62237254188772*^9, 3.622372685292923*^9}, 3.622372727247322*^9, {
    3.6223730782193966`*^9, 3.6223730792834578`*^9}, {3.6223758993591933`*^9, 
@@ -115,6 +166,12 @@ Cell[BoxData[{
    3.6223765473512564`*^9}, {3.622376624675679*^9, 3.622376629147935*^9}, {
    3.6223768378908744`*^9, 3.6223768479874516`*^9}, {3.6223771101144447`*^9, 
    3.6223771144096904`*^9}}],
+=======
+   3.622280565013609*^9}, 3.6222806491603518`*^9, 3.622280908000662*^9, 
+   3.62235860986296*^9, {3.622358763853016*^9, 3.622358765208727*^9}, {
+   3.6223588232178993`*^9, 3.622358828529299*^9}, {3.622358915827374*^9, 
+   3.622358960504779*^9}, 3.622359138965858*^9}],
+>>>>>>> origin/master
 
 Cell[BoxData[
  RowBox[{"Export", "[", 
@@ -142,9 +199,15 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
+<<<<<<< HEAD
 Cell[557, 20, 220, 5, 31, "Input"],
 Cell[780, 27, 3648, 89, 292, "Input"],
 Cell[4431, 118, 534, 8, 31, "Input"]
+=======
+Cell[557, 20, 220, 5, 28, "Input"],
+Cell[780, 27, 2020, 51, 114, "Input"],
+Cell[2803, 80, 534, 8, 28, "Input"]
+>>>>>>> origin/master
 }
 ]
 *)
