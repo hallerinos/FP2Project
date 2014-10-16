@@ -188,7 +188,7 @@ double System::GetEnergy() const {
 		for ( int j = i + 1; j < numberOfParticles; j++ ) {
 			dist = System::GetDistance( i, j );
 			( dist < MIN_CUTOFF || dist > MAX_CUTOFF ) ? ene += 0 :
-				( ene += ( pow(dist, -12) - pow(dist, -6) + normalisation ) );
+				( ene += 4 * ( pow(dist, -12) - pow(dist, -6) + normalisation ) );
 	}
 
 	return ene;

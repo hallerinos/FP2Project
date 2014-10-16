@@ -13,7 +13,7 @@ using namespace std;
 void readFromFile();
 
 int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 6;
-double tempOfSystem = 5;
+double tempOfSystem = 4;
 float particleMass = 1;
 
 int main()
