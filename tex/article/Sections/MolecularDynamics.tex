@@ -1,6 +1,5 @@
 \section{Molecular Dynamics Simulation}
 Molecular Dynamics (MD) gained very much popularity in the 1950 and 1970's to simulate real time behaviour of many body systems or complex structures like proteins. To do this an MD algorithm numerically solves the equations of motion of a given system. In Case of our System these equations are Newton's equations of motion with forces $f_i$ given by the Lennard-Jones-Potential. The basic structure of the MD algorithm, that we implement, is the following:
-
 \begin{enumerate}
 \item Initialize a starting configuration.
 \item Loop
@@ -11,50 +10,37 @@ Molecular Dynamics (MD) gained very much popularity in the 1950 and 1970's to si
 \end{enumerate}
 \item Calculate time averages of the measured observables.
 \end{enumerate}
-
 These steps will now be discussed in more detail.
 
 \subsection*{1. Initialization}
-
 To initialize the System, locations and velocities of the particles must be generated. Parameters for the initialization are the number of particles $N$, particlemass $m$, dimension of the system $d$, Temperature $T$ and Size of the System $L$. For each particle $d$ random numbers $\in [0,L]$ are generated to initialize the locations. 
 The intial velocities however, are a little more difficult to generate because there are two conditions which have to be satisfied:
-
 \begin{enumerate}
 \item $\sum_i \vec{v_i}=0$ (The system itself is resting).
 \item $\braket{\vec{v}_i^2}=\frac{d k_B T}{m}$ (satisfies the Maxwell-Boltzmann distribution).
 \end{enumerate}
-
 To meet the first condition, velocities are intialized in pairs, f.i. after generating the first velocity $v_1$, the second particle will get the velocity $v_2 = -v_1$. The program then resumes by generating the third velocity. This procedure requires $N/2$ random Numbers to be generated per Dimension and limits $N$ to be an even number.
 The second condition can be satisfied by ??? ... 
 
 \subsection*{2.a) Calculation of Forces between the Particles}
-
 The force, that a particle $j$ applies on a particle $i$ can be calculated by using
-
 \begin{align}
 	\vec{f}_{ij}=-\frac{\partial V(r_{ij})}{\partial r_{ij}} \cdot \hat{e}_{r,ij},
 \end{align}
-
 where $r_{ij}$ is the distance between the two particles, $V(r)$ is the Lennard-Jones-Potential and $\hat{e}_{r,ij}$ is the normalized distance vector pointing from particle $j$ to particle $i$. By inserting (\ref{LJPot}) the force can explicitly be written as
-
 \begin{align}
 	\vec{f}_{ij}&=-\frac{\partial V(r_{ij})}{\partial r_{ij}} \cdot \hat{e}_{r,ij} 
 	= - 4 \cdot \left(-\frac{12}{r_{ij}^{13}}+ \frac{6}{r_{ij}^7}\right) \cdot \frac{\vec{r}_{ij}}{r_{ij}} \\
 	&= 24 \cdot \left(\frac{2}{r_{ij}^{14}} - \frac{1}{r_{ij}^8}\right) \cdot \vec{r}_{ij}.
 \end{align}
-
 The effective force on one particle $i$ is now given by 
 \begin{align*}
 \vec{f}_i = \sum_{j\neq i} \vec{f}_{ij}
 \end{align*}
-
 which has to be calculated for every particle in the system before doing a Molecular Dynamic step.
 
-
 \subsection*{2.b) Integration of Newton's equations of motion with the Velocity-Verlet algorithm}
-
 In 1. and 2.a) the locations $\vec{r}_i(t)$, velocities $\vec{v}_i(t)$ and forces $\vec{f}_i(t)$ have been saved. These can now be used in the Velocity-Verlet algorithm
-
 \begin{align}
 \vec{r}(t+\Delta t) &= \vec{r}(t) + \vec{v}(t)\Delta t+\frac{\vec{f}}{2m}\Delta t^2 \\
 \vec{v}(t+\Delta t) &= \vec{v}(t) + \frac{\vec{f}(t+\Delta t) + f(t)}{2m}\Delta t
@@ -62,5 +48,4 @@ In 1. and 2.a) the locations $\vec{r}_i(t)$, velocities $\vec{v}_i(t)$ and force
 to calculate the state of the system after a timestep $\Delta t$. 
 
 \subsection*{2.c) \& 3) Snapshots and Observables}
-
 Throughout the MD Simulation Snapshots of the Particlelocations will be saved in files after a predefined amount of timesteps (For Visualization). Additionally observables like potential and kinetic energy can be measured to calculate a time-average.
