@@ -7,14 +7,14 @@
 #include <stdlib.h>
 #include <fstream>
 
-#include "System.hpp"
+#include "MDSystem.hpp"
 
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 10;
-double tempOfSystem = 0.000001;
-float particleMass = 0.1;
+int numOfParticles = 1000, dimOfSystem = 3, sizeOfSys = 10;
+double tempOfSystem = 0.2;
+float particleMass = 1;
 
 int main()
 {
@@ -27,7 +27,8 @@ int main()
 	gettimeofday(&start, NULL);
 
 	System MD( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys, particleMass );
-	
+	cout << "Kinetic Energy: " << MD.GetKinEnergy() << endl;
+/*	
 	cout << "System Energy: " << MD.GetEnergy() << endl;
 	for ( int j = 0; j < 2000; j++){
 	for (int i = 0; i < 200; i++){
@@ -38,12 +39,11 @@ int main()
 	string s = "Snapshot" + ss.str() + ".txt";
 	MD.PrintCoordinates( s );
 	cout << "\r" << j << " of 100 Pictures taken";
-	}
+	}*/
 	gettimeofday(&end, NULL);
 	cout << "Time needed to do this shid: " 
 		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 
 				  end.tv_usec - start.tv_usec ) / 1000000. << endl;
-
 	return 0;
 }
 

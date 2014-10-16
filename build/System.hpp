@@ -99,12 +99,22 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 			(coords)[i*dimOfSystem + j] = (float) rand() / INT_MAX * sizeOfSys ;
 
 	//Initalization of Velocities
-	float vmax =  sqrt(dimOfSystem * tempOfSystem / mass) ; // k_B=1
+	double vmax =  sqrt(dimOfSystem * tempOfSystem / mass) ; // k_B=1
+	double vnew = 0;
+	double random = 0;
+	double constant = sqrt(mass/(2*3.1416*tempOfSystem));
 	for ( int i = 0; i < numberOfParticles; i+=2 )
 		for ( int j = 0; j < dimOfSystem; j++ ) {
-			(velos)[i*dimOfSystem + j] = (float) rand () / INT_MAX * 2 *vmax
+			//Generate random Velocity and Random Number [0,1]
+			vnew = (double) rand() / INT_MAX * 3 * vmax - 1.5 * vmax;
+			random = (double) rand() / INT_MAX;
+			//Check Boltzmann
+			if ( random < ( constant * exp(-(mass*pow(vnew,2)/(2*tempOfSystem))) ))
+			{
+			(velos)[i*dimOfSystem + j] = (double) rand () / INT_MAX * 2 *vmax
 			 	- vmax;
 			(velos)[(i+1)*dimOfSystem + j] = -(velos)[i*dimOfSystem + j];
+			} else j--;
 		}
 
 
