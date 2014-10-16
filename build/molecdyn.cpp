@@ -68,3 +68,21 @@ void readFromFile() {
 		inputFile.close();
 	}
 }
+
+/*--------------------------------------------------------------------
+ * Print Coordinates to a *.txt file
+ *------------------------------------------------------------------*/
+void System::PrintCoordinates( string fileName ) const {
+	ofstream file;
+	file.open( (string("snapshots/")+fileName).c_str() );
+	file << "Potential_Energy: " << GetEnergy() << endl;
+	file << "Coordinates" << endl;
+	file << "X\tY\tZ" << endl;
+	for ( int i = 0; i < numberOfParticles; i++ ) {
+		for ( int j = 0; j < dimOfSystem; j++ ) {
+			file << coords[i*dimOfSystem + j] << "\t";
+		}
+		file << endl;
+	}
+	file.close();
+}
