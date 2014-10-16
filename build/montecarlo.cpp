@@ -7,13 +7,13 @@
 #include <fstream>
 #include <string>
 
-#include "System.hpp"
+#include "MCSystem.hpp"
 
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 200, dimOfSystem = 3, sizeOfSys = 10;
-double tempOfSystem = 0.000001;
+int numOfParticles = 200, dimOfSystem = 3, sizeOfSys = 50;
+double tempOfSystem = 0.01;
 float particleMass = 1;
 
 int main()
@@ -50,7 +50,7 @@ int main()
 	cout << "System energy: " << endl;
 	cout << MC.GetEnergy() << endl;
 
-	int snaps = 100;
+	int snaps = 6000;
 	for ( int i = 0; i < snaps; i++)	{
 		for ( int j = 0; j < 10; j++)
 			MC.MonteCarloStep( 0.1 );
@@ -109,7 +109,7 @@ void readFromFile() {
 void System::PrintCoordinates( string fileName ) const {
 	ofstream file;
 	file.open( (string("snapshots/")+fileName).c_str() );
-	file << "Potential Energy: " << GetEnergy() << endl;
+	file << "Potential_Energy: " << GetEnergy() << endl;
 	file << "Coordinates" << endl;
 	file << "X\tY\tZ" << endl;
 	for ( int i = 0; i < numberOfParticles; i++ ) {

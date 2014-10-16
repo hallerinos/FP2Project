@@ -1,0 +1,141 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      4507,        132]
+NotebookOptionsPosition[      4027,        112]
+NotebookOutlinePosition[      4385,        128]
+CellTagsIndexPosition[      4342,        125]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"SetDirectory", "[", 
+  RowBox[{
+   RowBox[{"NotebookDirectory", "[", "]"}], " ", "<>", " ", 
+   "\"\</snapshots\>\""}], "]"}]], "Input",
+ CellChangeTimes->{{3.622438234047347*^9, 3.6224382848334417`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dataNames", "=", 
+   RowBox[{"FileNames", "[", "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.622438286655267*^9, 3.622438309032625*^9}, {
+  3.622438918513987*^9, 3.6224389220897923`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"sysSpecs", " ", "=", 
+   RowBox[{
+    RowBox[{"Import", "[", " ", 
+     RowBox[{
+      RowBox[{"dataNames", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], " ", ",", "\"\<Table\>\""}], "]"}], 
+    "[", 
+    RowBox[{"[", 
+     RowBox[{"All", ",", "2"}], "]"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.6224384912304287`*^9, 3.622438493900353*^9}, {
+  3.6224387492686443`*^9, 3.6224387813706083`*^9}, {3.6224388191444197`*^9, 
+  3.622438857774847*^9}, {3.6224389910618057`*^9, 3.622438997861288*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"sysSize", "=", " ", 
+   RowBox[{"sysSpecs", "[", 
+    RowBox[{"[", "3", "]"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.6224387826576777`*^9, 3.622438790762703*^9}, {
+  3.622438847590403*^9, 3.62243886024566*^9}, {3.622439126477291*^9, 
+  3.622439128593938*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"snpData", "=", 
+   RowBox[{"Import", "[", 
+    RowBox[{"\"\<Snaps*.txt\>\"", ",", " ", "\"\<Table\>\""}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.622438259483624*^9, 3.622438274226021*^9}, {
+  3.622438320935163*^9, 3.62243835438122*^9}, {3.6224384393607807`*^9, 
+  3.622438450400176*^9}, {3.622438546546433*^9, 3.6224385985981617`*^9}, {
+  3.622438869221436*^9, 3.622438904899103*^9}, {3.622438971607791*^9, 
+  3.622438973254725*^9}, {3.622439004484932*^9, 3.6224390576414213`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"mov", " ", "=", " ", 
+  RowBox[{"Manipulate", "[", 
+   RowBox[{
+    RowBox[{"Graphics3D", "[", 
+     RowBox[{
+      RowBox[{"Sphere", "[", 
+       RowBox[{
+        RowBox[{"snpData", "[", 
+         RowBox[{"[", 
+          RowBox[{"i", ",", 
+           RowBox[{"4", ";;", 
+            RowBox[{"-", "1"}]}]}], "]"}], "]"}], ",", 
+        RowBox[{"1", "/", "3"}]}], "]"}], ",", 
+      RowBox[{"PlotRange", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", "sysSize"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "sysSize"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "sysSize"}], "}"}]}], "}"}]}], ",", 
+      RowBox[{"Axes", "\[Rule]", "True"}]}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "1", ",", 
+      RowBox[{"Length", "[", "snpData", "]"}], ",", "100"}], "}"}]}], 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.622438252378557*^9, 3.622438257643042*^9}, {
+   3.622438454302897*^9, 3.6224385339779787`*^9}, {3.622438575560515*^9, 
+   3.622438575751556*^9}, {3.6224390724808893`*^9, 3.622439159547611*^9}, {
+   3.622439204537006*^9, 3.62243920927249*^9}, {3.622439292245554*^9, 
+   3.6224392925072737`*^9}, {3.6224395240474586`*^9, 3.622439610552319*^9}, 
+   3.622439723022827*^9, {3.622439802884392*^9, 3.622439808652039*^9}, {
+   3.6224402378066072`*^9, 3.622440237936594*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Export", "[", 
+  RowBox[{"\"\<snaps.mov\>\"", ",", "mov"}], "]"}]], "Input",
+ CellChangeTimes->{{3.622439590235121*^9, 3.6224395971078377`*^9}, {
+  3.622440042661357*^9, 3.622440043755164*^9}}]
+},
+WindowSize->{740, 867},
+WindowMargins->{{589, Automatic}, {Automatic, 171}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (January 25, \
+2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 228, 5, 28, "Input"],
+Cell[788, 27, 224, 5, 28, "Input"],
+Cell[1015, 34, 537, 13, 28, "Input"],
+Cell[1555, 49, 304, 7, 28, "Input"],
+Cell[1862, 58, 528, 10, 28, "Input"],
+Cell[2393, 70, 1410, 34, 63, "Input"],
+Cell[3806, 106, 217, 4, 28, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
