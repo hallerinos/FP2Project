@@ -12,8 +12,8 @@
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 10, dimOfSystem = 3, sizeOfSys = 6;
-double tempOfSystem = 4;
+int numOfParticles = 20, dimOfSystem = 3, sizeOfSys = 10;
+double tempOfSystem = 0.1;
 float particleMass = 1;
 
 int main()
@@ -21,27 +21,47 @@ int main()
 	// initialise random seed	
 	srand( time(NULL) );		// different seeds
 	// srand( 0 );						// same seed 
-
 	// measuring the calculation time
 	struct timeval start, end;
 	gettimeofday(&start, NULL);
 
 	System MD( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys, particleMass );
+
+
 	cout << "Kinetic Energy: " << MD.GetKinEnergy() << endl;
 	cout << "Total Energy: " << MD.GetKinEnergy() + MD.GetEnergy() << endl;	
 	cout << "System Energy: " << MD.GetEnergy() << endl;
 
+	ofstream file;
+	file.open( "Snapshots.txt" );
+
 	for ( int j = 0; j < 2000; j++){
-	for (int i = 0; i < 2000; i++){
-	MD.VeloVerletStepMD( 0.00001 );
+	for ( int i = 0; i < 20; i++) 
+		MD.VeloVerletStepMD( 0.001 );
+
+	file << "Snapshot_" << j << "------------------------------------" 
+		<< endl << endl;
+	file << "Potential_Energy: " << MD.GetEnergy() << endl;
+	file << "Kinetic_Energy: " << MD.GetKinEnergy() << endl;
+	file << "Total_Energy: " << MD.GetKinEnergy() + MD.GetEnergy() << endl;
+	file << "Coordinates" << endl;
+	file << "X\tY\tZ" << endl;
+	for ( int i = 0; i < numOfParticles; i++ ) {
+		for ( int k = 0; k < dimOfSystem; k++ ) {
+			file << MD.GetCoordinate(i,k) << "\t";
+		}
+		file << endl;
 	}
-	if ( j < 750 ) MD.AdjustVelos();
-	stringstream ss;
-	ss << j;
+	file << endl;
+
+	/*stringstream ss;
+	ss << j;   // To Print in seperate Files
 	string s = "Snapshot" + ss.str() + ".txt";
-	MD.PrintCoordinates( s );
+	MD.PrintCoordinates( s );*/
+
 	cout << "\r" << j << " of 100 Pictures taken";
 	}
+	file.close();
 	gettimeofday(&end, NULL);
 	cout << "Time needed to do this shid: " 
 		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 

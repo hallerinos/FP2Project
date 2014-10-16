@@ -20,7 +20,7 @@ class System {
 		// Destructor
 		~System();
 		// Getter
-		int GetCoordinate( int partNumber, int axis ) const;
+		double GetCoordinate( int partNumber, int axis ) const;
 		double GetDistance( int partNumOne, int partNumTwo) const;
 		double GetEnergy() const;
 		double GetKinEnergy() const;
@@ -69,7 +69,7 @@ System::~System() {
 	cout << "Destructor call." << endl; 
 }
 
-int System::GetCoordinate ( int partNumber, int axis) const {
+double System::GetCoordinate ( int partNumber, int axis) const {
 	return (coords)[partNumber*dimOfSystem + axis];
 }
 
