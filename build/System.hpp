@@ -12,32 +12,28 @@ using namespace std;
 
 class System {
 	public:
-		// Con- and Destructor
+		// MC Constructor
 		System( int numPart, int dimSys, double tempSys, int sizeOfSys
 			 	);
 		// MD Constructor 
 		System( int numPart, int dimSys, double tempSys, int sizeOfSys, float particleMass );
+		// Destructor
 		~System();
-		// Methods
-		//int GetEnergy();
-		//int McStep();
-		//int MdStep();
 		// Getter
 		int GetCoordinate( int partNumber, int axis ) const;
 		double GetDistance( int partNumOne, int partNumTwo) const;
 		double GetEnergy() const;
 		double GetKinEnergy() const;
+		// Print and Step Methods
 		void MonteCarloStep( double eps );
 		void VeloVerletStepMD( double dT );
 		void PrintCoordinates( string fileName ) const;
+		//Member Variables
 	private:	
-		double MIN_CUTOFF, MAX_CUTOFF;
 		int numberOfParticles, dimOfSystem, sizeOfSys;
+		double MIN_CUTOFF, MAX_CUTOFF; 	// Cutoff Distances for Interaction
 		double tempOfSystem;
-		double *coords;
-		double *velos;
-		double *forces;
-		double *forces2;
+		double *coords, *velos, *forces, *forces2;
 		float mass;
 };
 
