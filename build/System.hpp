@@ -93,10 +93,26 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	velos = new double[ numberOfParticles * dimOfSystem ];
 	coords = new double[ numberOfParticles * dimOfSystem ];
 
-	// Initialization of particle locations
+	// Initialization of particle locations on lattice
+	int sitesPerDim = ceil( pow( numberOfParticles, (1.0/dimOfSystem) ) );
+	double step = (double) sizeOfSys / sitesPerDim;
+	for ( int i = 0; i < dimOfSystem; i++ ){
+		for ( int j = 0; j < numberOfParticles; )
+			for ( double k = 0 ; k < (sizeOfSys-0.5*step); k+=step ){
+				for ( int l = 0; l < pow( sitesPerDim ,i); l++ ){
+					coords[ j * dimOfSystem + i ] = k;
+					j++;
+					if ( j == numberOfParticles ) break;
+				}
+				if ( j == numberOfParticles ) break;
+			}
+	}
+
+	/*Random Particlelocations Generator 
 	for ( int i = 0; i < numberOfParticles; i++)
  		for ( int j = 0; j < dimOfSystem; j++ )
 			(coords)[i*dimOfSystem + j] = (float) rand() / INT_MAX * sizeOfSys ;
+			*/
 
 	//Initalization of Velocities
 	double vmax =  sqrt(dimOfSystem * tempOfSystem / mass) ; // k_B=1
@@ -135,11 +151,14 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 			rsq = 0;
 			for ( int k = 0; k < dimOfSystem; k++ ){
 				diffV[k] = coords[i*dimOfSystem + k] - coords[j*dimOfSystem + k];
-				if( diffV[k] > sizeOfSys/2 ) {
+				diffV[k] -= sizeOfSys * round ( diffV[k] / sizeOfSys );
+				
+				/*if( diffV[k] > sizeOfSys/2 ) {
 					diffV[k] = diffV[k] - sizeOfSys;
 				} else if ( diffV[k] < - sizeOfSys/2 ) {
 					diffV[k] = diffV[k] + sizeOfSys;
-				}
+				}*/
+
 				rsq += pow(diffV[k],2);
 			}
 

@@ -10,11 +10,9 @@ void System::VeloVerletStepMD ( double dT ) {
 	
 	for (int i = 0; i < dimOfSystem*numberOfParticles; i++){
 		coords[i] = coords[i] + velos[i] * dT + forces[i]*pow(dT,2)/(2*mass);
-		if ( coords[i] > sizeOfSys ) {
-			coords[i] -= sizeOfSys;
-		} else if (coords[i] < 0) {
-			coords[i] += sizeOfSys;
-		}
+		//Periodic Boundary
+		coords[i] = coords[i] 
+			- round( (coords[i] / sizeOfSys - 0.5 ) ) * sizeOfSys;
 	}
 
 	//Calculate new Forces
@@ -31,11 +29,9 @@ void System::VeloVerletStepMD ( double dT ) {
 
 			for ( int k = 0; k < dimOfSystem; k++ ){
 				diffV[k] = coords[i*dimOfSystem + k] - coords[j*dimOfSystem + k];
-				if( diffV[k] > sizeOfSys/2 ) {
-					diffV[k] = diffV[k] - sizeOfSys;
-				} else if ( diffV[k] < - sizeOfSys/2 ) {
-					diffV[k] = diffV[k] + sizeOfSys;
-				}
+				// Periodic Boundary
+				diffV[k] = diffV[k] - sizeOfSys * round( diffV[k] / sizeOfSys );
+				
 				rsq += pow(diffV[k],2);
 			}
 
@@ -81,7 +77,7 @@ double System::GetKinEnergy() const {
  * --------------------------------------------------------------*/
 
 void System::AdjustVelos() {
-	double vsq = 0, vnew = 0, vmax = sqrt(3 * dimOfSystem * tempOfSystem / mass);
+	double vsq = 0, vnew = 0, vmax = sqrt( dimOfSystem * tempOfSystem / mass);
 	double random = 0;
 	double c1 = sqrt( mass / (2 * 3.1416 * dimOfSystem * tempOfSystem) );
 	double c2 = mass / (2 * dimOfSystem * tempOfSystem);
@@ -91,15 +87,14 @@ void System::AdjustVelos() {
 		vsq = 0;
 		for (int j = 0; j < dimOfSystem; j++)
 			vsq += pow( velos[i*dimOfSystem + j], 2);
-		if ( random > (c1 * exp(-c2 * vsq )) )  {
-			// Set new Velocity
-			vnew = (double) rand() / INT_MAX * 5 * vmax;
-			random = (double) rand() / INT_MAX;
-			// Check Boltzmann
-			if ( random < (c1 * exp(-c2 *pow(vnew,2))) ){
-				for (int j = 0; j < dimOfSystem; j++)
-					velos[i*dimOfSystem+j] = velos[i*dimOfSystem+j] * vnew / sqrt(vsq);
-			}
+
+		// Set new Velocity
+		vnew = (double) rand() / INT_MAX * 4 * vmax;
+		random = (double) rand() / INT_MAX;
+		// Check Boltzmann
+		if ( random < (c1 * exp(-c2 *pow(vnew,2))) ){
+			for (int j = 0; j < dimOfSystem; j++)
+				velos[i*dimOfSystem+j] = velos[i*dimOfSystem+j] * vnew / sqrt(vsq);
 		}
 	}
 }

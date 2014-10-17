@@ -6,13 +6,14 @@
 #include <sys/time.h>
 #include <stdlib.h>
 #include <fstream>
+#include <math.h>
 
 #include "MDSystem.hpp"
 
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 20, dimOfSystem = 3, sizeOfSys = 10;
+int numOfParticles = 250, dimOfSystem = 3, sizeOfSys = 8;
 double tempOfSystem = 0.1;
 float particleMass = 1;
 
@@ -27,7 +28,6 @@ int main()
 
 	System MD( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys, particleMass );
 
-
 	cout << "Kinetic Energy: " << MD.GetKinEnergy() << endl;
 	cout << "Total Energy: " << MD.GetKinEnergy() + MD.GetEnergy() << endl;	
 	cout << "System Energy: " << MD.GetEnergy() << endl;
@@ -35,10 +35,8 @@ int main()
 	ofstream file;
 	file.open( "Snapshots.txt" );
 
-	for ( int j = 0; j < 2000; j++){
-	for ( int i = 0; i < 20; i++) 
-		MD.VeloVerletStepMD( 0.001 );
-	MD.AdjustVelos();
+
+	for ( int j = 0; j < 3000; j++){
 	file << "Snapshot_" << j << "------------------------------------" 
 		<< endl << endl;
 	file << "Potential_Energy: " << MD.GetEnergy() << endl;
@@ -54,6 +52,9 @@ int main()
 		file << endl;
 	}
 	file << endl;
+	//for ( int i = 0; i < 20; i++) 
+		MD.VeloVerletStepMD( 0.01 );
+	if ( j < 1200 )	MD.AdjustVelos();
 
 	/*stringstream ss;
 	ss << j;   // To Print in seperate Files
