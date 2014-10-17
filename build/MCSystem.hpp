@@ -1,54 +1,40 @@
 #include "System.hpp"
 
 /*--------------------------------------------------------------------
- * Make trial state
+ * Monte-Carlo step with Metropolis criteria
  *------------------------------------------------------------------*/
-void System::MonteCarloStep( double eps ) {
+double System::MonteCarloStep( double eps ) {
 	int choice = rand() % numberOfParticles;
 	double tmp[dimOfSystem];
-	double energyBefore = System::GetEnergy();
-	// cout << "\rEnergy: " << energyBefore;
-	double energyAfter;
-	double sigma;
-
-/*	
-	cout << "Old coordinates: " << endl;
-	for ( int j = 0; j < dimOfSystem; j++ ) 
-		cout << coords[ choice*dimOfSystem + j ] << "\t";
-	cout << endl;
-*/
+	double ene;
+	ene = System::GetEnergy();
+	double sigma = 0;
 
 	for ( int j = 0; j < dimOfSystem; j++ ) {
+		// save the old coordinates in case of discard
 		tmp[j] = coords[ choice*dimOfSystem + j ];
+		// choose random step of size eps*rand in {-1,0,1}
 		coords[ choice*dimOfSystem + j ] += 
-			eps * ( rand() % 3 - 1 );
-		if ( coords[ choice*dimOfSystem + j ] < 0 ) {
-			coords[ choice*dimOfSystem + j ] += sizeOfSys;
-		} else if ( coords[ choice*dimOfSystem + j ] > sizeOfSys ) {
-			coords[ choice*dimOfSystem + j ] -= sizeOfSys;
-		}
+			eps * ( rand() % 3 - 1 ) * sizeOfSys;
+		// use round(...) to avoid if statement
+		coords[ choice*dimOfSystem + j ] -= sizeOfSys * 
+			round( coords[ choice*dimOfSystem + j ] / sizeOfSys - 1./2);
 	}
-	energyAfter = System::GetEnergy();
-//	cout << "ej - ei: " << energyAfter - energyBefore << endl;
-// 	cout <<	"sigma: " << ( sigma = (float)( rand() % 1000 ) / 1000. ) <<
-//		"\texp: " << exp(- 1./tempOfSystem * (energyAfter- energyBefore))<< endl;
-	if ( energyBefore < energyAfter ) {
-		sigma = (float)( rand() % 1000 ) / 1000.;
-		if ( sigma < exp(- 1./tempOfSystem * (energyAfter- energyBefore)) ) {
-			// cout << "Yeah, temperature - step accepted" << endl;
-		} else {
-				// cout << "aww... dismissed" << endl;
-				for ( int j = 0; j < dimOfSystem; j++ ) {
-					coords[ choice*dimOfSystem + j ] = tmp[j];
-				};
+
+	// ene < 0 => E_before < E_after
+	ene -= System::GetEnergy();
+	if ( ene < 0 ) {
+		// roll a rand in (0, 1) and check Metropolis criteria
+		sigma = (float)rand() / INT_MAX;
+		if ( sigma > exp( 1./tempOfSystem * ene ) ) {
+			// step dismissed - discard coord changes
+			for ( int j = 0; j < dimOfSystem; j++ ) {
+				coords[ choice*dimOfSystem + j ] = tmp[j];
+			};
+			return eps*0.999;
 		}	
 	}
-/*
-	cout << "New coordinates: " << endl;
-	for ( int j = 0; j < dimOfSystem; j++ ) 
-		cout << coords[ choice*dimOfSystem + j ] << "\t";
-	cout << endl;
-*/
+	return eps;
 }
 
 
