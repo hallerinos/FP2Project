@@ -27,13 +27,13 @@ With PBC there are two important consequences for our System. \\
 First, when a particle reaches the border of the System, it is not reflected back, but transfered to the other side of the box.
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.8\textwidth]{PBCjump.pdf}
+\includegraphics[width=0.8\textwidth]{Figures/PBCjump.pdf}
 \caption[PBC: Jump Case]{A particle in a box with PBC jumps from one side to the other.}
 \end{figure}
 Second, particles can interact with images of other particles behind the border of the box. As a result, the distance vector between two particles is not definite. 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.8\textwidth]{PBCinteraction.pdf}
+\includegraphics[width=0.8\textwidth]{Figures/tikz/MinimalDistance.pdf}
 \caption[PBC: Interaction Case]{In the middle is the main simulation box with two particles being simulated, the surounding eight boxes are periodic images of the main box. The distance between the two particles is not definite with PBC because there are multiple ways to get from one particle to the other.}
 \label{PBCinteraction}
 \end{figure}
