@@ -21,11 +21,11 @@ class System {
 		~System();
 		// Getter
 		double GetCoordinate( int partNumber, int axis ) const;
-		double GetDistance( int partNumOne, int partNumTwo) const;
+		double GetDistanceSq( int partNumOne, int partNumTwo) const;
 		double GetEnergy() const;
 		double GetKinEnergy() const;
 		// Print and Step Methods
-		void MonteCarloStep( double eps );
+		double MonteCarloStep( double eps );
 		void VeloVerletStepMD( double dT );
 		void AdjustVelos();
 		void PrintCoordinates( string fileName ) const;
@@ -160,20 +160,24 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 /*--------------------------------------------------------------------
  * Calculate minimal distances (PBC)
  *------------------------------------------------------------------*/
-double System::GetDistance( int partNumOne, int partNumTwo ) const {
+double System::GetDistanceSq( int partNumOne, int partNumTwo ) const {
 	double dist = 0;
 	double coordDiff = 0;
 	for ( int j = 0; j < dimOfSystem; j++ ) {
 		coordDiff = coords[ partNumTwo*dimOfSystem + j] 
 			- coords[ partNumOne*dimOfSystem + j];
 
-		if( coordDiff > sizeOfSys/2 ) {
-			dist += pow( coordDiff - sizeOfSys, 2 );
-		} else if ( coordDiff < - sizeOfSys/2 ) {
-			dist += pow( coordDiff + sizeOfSys, 2 );
-		} else dist += pow( coordDiff, 2 );
+		// use of pow(expr, exponent) is very expensive!
+		// if( coordDiff > sizeOfSys/2 ) {
+		// 	dist += pow( coordDiff - sizeOfSys, 2 );
+		// } else if ( coordDiff < - sizeOfSys/2 ) {
+		// 	dist += pow( coordDiff + sizeOfSys, 2 );
+		// } else dist += pow( coordDiff, 2 );
+		coordDiff = coordDiff - sizeOfSys*round( coordDiff/sizeOfSys );
+		coordDiff*=coordDiff;
+		dist += coordDiff;
 	}
-	return sqrt( dist );
+	return dist;
 }
 
 /*--------------------------------------------------------------------
@@ -181,14 +185,14 @@ double System::GetDistance( int partNumOne, int partNumTwo ) const {
  *------------------------------------------------------------------*/
 double System::GetEnergy() const {
 	double ene = 0;
-	double dist;
+	double dist = 0;
 	double normalisation = 0; // = 127./16384;
 	
 	for ( int i = 0; i < numberOfParticles; i++ )
 		for ( int j = i + 1; j < numberOfParticles; j++ ) {
-			dist = System::GetDistance( i, j );
+			dist = System::GetDistanceSq( i, j );
 			( dist < MIN_CUTOFF || dist > MAX_CUTOFF ) ? ene += 0 :
-				( ene += 4 * ( pow(dist, -12) - pow(dist, -6) + normalisation ) );
+				( ene += 4 * ( pow(dist, -6) - pow(dist, -3) + normalisation ) );
 	}
 
 	return ene;
