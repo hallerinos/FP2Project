@@ -38,11 +38,12 @@ int main()
 	for ( int j = 0; j < 2000; j++){
 	for ( int i = 0; i < 20; i++) 
 		MD.VeloVerletStepMD( 0.001 );
-
+	MD.AdjustVelos();
 	file << "Snapshot_" << j << "------------------------------------" 
 		<< endl << endl;
 	file << "Potential_Energy: " << MD.GetEnergy() << endl;
-	file << "Kinetic_Energy: " << MD.GetKinEnergy() << endl;
+	file << "Temperature: " << MD.GetKinEnergy() * 2 / (numOfParticles 
+		 * dimOfSystem)	<< endl;
 	file << "Total_Energy: " << MD.GetKinEnergy() + MD.GetEnergy() << endl;
 	file << "Coordinates" << endl;
 	file << "X\tY\tZ" << endl;
