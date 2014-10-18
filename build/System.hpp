@@ -19,16 +19,17 @@ class System {
 		System( int numPart, int dimSys, double tempSys, int sizeOfSys, float particleMass );
 		// Destructor
 		~System();
-		// Getter
+		// Methods used by both Algorithms
 		double GetCoordinate( int partNumber, int axis ) const;
-		double GetDistanceSq( int partNumOne, int partNumTwo) const;
 		double GetEnergy() const;
-		double GetKinEnergy() const;
-		// Print and Step Methods
+		void PrintCoordinates( string fileName ) const;
+		// MC Methods
 		double MonteCarloStep( double eps );
+		double GetDistanceSq( int partNumOne, int partNumTwo) const;
+		// MD Methods
 		void VeloVerletStepMD( double dT );
 		void AdjustVelos();
-		void PrintCoordinates( string fileName ) const;
+		double GetKinEnergy() const;
 		//Member Variables
 	private:	
 		int numberOfParticles, dimOfSystem, sizeOfSys;
@@ -61,6 +62,10 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 			(coords)[i*dimOfSystem + j] = (float)rand() / INT_MAX * sizeOfSys;
 	}
 
+/*-------------------------------------------------------------------
+ * Destructor
+ * ----------------------------------------------------------------*/
+
 System::~System() { 
 	delete coords;
 	delete velos;
@@ -68,6 +73,10 @@ System::~System() {
 	delete forces2;
 	cout << "Destructor call." << endl; 
 }
+
+/*-------------------------------------------------------------------
+ * Return one Coordinate of a Particle
+ * ----------------------------------------------------------------*/
 
 double System::GetCoordinate ( int partNumber, int axis) const {
 	return (coords)[partNumber*dimOfSystem + axis];
@@ -162,7 +171,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 				rsq += pow(diffV[k],2);
 			}
 
-			//Check cutoff distance save force
+			//Check cutoff distance, save force
 			if ( rsq < MIN_CUTOFF || rsq > MAX_CUTOFF ){} else
 				for ( int k = 0; k < dimOfSystem; k++ ){
 					forces[i*dimOfSystem + k] += 
@@ -216,4 +225,3 @@ double System::GetEnergy() const {
 
 	return ene;
 }
-
