@@ -4,19 +4,23 @@
  * Molecular Dynamic Step ( Velocity Verlet )
  * ---------------------------------------------------------------*/
 void System::VeloVerletStepMD ( double dT ) {
+	
+	//Calculate Constants used in the Veloverlet Steps
+	
+	double c1 = pow(dT,2)/(2*mass);
+	double c2 = dT/(2*mass);
 
 	//cout << "Distance between 1 and 2: " << GetDistance(0,1) << endl;
 	//Calculate new Coordinates
 	
 	for (int i = 0; i < dimOfSystem*numberOfParticles; i++){
-		coords[i] = coords[i] + velos[i] * dT + forces[i]*pow(dT,2)/(2*mass);
+		coords[i] = coords[i] + velos[i] * dT + forces[i]*c1;
 		//Periodic Boundary
 		coords[i] = coords[i] 
 			- round( (coords[i] / sizeOfSys - 0.5 ) ) * sizeOfSys;
 	}
 
-	//Calculate new Forces
-	
+	//Calculate new Forces	
 	double rsq;
 	double diffV[3];
 
@@ -34,12 +38,15 @@ void System::VeloVerletStepMD ( double dT ) {
 				
 				rsq += pow(diffV[k],2);
 			}
+			
+			//Cutoff Criteria
+			if ( rsq > 9 ) continue;
 
+			double forceFactor = 48 / pow(rsq,7) - 24 / pow(rsq,4);
+			
 			for ( int k = 0; k < dimOfSystem; k++ ){
-				forces2[i*dimOfSystem + k] += 
-					24 * diffV[k] * ( 2/pow(rsq,7) - 1/pow(rsq,4) );
-				forces2[j*dimOfSystem + k] -=
-					24 * diffV[k] * ( 2/pow(rsq,7) - 1/pow(rsq,4) );
+				forces2[i*dimOfSystem + k] += diffV[k] * ( forceFactor );
+				forces2[j*dimOfSystem + k] -= diffV[k] * ( forceFactor );
 			}
 		}			
 	}
@@ -47,7 +54,7 @@ void System::VeloVerletStepMD ( double dT ) {
 	//Calculate new Velocities
 	
 	for (int i = 0; i < dimOfSystem * numberOfParticles; i++){
-		velos[i] = velos[i] + (forces[i] + forces2[i])*dT/(2*mass);
+		velos[i] = velos[i] + (forces[i] + forces2[i])*c2;
 	}
 
 	//overWrite old Forces
@@ -82,12 +89,9 @@ void System::AdjustVelos() {
 	double c1 = sqrt( mass / (2 * 3.1416 * dimOfSystem * tempOfSystem) );
 	double c2 = mass / (2 * dimOfSystem * tempOfSystem);
 	for (int i = 0; i < numberOfParticles; i++){
-		// Check if Velocity-Squared fits Boltzmann, if not adjust it
-		random = (double) rand() / INT_MAX;
 		vsq = 0;
 		for (int j = 0; j < dimOfSystem; j++)
 			vsq += pow( velos[i*dimOfSystem + j], 2);
-
 		// Set new Velocity
 		vnew = (double) rand() / INT_MAX * 4 * vmax;
 		random = (double) rand() / INT_MAX;

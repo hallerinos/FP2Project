@@ -28,4 +28,8 @@
 
 *.flv
 
+*.dat
+
+.ycm_extra_conf.pyc
+
 tex/article/article.pdf

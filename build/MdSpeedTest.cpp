@@ -14,7 +14,7 @@ using namespace std;
 void readFromFile();
 
 int numOfParticles = 250, dimOfSystem = 3, sizeOfSys = 8;
-double tempOfSystem = 2;
+double tempOfSystem = 0.1;
 float particleMass = 1;
 
 int main()
@@ -23,20 +23,18 @@ int main()
 	srand( time(NULL) );		// different seeds
 	// srand( 0 );						// same seed 
 	// measuring the calculation time
-	struct timeval start, end;
-	gettimeofday(&start, NULL);
 
 	System MD( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys, particleMass );
 
-	cout << "Kinetic Energy: " << MD.GetKinEnergy() << endl;
-	cout << "Total Energy: " << MD.GetKinEnergy() + MD.GetEnergy() << endl;	
-	cout << "System Energy: " << MD.GetEnergy() << endl;
 
 	ofstream file;
-	file.open( "Snapshots.dat" );
+	file.open( "Snapshots.txt" );
 
-
-	for ( int j = 0; j < 3000; j++){
+	struct timeval start, end;
+	gettimeofday(&start, NULL);
+	
+	for ( int j = 0; j < 1000; j++){
+	
 	file << "Snapshot_" << j << "------------------------------------" 
 		<< endl << endl;
 	file << "Potential_Energy: " << MD.GetEnergy() << endl;
@@ -52,22 +50,40 @@ int main()
 		file << endl;
 	}
 	file << endl;
-	for ( int i = 0; i < 20; i++) 
-		MD.VeloVerletStepMD( 0.001 );
-	if ( j < 1200 )	MD.AdjustVelos();
+	}
+	file.close();
+
+	gettimeofday(&end, NULL);
+	cout << "Time needed to do 1000 Printings: " 
+		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 
+				  end.tv_usec - start.tv_usec ) / 1000000. << endl;
+
+	gettimeofday(&start, NULL);
+
+	for ( int i = 0; i < 1000; i++) 
+		MD.VeloVerletStepMD( 0.01 );
+
+	gettimeofday(&end, NULL);
+	cout << "Time needed to do 1000 VeloVerlet steps: " 
+		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 
+				  end.tv_usec - start.tv_usec ) / 1000000. << endl;
+
+	gettimeofday(&start, NULL);
+
+	for ( int i = 0; i < 1000; i++)
+		MD.AdjustVelos();
+
+	gettimeofday(&end, NULL);
+	cout << "Time needed to do 1000 Velo adjustments: " 
+		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 
+				  end.tv_usec - start.tv_usec ) / 1000000. << endl;
 
 	/*stringstream ss;
 	ss << j;   // To Print in seperate Files
 	string s = "Snapshot" + ss.str() + ".txt";
 	MD.PrintCoordinates( s );*/
 
-	cout << "\r" << j << " of 100 Pictures taken";
-	}
-	file.close();
-	gettimeofday(&end, NULL);
-	cout << "Time needed to do this shid: " 
-		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 
-				  end.tv_usec - start.tv_usec ) / 1000000. << endl;
+	
 	return 0;
 }
 
