@@ -13,7 +13,7 @@ using namespace std;
 void ReadFromFile();
 void WriteConditionsToFile();
 
-int numOfParticles = 1000, dimOfSystem = 3, sizeOfSys = 20;
+int numOfParticles = 2, dimOfSystem = 3, sizeOfSys = 2;
 double tempOfSystem = 1e-3;
 float particleMass = 1;
 
@@ -30,15 +30,15 @@ int main()
 	cout << endl << "Energy per interaction: " << endl;
 	cout << setprecision(15) << 2*MC.GetEnergy()/(numOfParticles*(numOfParticles-1)) << endl;
 
-	double eps = 0.15;
-	long steps = 1;
+	double eps = 0.2;
+	long steps = 0;
 	
 	// measuring the calculation time
 	struct timeval start, end;
 	gettimeofday(&start, NULL);
-	while ( eps > 1e-6 )	{
+	while ( steps < 10000 )	{
 		for ( int j = 0; j < numOfParticles; j++)
-			eps=MC.MonteCarloStep( eps );
+			MC.MonteCarloStep( eps );
 		// stringstream ss;
 		// ss << "Snapshot";
 		// ss.width(5);
@@ -49,16 +49,14 @@ int main()
 	}
 
 	cout << endl << "Energy per interaction:";
-	cout << setprecision(15) << 2*MC.GetEnergy()/(numOfParticles*(numOfParticles-1)) << endl;
+	cout << setprecision(15) << MC.GetEnergy() << endl;
 	cout << "Steps: " << steps << endl;
 	
-/*	
 	cout << "Get absolute distance of Particle: " << endl;
 	for ( int i = 0; i < numOfParticles; i++)
 		for ( int j = i+1; j < numOfParticles; j++ )
 			cout << "# " << i  << ", " << j 
-				<< ":\t"<< MC.GetDistance(i, j) << endl;
-*/
+				<< ":\t"<< MC.GetDistanceSq(i, j) << endl;
 	gettimeofday(&end, NULL);
 	cout << "Calculation time: " 
 		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 

@@ -24,7 +24,9 @@ class System {
 		double GetEnergy() const;
 		void PrintCoordinates( string fileName ) const;
 		// MC Methods
-		double MonteCarloStep( double eps );
+		double* randomVecOnUnitSphere3D() const;
+		double GetEnergyI( int ) const;
+		void MonteCarloStep( double eps );
 		double GetDistanceSq( int partNumOne, int partNumTwo) const;
 		// MD Methods
 		void VeloVerletStepMD( double dT );
@@ -50,7 +52,8 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
 	MIN_CUTOFF = 1e-6;
-	MAX_CUTOFF = sizeOfSys/3.;
+	MAX_CUTOFF = sizeOfSys*sizeOfSys;
+	MAX_CUTOFF *= MAX_CUTOFF;
 	forces = 0;
 	forces2 = 0;
 	velos = 0;
@@ -212,14 +215,14 @@ double System::GetDistanceSq( int partNumOne, int partNumTwo ) const {
  *------------------------------------------------------------------*/
 double System::GetEnergy() const {
 	double ene = 0;
-	double dist = 0;
+	double distSq = 0;
 	double normalisation = 0; // = 127./16384;
 	
 	for ( int i = 0; i < numberOfParticles; i++ )
 		for ( int j = i + 1; j < numberOfParticles; j++ ) {
-			dist = System::GetDistanceSq( i, j );
-			( dist > MAX_CUTOFF ) ? ene += 0 :
-				( ene += 4 * ( pow(dist, -6) - pow(dist, -3) + normalisation ) );
+			distSq = System::GetDistanceSq( i, j );
+			( distSq > MAX_CUTOFF ) ? ene += 0 :
+				( ene += 4. * ( pow(distSq, -6) - pow(distSq, -3) + normalisation ) );
 	}
 
 	return ene;
