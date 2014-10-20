@@ -24,7 +24,6 @@ double System::GetEnergyI( int i ) const {
 	double distSq = 0;
 	double normalisation = 0; // = 127./16384;
 	
-	// use two different loops to avoid j==i case
 	for ( int j = 0; j < i; j++ ) {
 		distSq = System::GetDistanceSq( i, j );
 		( distSq > MAX_CUTOFF ) ? ene += 0 :
@@ -44,10 +43,9 @@ double System::GetEnergyI( int i ) const {
  * Monte-Carlo step with Metropolis criteria
  *------------------------------------------------------------------*/
 void System::MonteCarloStep( double eps ) {
-	cout << "MCStep";
 	int choice = rand() % numberOfParticles;
 	double tmp[dimOfSystem];
-	double ene = System::GetEnergyI( choice );
+	double ene = System::GetEnergy();
 	double sigma = 0;
 	double* randVec;
 	for ( int j = 0; j < dimOfSystem; j++ ) {
@@ -64,7 +62,7 @@ void System::MonteCarloStep( double eps ) {
 	}
 
 	// ene < 0 => E_before < E_after
-	ene -= System::GetEnergyI( choice );
+	ene -= System::GetEnergy();
 	if ( ene < 0 ) {
 		// roll a rand in (0, 1) and check Metropolis criteria
 		sigma = (float)rand() / INT_MAX;
