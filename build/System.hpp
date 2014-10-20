@@ -20,25 +20,25 @@ class System {
 		// Destructor
 		~System();
 		// Methods used by both Algorithms
-		double GetCoordinate( int partNumber, int axis ) const;
-		double GetEnergy() const;
-		void PrintCoordinates( string fileName ) const;
+		double 	GetCoordinate( int partNumber, int axis ) const;
+		double 	GetEnergy() const;
+		void 		PrintCoordinates( string fileName ) const;
 		// MC Methods
 		double* randomVecOnUnitSphere3D() const;
-		double GetEnergyI( int ) const;
-		void MonteCarloStep( double eps );
-		double GetDistanceSq( int partNumOne, int partNumTwo) const;
+		double 	GetEnergyI( int ) const;
+		void 		MonteCarloStep( double eps );
+		double 	GetDistanceSq( int partNumOne, int partNumTwo) const;
 		// MD Methods
-		void VeloVerletStepMD( double dT );
-		void AdjustVelos();
-		double GetKinEnergy() const;
+		void 		VeloVerletStepMD( double dT );
+		void 		AdjustVelos();
+		double 	GetKinEnergy() const;
 		//Member Variables
 	private:	
-		int numberOfParticles, dimOfSystem, sizeOfSys;
-		double MIN_CUTOFF, MAX_CUTOFF; 	// Cutoff Distances for Interaction
-		double tempOfSystem;
-		double *coords, *velos, *forces, *forces2;
-		float mass;
+		int 		numberOfParticles, dimOfSystem, sizeOfSys;
+		double 	MIN_CUTOFF, MAX_CUTOFF; 	// Cutoff Distances for Interaction
+		double 	tempOfSystem;
+		double 	*coords, *velos, *forces, *forces2;
+		float 	mass;
 };
 
 /*--------------------------------------------------------------------
