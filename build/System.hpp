@@ -234,7 +234,7 @@ double System::GetDistanceSq( int partNumOne, int partNumTwo ) const {
 double System::GetEnergy() const {
 	double ene = 0;
 	double distSq = 0;
-	double normalisation = 127./16384;
+	double normalisation = 0; // 127./16384;
 	
 	for ( int i = 0; i < numberOfParticles; i++ )
 		for ( int j = i + 1; j < numberOfParticles; j++ ) {

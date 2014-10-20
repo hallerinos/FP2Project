@@ -22,7 +22,7 @@ double* System::randomVecOnUnitSphere3D() const {
 double System::GetEnergyI( int i ) const {
 	double ene = 0;
 	double distSq = 0;
-	double normalisation = 127./16384;
+	double normalisation = 0; //127./16384;
 	
 	for ( int j = 0; j < i; j++ ) {
 		distSq = System::GetDistanceSq( i, j );

@@ -35,7 +35,7 @@ int main()
 	// measuring the calculation time
 	struct timeval start, end;
 	gettimeofday(&start, NULL);
-	while ( steps < 100000 )	{
+	while ( steps < 150 )	{
 		MC.MonteCarloStep( eps );
 		// stringstream ss;
 		// ss << "Snapshot";
