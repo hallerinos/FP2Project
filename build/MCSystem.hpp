@@ -22,9 +22,8 @@ double* System::randomVecOnUnitSphere3D() const {
 double System::GetEnergyI( int i ) const {
 	double ene = 0;
 	double distSq = 0;
-	double normalisation = 0; // = 127./16384;
+	double normalisation = 0; //127./16384;
 	
-	// use two different loops to avoid j==i case
 	for ( int j = 0; j < i; j++ ) {
 		distSq = System::GetDistanceSq( i, j );
 		( distSq > MAX_CUTOFF ) ? ene += 0 :
@@ -44,7 +43,6 @@ double System::GetEnergyI( int i ) const {
  * Monte-Carlo step with Metropolis criteria
  *------------------------------------------------------------------*/
 void System::MonteCarloStep( double eps ) {
-	cout << "MCStep";
 	int choice = rand() % numberOfParticles;
 	double tmp[dimOfSystem];
 	double ene = System::GetEnergyI( choice );

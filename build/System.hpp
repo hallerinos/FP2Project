@@ -13,7 +13,7 @@ using namespace std;
 class System {
 	public:
 		// MC Constructor
-		System( int numPartPerDim, int dimSys, double tempSys, int sizeOfSys
+		System( int numPart, int dimSys, double tempSys, int sizeOfSys
 			 	);
 		// MD Constructor 
 		System( int numPart, int dimSys, double tempSys, int sizeOfSys, float particleMass );
@@ -34,7 +34,7 @@ class System {
 		double 	GetKinEnergy() const;
 		//Member Variables
 	private:	
-		int 		numberOfParticles, numPartPerDim, dimOfSystem, sizeOfSys;
+		int 		numberOfParticles, dimOfSystem, sizeOfSys;
 		double 	MIN_CUTOFF, MAX_CUTOFF; 	// Cutoff Distances for Interaction
 		double 	tempOfSystem;
 		double 	*coords, *velos, *forces, *forces2;
@@ -44,15 +44,14 @@ class System {
 /*--------------------------------------------------------------------
  * Constructor that initialises n*D random coordinates
  *------------------------------------------------------------------*/
-System::System( int newNumPartPerDim, int newDimOfSystem, 
+System::System( int newNumberOfParticles, int newDimOfSystem, 
 		double newTempOfSystem, int newSizeOfSys) {
 
-	tempOfSystem 	= newTempOfSystem;
-	numPartPerDim = newNumPartPerDim;
-	dimOfSystem 	= newDimOfSystem;
-	sizeOfSys 		= newSizeOfSys;
-	MIN_CUTOFF 		= 1e-6;
-	MAX_CUTOFF = sizeOfSys*sizeOfSys;
+	tempOfSystem = newTempOfSystem;
+	numberOfParticles = newNumberOfParticles;
+	dimOfSystem = newDimOfSystem;
+	sizeOfSys = newSizeOfSys;
+	MAX_CUTOFF = 3;
 	MAX_CUTOFF *= MAX_CUTOFF;
 	forces = 0;
 	forces2 = 0;
@@ -65,7 +64,7 @@ System::System( int newNumPartPerDim, int newDimOfSystem,
 	// for ( int i1 = 0; i1 < numberOfParticles; i1++ )
 	//  {	
 	// 	coords[(i1 + numberOfParticles*(i2 + numberOfParticles*i3))*3 + d] 
-	// 		= 0.5/numberOfParticles + ( (d==0)?(double)i1/numberOfParticles : (d==1)?(double)i2/numberOfParticles: (double)i3/ numberOfParticles );
+	// 		= 0.5/numberOfParticles+ ( (d==0)?(double)i1/numberOfParticles : (d==1)?(double)i2/numberOfParticles: (double)i3/ numberOfParticles );
 	//  }
 	
 	// Initialization of particle locations on lattice
@@ -73,7 +72,7 @@ System::System( int newNumPartPerDim, int newDimOfSystem,
 	double step = (double) sizeOfSys / sitesPerDim;
 	for ( int i = 0; i < dimOfSystem; i++ ){
 		for ( int j = 0; j < numberOfParticles; )
-			for ( double k = 0.5*step ; k < sizeOfSys; k+=step ){
+			for ( double k = 0 ; k < (sizeOfSys-0.5*step); k+=step ){
 				for ( int l = 0; l < pow( sitesPerDim ,i); l++ ){
 					coords[ j * dimOfSystem + i ] = k;
 					j++;
@@ -128,7 +127,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	double step = (double) sizeOfSys / sitesPerDim;
 	for ( int i = 0; i < dimOfSystem; i++ ){
 		for ( int j = 0; j < numberOfParticles; )
-			for ( double k = 0.5*step ; k < sizeOfSys; k+=step ){
+			for ( double k = 0 ; k < (sizeOfSys-0.5*step); k+=step ){
 				for ( int l = 0; l < pow( sitesPerDim ,i); l++ ){
 					coords[ j * dimOfSystem + i ] = k;
 					j++;
@@ -235,7 +234,7 @@ double System::GetDistanceSq( int partNumOne, int partNumTwo ) const {
 double System::GetEnergy() const {
 	double ene = 0;
 	double distSq = 0;
-	double normalisation = 0; // = 127./16384;
+	double normalisation = 0; // 127./16384;
 	
 	for ( int i = 0; i < numberOfParticles; i++ )
 		for ( int j = i + 1; j < numberOfParticles; j++ ) {
