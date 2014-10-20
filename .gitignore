@@ -5,11 +5,9 @@
 
 .cproject
 
-.cproject
 
 *.out
 
-*.out
 
 *.swp
 
@@ -17,7 +15,6 @@
 
 *.py
 
-*.out
 
 *.pyc
 
@@ -26,10 +23,10 @@
 
 *.flv
 
-*.flv
 
 *.dat
 
 .ycm_extra_conf.pyc
 
 tex/article/article.pdf
+*.ycm_extra_conf.pyc
