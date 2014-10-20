@@ -5,18 +5,15 @@
  *------------------------------------------------------------------*/
 #define PI 3.14159265
 double* System::randomVecOnUnitSphere3D() const {
-	double* ranVec;
-	double 	coord[ dimOfSystem ];
-	double 	phi, theta;
-
+	double* coord = new double[dimOfSystem];
+	double phi, theta;
 	phi		= (double) rand() / INT_MAX;
 	theta	= (double) rand() / INT_MAX;
-
 	coord[0] = cos(2*PI*phi)*sin(2*PI*theta);
 	coord[1] = sin(2*PI*phi)*sin(2*PI*theta);
 	coord[2] = cos(2*PI*theta);
 
-	return ranVec = coord;
+	return coord;
 }
 
 double System::GetEnergyI( int i ) const {
@@ -24,18 +21,15 @@ double System::GetEnergyI( int i ) const {
 	double distSq = 0;
 	double normalisation = 0; // = 127./16384;
 	
-	// use two different loops to avoid j==i case
 	for ( int j = 0; j < i; j++ ) {
-		distSq = System::GetDistanceSq( i, j );
-		( distSq > MAX_CUTOFF ) ? ene += 0 :
-			( ene += 4. * ( pow(distSq, -6) 
-											- pow(distSq, -3) + normalisation ) );
+			distSq = System::GetDistanceSq( i, j );
+			( distSq > MAX_CUTOFF ) ? ene += 0 :
+				( ene += 4. * ( pow(distSq, -6) - pow(distSq, -3) + normalisation ) );
 	}
 	for ( int j = i+1; j < numberOfParticles; j++ ) {
-		distSq = System::GetDistanceSq( i, j );
-		( distSq > MAX_CUTOFF ) ? ene += 0 :
-			( ene += 4. * ( pow(distSq, -6) 
-											- pow(distSq, -3) + normalisation ) );
+			distSq = System::GetDistanceSq( i, j );
+			( distSq > MAX_CUTOFF ) ? ene += 0 :
+				( ene += 4. * ( pow(distSq, -6) - pow(distSq, -3) + normalisation ) );
 	}
 
 	return ene;
@@ -44,10 +38,9 @@ double System::GetEnergyI( int i ) const {
  * Monte-Carlo step with Metropolis criteria
  *------------------------------------------------------------------*/
 void System::MonteCarloStep( double eps ) {
-	cout << "MCStep";
 	int choice = rand() % numberOfParticles;
 	double tmp[dimOfSystem];
-	double ene = System::GetEnergyI( choice );
+	double ene = System::GetEnergy();
 	double sigma = 0;
 	double* randVec;
 	for ( int j = 0; j < dimOfSystem; j++ ) {
@@ -64,7 +57,7 @@ void System::MonteCarloStep( double eps ) {
 	}
 
 	// ene < 0 => E_before < E_after
-	ene -= System::GetEnergyI( choice );
+	ene -= System::GetEnergy();
 	if ( ene < 0 ) {
 		// roll a rand in (0, 1) and check Metropolis criteria
 		sigma = (float)rand() / INT_MAX;
