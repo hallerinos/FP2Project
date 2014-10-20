@@ -27,10 +27,10 @@ int main()
 
 	System MC( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys );
 	
-	cout << endl << "Energy per interaction: " << endl;
-	cout << setprecision(15) << 2*MC.GetEnergy()/(numOfParticles*(numOfParticles-1)) << endl;
+	cout << endl << "Energy: " << endl;
+	cout << setprecision(15) << MC.GetEnergy() << endl;
 
-	double eps = 0.2;
+	double eps = 0.05;
 	long steps = 0;
 	
 	// measuring the calculation time
@@ -48,11 +48,11 @@ int main()
 		steps++;
 	}
 
-	cout << endl << "Energy per interaction:";
+	cout << endl << "Energy:";
 	cout << setprecision(15) << MC.GetEnergy() << endl;
 	cout << "Steps: " << steps << endl;
 	
-	cout << "Get absolute distance of Particle: " << endl;
+	cout << "Get squared distance of Particle: " << endl;
 	for ( int i = 0; i < numOfParticles; i++)
 		for ( int j = i+1; j < numOfParticles; j++ )
 			cout << "# " << i  << ", " << j 

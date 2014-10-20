@@ -5,7 +5,7 @@
  *------------------------------------------------------------------*/
 #define PI 3.14159265
 double* System::randomVecOnUnitSphere3D() const {
-	double * coord = new double[3];
+	double* coord = new double[dimOfSystem];
 	double phi, theta;
 	phi		= (double) rand() / INT_MAX;
 	theta	= (double) rand() / INT_MAX;

@@ -59,11 +59,15 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	velos = 0;
 	coords = new double[ numberOfParticles * dimOfSystem ];
 
-	//Initialization of the particle locations
-	for ( int i = 0; i < numberOfParticles; i++)
- 		for ( int j = 0; j < dimOfSystem; j++ )	
-			(coords)[i*dimOfSystem + j] = (float)rand() / INT_MAX * sizeOfSys;
-	}
+	for ( int i3 = 0; i3 < numberOfParticles; i3++ )
+	for ( int  d = 0;  d < dimOfSystem			; d++ ) 
+	for ( int i2 = 0; i2 < numberOfParticles; i2++ )
+	for ( int i1 = 0; i1 < numberOfParticles; i1++ )
+	 {	
+		coords[(i1 + numberOfParticles*(i2 + numberOfParticles*i3))*3 + d] 
+			= 0.5/numberOfParticles+ ( (d==0)?(double)i1/numberOfParticles : (d==1)?(double)i2/numberOfParticles: (double)i3/ numberOfParticles );
+	 }
+}
 
 /*-------------------------------------------------------------------
  * Destructor
