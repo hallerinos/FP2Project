@@ -5,15 +5,18 @@
  *------------------------------------------------------------------*/
 #define PI 3.14159265
 double* System::randomVecOnUnitSphere3D() const {
-	double* coord = new double[dimOfSystem];
-	double phi, theta;
+	double* ranVec;
+	double 	coord[ dimOfSystem ];
+	double 	phi, theta;
+
 	phi		= (double) rand() / INT_MAX;
 	theta	= (double) rand() / INT_MAX;
+
 	coord[0] = cos(2*PI*phi)*sin(2*PI*theta);
 	coord[1] = sin(2*PI*phi)*sin(2*PI*theta);
 	coord[2] = cos(2*PI*theta);
 
-	return coord;
+	return ranVec = coord;
 }
 
 double System::GetEnergyI( int i ) const {
@@ -22,14 +25,16 @@ double System::GetEnergyI( int i ) const {
 	double normalisation = 0; // = 127./16384;
 	
 	for ( int j = 0; j < i; j++ ) {
-			distSq = System::GetDistanceSq( i, j );
-			( distSq > MAX_CUTOFF ) ? ene += 0 :
-				( ene += 4. * ( pow(distSq, -6) - pow(distSq, -3) + normalisation ) );
+		distSq = System::GetDistanceSq( i, j );
+		( distSq > MAX_CUTOFF ) ? ene += 0 :
+			( ene += 4. * ( pow(distSq, -6) 
+											- pow(distSq, -3) + normalisation ) );
 	}
 	for ( int j = i+1; j < numberOfParticles; j++ ) {
-			distSq = System::GetDistanceSq( i, j );
-			( distSq > MAX_CUTOFF ) ? ene += 0 :
-				( ene += 4. * ( pow(distSq, -6) - pow(distSq, -3) + normalisation ) );
+		distSq = System::GetDistanceSq( i, j );
+		( distSq > MAX_CUTOFF ) ? ene += 0 :
+			( ene += 4. * ( pow(distSq, -6) 
+											- pow(distSq, -3) + normalisation ) );
 	}
 
 	return ene;
