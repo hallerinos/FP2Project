@@ -13,7 +13,7 @@ using namespace std;
 void ReadFromFile();
 void WriteConditionsToFile();
 
-int numOfParticles = 2, dimOfSystem = 3, sizeOfSys = 2;
+int numOfParticles = 3, dimOfSystem = 3, sizeOfSys = 2;
 double tempOfSystem = 1e-3;
 float particleMass = 1;
 
@@ -30,7 +30,8 @@ int main()
 	cout << endl << "Energy: " << endl;
 	cout << setprecision(15) << MC.GetEnergy() << endl;
 
-	double eps = 0.05;
+	cout << "Here";
+	double eps = 0.15;
 	long steps = 0;
 	
 	// measuring the calculation time
