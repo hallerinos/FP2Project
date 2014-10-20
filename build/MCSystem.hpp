@@ -22,7 +22,7 @@ double* System::randomVecOnUnitSphere3D() const {
 double System::GetEnergyI( int i ) const {
 	double ene = 0;
 	double distSq = 0;
-	double normalisation = 0; // = 127./16384;
+	double normalisation = 127./16384;
 	
 	for ( int j = 0; j < i; j++ ) {
 		distSq = System::GetDistanceSq( i, j );
@@ -45,7 +45,7 @@ double System::GetEnergyI( int i ) const {
 void System::MonteCarloStep( double eps ) {
 	int choice = rand() % numberOfParticles;
 	double tmp[dimOfSystem];
-	double ene = System::GetEnergy();
+	double ene = System::GetEnergyI( choice );
 	double sigma = 0;
 	double* randVec;
 	for ( int j = 0; j < dimOfSystem; j++ ) {
@@ -62,7 +62,7 @@ void System::MonteCarloStep( double eps ) {
 	}
 
 	// ene < 0 => E_before < E_after
-	ene -= System::GetEnergy();
+	ene -= System::GetEnergyI( choice );
 	if ( ene < 0 ) {
 		// roll a rand in (0, 1) and check Metropolis criteria
 		sigma = (float)rand() / INT_MAX;

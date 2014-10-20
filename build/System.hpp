@@ -51,22 +51,36 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	numberOfParticles = newNumberOfParticles;
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
-	MIN_CUTOFF = 1e-6;
-	MAX_CUTOFF = sizeOfSys*sizeOfSys;
+	MAX_CUTOFF = 3;
 	MAX_CUTOFF *= MAX_CUTOFF;
 	forces = 0;
 	forces2 = 0;
 	velos = 0;
 	coords = new double[ numberOfParticles * dimOfSystem ];
 
-	for ( int i3 = 0; i3 < numberOfParticles; i3++ )
-	for ( int  d = 0;  d < dimOfSystem			; d++ ) 
-	for ( int i2 = 0; i2 < numberOfParticles; i2++ )
-	for ( int i1 = 0; i1 < numberOfParticles; i1++ )
-	 {	
-		coords[(i1 + numberOfParticles*(i2 + numberOfParticles*i3))*3 + d] 
-			= 0.5/numberOfParticles+ ( (d==0)?(double)i1/numberOfParticles : (d==1)?(double)i2/numberOfParticles: (double)i3/ numberOfParticles );
-	 }
+	// for ( int i3 = 0; i3 < numberOfParticles; i3++ )
+	// for ( int  d = 0;  d < dimOfSystem			; d++ ) 
+	// for ( int i2 = 0; i2 < numberOfParticles; i2++ )
+	// for ( int i1 = 0; i1 < numberOfParticles; i1++ )
+	//  {	
+	// 	coords[(i1 + numberOfParticles*(i2 + numberOfParticles*i3))*3 + d] 
+	// 		= 0.5/numberOfParticles+ ( (d==0)?(double)i1/numberOfParticles : (d==1)?(double)i2/numberOfParticles: (double)i3/ numberOfParticles );
+	//  }
+	
+	// Initialization of particle locations on lattice
+	int sitesPerDim = ceil( pow( numberOfParticles, (1.0/dimOfSystem) ) );
+	double step = (double) sizeOfSys / sitesPerDim;
+	for ( int i = 0; i < dimOfSystem; i++ ){
+		for ( int j = 0; j < numberOfParticles; )
+			for ( double k = 0 ; k < (sizeOfSys-0.5*step); k+=step ){
+				for ( int l = 0; l < pow( sitesPerDim ,i); l++ ){
+					coords[ j * dimOfSystem + i ] = k;
+					j++;
+					if ( j == numberOfParticles ) break;
+				}
+				if ( j == numberOfParticles ) break;
+			}
+	}
 }
 
 /*-------------------------------------------------------------------
@@ -220,7 +234,7 @@ double System::GetDistanceSq( int partNumOne, int partNumTwo ) const {
 double System::GetEnergy() const {
 	double ene = 0;
 	double distSq = 0;
-	double normalisation = 0; // = 127./16384;
+	double normalisation = 127./16384;
 	
 	for ( int i = 0; i < numberOfParticles; i++ )
 		for ( int j = i + 1; j < numberOfParticles; j++ ) {
