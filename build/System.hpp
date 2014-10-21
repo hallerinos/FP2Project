@@ -53,8 +53,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	numberOfParticles = newNumberOfParticles;
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
-	MAX_CUTOFF = 3;
-	MAX_CUTOFF *= MAX_CUTOFF;
+	MAX_CUTOFF = 5.039;
 	forces = 0;
 	forces2 = 0;
 	velos = 0;
@@ -118,7 +117,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
 	mass = newMass;
-	MAX_CUTOFF = 9;
+	MAX_CUTOFF = 5.039;
 	forces2 = new double[ numberOfParticles * dimOfSystem ];
 	forces = new double[ numberOfParticles * dimOfSystem ];
 	velos = new double[ numberOfParticles * dimOfSystem ];
@@ -236,7 +235,7 @@ double System::GetDistanceSq( int partNumOne, int partNumTwo ) const {
 double System::GetEnergy() const {
 	double ene = 0;
 	double distSq = 0;
-	double normalisation = 0; // 127./16384;
+	double normalisation =  127./16384;
 	
 	for ( int i = 0; i < numberOfParticles; i++ )
 		for ( int j = i + 1; j < numberOfParticles; j++ ) {
