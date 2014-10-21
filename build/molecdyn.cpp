@@ -61,7 +61,7 @@ int main()
 	string s = "Snapshot" + ss.str() + ".txt";
 	MD.PrintCoordinates( s );*/
 
-	cout << "\r" << j << " of 100 Pictures taken";
+	cout << "\r" << j << " of 3000 Pictures taken";
 	}
 	file.close();
 	gettimeofday(&end, NULL);
