@@ -29,9 +29,11 @@ class System {
 		void 		MonteCarloStep( double eps );
 		double 	GetDistanceSq( int partNumOne, int partNumTwo) const;
 		// MD Methods
-		void 		VeloVerletStepMD( double dT );
+		void 		VeloVerletStepMD( double dT, bool termostat, double tempThermos, double coupling );
 		void 		AdjustVelos();
+		void 		AdjustVelosDavid( double tempOfThermostat, double coupling );
 		double 	GetKinEnergy() const;
+		double 	GetTemperature() const;
 		//Member Variables
 	private:	
 		int 		numberOfParticles, dimOfSystem, sizeOfSys;
@@ -51,8 +53,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	numberOfParticles = newNumberOfParticles;
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
-	MAX_CUTOFF = 3;
-	MAX_CUTOFF *= MAX_CUTOFF;
+	MAX_CUTOFF = 5.039;
 	forces = 0;
 	forces2 = 0;
 	velos = 0;
@@ -116,7 +117,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
 	mass = newMass;
-	MAX_CUTOFF = 9;
+	MAX_CUTOFF = 5.039;
 	forces2 = new double[ numberOfParticles * dimOfSystem ];
 	forces = new double[ numberOfParticles * dimOfSystem ];
 	velos = new double[ numberOfParticles * dimOfSystem ];
@@ -192,7 +193,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 			}
 
 			//Check cutoff distance, save force
-			if ( rsq < MIN_CUTOFF || rsq > MAX_CUTOFF ){} else
+			if ( rsq > MAX_CUTOFF ){} else
 				for ( int k = 0; k < dimOfSystem; k++ ){
 					forces[i*dimOfSystem + k] += 
 						24 * diffV[k] * ( 2/pow(rsq,7) - 1/pow(rsq,4) );
@@ -234,7 +235,7 @@ double System::GetDistanceSq( int partNumOne, int partNumTwo ) const {
 double System::GetEnergy() const {
 	double ene = 0;
 	double distSq = 0;
-	double normalisation = 0; // 127./16384;
+	double normalisation =  127./16384;
 	
 	for ( int i = 0; i < numberOfParticles; i++ )
 		for ( int j = i + 1; j < numberOfParticles; j++ ) {
