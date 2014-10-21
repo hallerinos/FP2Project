@@ -29,9 +29,11 @@ class System {
 		void 		MonteCarloStep( double eps );
 		double 	GetDistanceSq( int partNumOne, int partNumTwo) const;
 		// MD Methods
-		void 		VeloVerletStepMD( double dT );
+		void 		VeloVerletStepMD( double dT, bool termostat, double tempThermos, double coupling );
 		void 		AdjustVelos();
+		void 		AdjustVelosDavid( double tempOfThermostat, double coupling );
 		double 	GetKinEnergy() const;
+		double 	GetTemperature() const;
 		//Member Variables
 	private:	
 		int 		numberOfParticles, dimOfSystem, sizeOfSys;

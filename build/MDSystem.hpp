@@ -3,7 +3,7 @@
 /*------------------------------------------------------------------
  * Molecular Dynamic Step ( Velocity Verlet )
  * ---------------------------------------------------------------*/
-void System::VeloVerletStepMD ( double dT ) {
+void System::VeloVerletStepMD ( double dT, bool thermostat, double tempThermos, double thermosCoupling ) {
 	
 	//Calculate Constants used in the Veloverlet Steps
 	
@@ -63,6 +63,33 @@ void System::VeloVerletStepMD ( double dT ) {
 		forces[i] = forces2[i];
 	}
 
+	// Anderson Thermostat
+	
+	double tempa = 0;
+	double random = 0;
+	
+	if ( thermostat == true ){
+		tempa = GetTemperature();
+		double v0 = sqrt ( tempThermos / mass ) *(double) 2 * (rand() % 2 - 0.5);
+		double sigma = sqrt( tempa / numberOfParticles );
+		for ( int i = 0; i < numberOfParticles; i++ ){
+			random = (double) rand() / INT_MAX;
+			if ( random < thermosCoupling * dT ){
+				for (int j = 0; j < dimOfSystem; j++){
+					double v1 = 0, v2 = 0, r = 2;
+					while ( r >= 1 ){
+						v1 = (double) rand() / INT_MAX * 2 - 1;
+						v2 = (double) rand() / INT_MAX * 2 - 1;
+						r = v1*v1 + v2*v2;
+					}
+					velos[i*dimOfSystem + j] = v0 + v1 * sigma * sqrt( -2. * log(r)/r );
+				}	
+			}
+		}
+	}
+
+
+
 	/*cout << "New Coordinate 1: " << coords[0] << "\t" << coords[1] << "\t"
 		<< coords[2] << endl;
 	cout << "New Coordinate 2: " << coords[3] << "\t" << coords[2] << "\t"
@@ -77,6 +104,16 @@ double System::GetKinEnergy() const {
 	for ( int i = 0; i < dimOfSystem * numberOfParticles; i++ )
 		vsq += pow(velos[i],2);
 	return mass*vsq/2;	
+}
+
+/*------------------------------------------------------------------
+ * Calculate Temperature
+ * ---------------------------------------------------------------*/
+double System::GetTemperature() const {
+	double vsq = 0;
+	for ( int i = 0; i < dimOfSystem * numberOfParticles; i++ )
+		vsq += pow(velos[i],2);
+	return mass*vsq/(numberOfParticles*dimOfSystem);	
 }
 
 /*-----------------------------------------------------------------
@@ -102,3 +139,12 @@ void System::AdjustVelos() {
 		}
 	}
 }
+
+/*-----------------------------------------------------------------
+ * VeloAdjustment by David
+ * --------------------------------------------------------------
+
+void System::AdjustVelosDavid( double temp, double nu) {
+	double sigma = sqrt ( GetTemperature() );
+	
+}*/
