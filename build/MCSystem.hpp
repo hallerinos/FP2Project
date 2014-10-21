@@ -4,19 +4,19 @@
  * Draw a random vector on a unit sphere in 3D
  *------------------------------------------------------------------*/
 #define PI 3.14159265
-double* System::randomVecOnUnitSphere3D() const {
-	double* ranVec;
-	double 	coord[ dimOfSystem ];
-	double 	phi, theta;
+	double* System::makeRandomOnUnitSphere( double* vec ) const {
+	double* returnVec;
+ 	returnVec	= vec;
+	double 	u, theta;
 
-	phi		= (double) rand() / INT_MAX;
-	theta	= (double) rand() / INT_MAX;
+	u			= (double)2*rand()/INT_MAX - 1;
+	theta = ((double)2*rand()/INT_MAX - 1)*PI;
 
-	coord[0] = cos(2*PI*phi)*sin(2*PI*theta);
-	coord[1] = sin(2*PI*phi)*sin(2*PI*theta);
-	coord[2] = cos(2*PI*theta);
+	returnVec[0] = sqrt( 1 - u*u ) * cos(theta);
+	returnVec[1] = sqrt( 1 - u*u ) * sin(theta);
+	returnVec[2] = u;
 
-	return ranVec = coord;
+	return returnVec;
 }
 
 double System::GetEnergyI( int i ) const {
@@ -47,10 +47,10 @@ void System::MonteCarloStep( double eps ) {
 	double tmp[dimOfSystem];
 	double ene = System::GetEnergyI( choice );
 	double sigma = 0;
-	double* randVec;
+	double* randVec = new double[ dimOfSystem ];
 	for ( int j = 0; j < dimOfSystem; j++ ) {
 		// draw a random vector of a unit sphere
- 		randVec = System::randomVecOnUnitSphere3D();
+ 		randVec = System::makeRandomOnUnitSphere( randVec );
 		// save the old coordinates in case of discard
 		tmp[j] = coords[ choice*dimOfSystem + j ];
 		// do a random step along a unit sphere
@@ -73,6 +73,8 @@ void System::MonteCarloStep( double eps ) {
 			};
 		}	
 	}
+	
+	delete randVec;
 }
 
 

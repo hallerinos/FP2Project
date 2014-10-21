@@ -29,13 +29,13 @@ int main()
 	cout << endl << "Energy: " << endl;
 	cout << setprecision(15) << MC.GetEnergy() << endl;
 
-	double eps = 0.1;
+	double eps = 0.01;
 	long steps = 0;
 	
 	// measuring the calculation time
 	struct timeval start, end;
 	gettimeofday(&start, NULL);
-	while ( steps < 150 )	{
+	while ( steps < 2000000 )	{
 		MC.MonteCarloStep( eps );
 		// stringstream ss;
 		// ss << "Snapshot";

@@ -24,7 +24,7 @@ class System {
 		double 	GetEnergy() const;
 		void 		PrintCoordinates( string fileName ) const;
 		// MC Methods
-		double* randomVecOnUnitSphere3D() const;
+		double* makeRandomOnUnitSphere( double* vec ) const;
 		double 	GetEnergyI( int ) const;
 		void 		MonteCarloStep( double eps );
 		double 	GetDistanceSq( int partNumOne, int partNumTwo) const;
