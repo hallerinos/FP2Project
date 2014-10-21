@@ -193,7 +193,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 			}
 
 			//Check cutoff distance, save force
-			if ( rsq < MIN_CUTOFF || rsq > MAX_CUTOFF ){} else
+			if ( rsq > MAX_CUTOFF ){} else
 				for ( int k = 0; k < dimOfSystem; k++ ){
 					forces[i*dimOfSystem + k] += 
 						24 * diffV[k] * ( 2/pow(rsq,7) - 1/pow(rsq,4) );

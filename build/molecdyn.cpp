@@ -14,7 +14,7 @@ using namespace std;
 void readFromFile();
 
 int numOfParticles = 250, dimOfSystem = 3, sizeOfSys = 8;
-double tempOfSystem = 2;
+double tempOfSystem = 8;
 float particleMass = 1;
 
 int main()
@@ -43,7 +43,7 @@ int main()
 	for ( int j = 0; j < 3000; j++){
 	file << "Snapshot_" << j << "------------------------------------" 
 		<< endl << endl;
-	file << "Potential_Energy: " << eKin << endl;
+	file << "Potential_Energy: " << ePot << endl;
 	file << "Temperature: " << eKin * 2 / (numOfParticles * dimOfSystem)	<< endl;
 	file << "Total_Energy: " << eKin + ePot << endl;
 	file << "Coordinates" << endl;

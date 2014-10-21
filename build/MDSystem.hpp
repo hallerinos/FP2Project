@@ -40,7 +40,7 @@ void System::VeloVerletStepMD ( double dT, bool thermostat, double tempThermos, 
 			}
 			
 			//Cutoff Criteria
-			if ( rsq > 9 ) continue;
+			if ( rsq > MAX_CUTOFF ) continue;
 
 			double forceFactor = 48 / pow(rsq,7) - 24 / pow(rsq,4);
 			
