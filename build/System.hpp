@@ -13,10 +13,10 @@ using namespace std;
 class System {
 	public:
 		// MC Constructor
-		System( int numPart, int dimSys, double tempSys, int sizeOfSys
+		System( int numPart, int dimSys, double tempSys, double sizeOfSys
 			 	);
 		// MD Constructor 
-		System( int numPart, int dimSys, double tempSys, int sizeOfSys, float particleMass );
+		System( int numPart, int dimSys, double tempSys, double sizeOfSys, float particleMass );
 		// Destructor
 		~System();
 		// Methods used by both Algorithms
@@ -47,7 +47,7 @@ class System {
  * Constructor that initialises n*D random coordinates
  *------------------------------------------------------------------*/
 System::System( int newNumberOfParticles, int newDimOfSystem, 
-		double newTempOfSystem, int newSizeOfSys) {
+		double newTempOfSystem, double newSizeOfSys) {
 
 	tempOfSystem = newTempOfSystem;
 	numberOfParticles = newNumberOfParticles;
@@ -110,7 +110,7 @@ double System::GetCoordinate ( int partNumber, int axis) const {
  *------------------------------------------------------------------*/
 
 System::System( int newNumberOfParticles, int newDimOfSystem, 
-		double newTempOfSystem, int newSizeOfSys, float newMass) {
+		double newTempOfSystem, double newSizeOfSys, float newMass) {
 
 	tempOfSystem = newTempOfSystem;
 	numberOfParticles = newNumberOfParticles;
