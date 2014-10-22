@@ -14,7 +14,8 @@ using namespace std;
 void readFromFile();
 void writeConditionsToFile();
 
-int numOfParticles, dimOfSystem, sizeOfSys;
+int numOfParticles, dimOfSystem;
+double sizeOfSys;
 int MC_STEPS, MAX_STEPS;
 double tempOfSystem;
 
@@ -22,6 +23,7 @@ int main()
 {
 	readFromFile();
 	cout << "Number of Particles: " << numOfParticles;
+	cout << "Size of system: " << sizeOfSys;
 	cout << "\tTemperature: " << tempOfSystem;
 	cout << "\tParticle density: " << 
 		(double)numOfParticles/(sizeOfSys*sizeOfSys*sizeOfSys) << endl;
@@ -60,7 +62,7 @@ int main()
 	char choice;
 	cout << "For energy average, calculate " << MAX_STEPS <<
 			" additional MC. Save snapshots ( y/n )?";
-	cin >> choice;
+	cout << (choice = 'n');
 	cout << "Progress:\n";
 	if ( choice == 'n' )
 		while ( steps < MAX_STEPS )	{
@@ -72,21 +74,21 @@ int main()
 	  while ( steps < MAX_STEPS )	{
 	  	MC.MonteCarloStep( eps );
 	  	energies[steps] = MC.GetEnergy();
-	  	stringstream ss;
-	  	ss << "Snapshot";
-	  	ss.width(5);
-	  	ss << setfill('0') << steps;
-	  	ss << ".txt";
-	  	MC.PrintCoordinates( ss.str() );
+	  	MC.PrintCoordinates( "Snapshots.txt" );
 	  	cout << "\r" << setprecision(4) 
 	  		<< (double)(steps++ + 1)/MAX_STEPS*100 << "\%";	
 	}
-	stringstream ss;
-	ss << "EnergySeries.txt";
+	
+	stringstream eneSs;
+	ofstream file;
+	file.open( (string("plots/")+"EnergySeries.txt").c_str() );
+	file << "Number_of_particles: " << numOfParticles << endl;
+	file << "Size_of_system: " << sizeOfSys << endl;
+	file << "Energy_Series" << endl;
 	for ( int i=0; i < MAX_STEPS; i++ ) 
-		ss << energies[i] << endl;
-	MC.PrintCoordinates( ss.str() );
-
+		eneSs << energies[i] << endl;
+	file << eneSs.str();
+	file.close();
 
 	double energyAv = 0;
 	for ( int i = 0; i < MAX_STEPS; i++ )
@@ -153,19 +155,25 @@ void readFromFile() {
  *------------------------------------------------------------------*/
 void System::PrintCoordinates( string fileName ) const {
 	ofstream file;
-	file.open( (string("snapshots/")+fileName).c_str() );
+	file.open( (string("plots/")+fileName).c_str(), ios::app );
+	file << "Number_of_particles: " << numOfParticles << endl;
+	file << "Size_of_system: " << sizeOfSys << endl;
 	file << "Potential_Energy: " << GetEnergy() << endl;
-	file << "Coordinates" << endl;
-	file << "X\tY\tZ" << endl;
+	file << "X\t\tY\t\tZ" << endl;
 	for ( int i = 0; i < numberOfParticles; i++ ) {
 		for ( int j = 0; j < dimOfSystem; j++ ) {
-			file << coords[i*dimOfSystem + j] << "\t";
+			file << setprecision(4) << coords[i*dimOfSystem + j] << "\t\t";
 		}
 		file << endl;
 	}
+	file << endl;
+	file << endl;
 	file.close();
 }
 
+/*--------------------------------------------------------------------
+ * Write initial settings to a file...
+ *------------------------------------------------------------------*/
 void writeConditionsToFile() {
 	cout << "Writing Conditions...";
 	stringstream iniConditions;
