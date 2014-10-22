@@ -13,9 +13,10 @@
 using namespace std;
 void readFromFile();
 
-int numOfParticles = 250, dimOfSystem = 3, sizeOfSys = 8;
-double tempOfSystem = 8;
+int numOfParticles = 250, dimOfSystem = 3;
+double tempOfSystem = 8, rho = 0.5;
 float particleMass = 1;
+double sizeOfSys = pow ( numOfParticles / rho , 1.0 / dimOfSystem );
 
 int main()
 {
@@ -40,7 +41,7 @@ int main()
 	//Thermostat on
 	bool thermos = 1;
 
-	for ( int j = 0; j < 3000; j++){
+	for ( int j = 0; j < 2000; j++){
 	file << "Snapshot_" << j << "------------------------------------" 
 		<< endl << endl;
 	file << "Potential_Energy: " << ePot << endl;
@@ -55,12 +56,12 @@ int main()
 		file << endl;
 	}
 	file << endl;
-	for ( int i = 0; i < 20; i++) 
+	for ( int i = 0; i < 5; i++) 
 		MD.VeloVerletStepMD( 0.001, thermos, 2.0, 10 );
 	//if ( j < 1200 )	MD.AdjustVelos();
 	
 	//Thermostat off after ... Snapshots
-	if ( j == 1200 ) thermos = 0;
+	if ( j == 240 ) thermos = 0;
 
 	eKin = MD.GetKinEnergy();
 	ePot = MD.GetEnergy();
@@ -70,7 +71,7 @@ int main()
 	string s = "Snapshot" + ss.str() + ".txt";
 	MD.PrintCoordinates( s );*/
 
-	cout << "\r" << j << " of 3000 Pictures taken";
+	cout << "\r" << j << " of 2000 Pictures taken";
 	}
 	file.close();
 	gettimeofday(&end, NULL);
