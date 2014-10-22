@@ -16,7 +16,7 @@ void readFromFile();
 int numOfParticles = 250, dimOfSystem = 3;
 double tempOfSystem = 8, rho = 0.5;
 float particleMass = 1;
-double sizeOfSys = pow ( numOfParticles / rho , 1.0 / dimOfSystem );
+double sizeOfSys = pow ( (double) numOfParticles / rho , 1.0 / dimOfSystem );
 
 int main()
 {
@@ -26,6 +26,8 @@ int main()
 	// measuring the calculation time
 	struct timeval start, end;
 	gettimeofday(&start, NULL);
+
+	cout << "Size of System: " << sizeOfSys << endl;
 
 	System MD( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys, particleMass );
 	double eKin = MD.GetKinEnergy();
@@ -41,7 +43,7 @@ int main()
 	//Thermostat on
 	bool thermos = 1;
 
-	for ( int j = 0; j < 2000; j++){
+	for ( int j = 0; j < 20; j++){
 	file << "Snapshot_" << j << "------------------------------------" 
 		<< endl << endl;
 	file << "Potential_Energy: " << ePot << endl;
