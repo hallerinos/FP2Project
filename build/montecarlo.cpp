@@ -10,15 +10,25 @@
 #include "MCSystem.hpp"
 
 using namespace std;
-void ReadFromFile();
-void WriteConditionsToFile();
 
-int numOfParticles = 250, dimOfSystem = 3, sizeOfSys = 8;
-double tempOfSystem = 2;
+void readFromFile();
+void writeConditionsToFile();
+
+int numOfParticles, dimOfSystem, sizeOfSys;
+int MC_STEPS, MAX_STEPS;
+double tempOfSystem;
 
 int main()
 {
-	void WriteConditionsToFile();
+	readFromFile();
+	cout << "Number of Particles: " << numOfParticles;
+	cout << "\tTemperature: " << tempOfSystem;
+	cout << "\tParticle density: " << 
+		(double)numOfParticles/(sizeOfSys*sizeOfSys*sizeOfSys) << endl;
+	cout << "Number of MC steps: " << MC_STEPS;
+	
+	// writeConditionsToFile();
+	
 	// initialise random seed	
 	srand( time(NULL) );		// different seeds
 	// srand( 0 );						// same seed 
@@ -26,37 +36,77 @@ int main()
 
 	System MC( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys );
 	
-	cout << endl << "Energy: " << endl;
-	cout << setprecision(15) << MC.GetEnergy() << endl;
+	cout << "\tInitial energy: " << setprecision(6) 
+		<< MC.GetEnergy() << endl;
 
-	double eps = 0.01;
+	double eps = 0.025;
 	long steps = 0;
 	
 	// measuring the calculation time
 	struct timeval start, end;
 	gettimeofday(&start, NULL);
-	while ( steps < 2000000 )	{
+	
+	while ( steps < MC_STEPS )	{
 		MC.MonteCarloStep( eps );
-		// stringstream ss;
-		// ss << "Snapshot";
-		// ss.width(5);
-		// ss << setfill('0') << steps;
-		// ss << ".txt";
-		// MC.PrintCoordinates( ss.str() );
 		steps++;
 	}
 
-	cout << endl << "Energy:";
-	cout << setprecision(15) << MC.GetEnergy() << endl;
-	cout << "Steps: " << steps << endl;
-	
+	cout << "\nMonte Carlo steps: " << steps;
+	cout << "\tFinal energy:";
+	cout << setprecision(5) << MC.GetEnergy() << endl << endl;
+
+	steps = 0;	
+	double energies[MAX_STEPS];
+	char choice;
+	cout << "For energy average, calculate " << MAX_STEPS <<
+			" additional MC. Save snapshots ( y/n )?";
+	cin >> choice;
+	cout << "Progress:\n";
+	if ( choice == 'n' )
+		while ( steps < MAX_STEPS )	{
+			MC.MonteCarloStep( eps );
+			energies[steps] = MC.GetEnergy();
+			cout << "\r" << setprecision(4) 
+				<< (double)(steps++ + 1)/MAX_STEPS*100 << "\%";	
+	} else if ( choice == 'y' ) 
+	  while ( steps < MAX_STEPS )	{
+	  	MC.MonteCarloStep( eps );
+	  	energies[steps] = MC.GetEnergy();
+	  	stringstream ss;
+	  	ss << "Snapshot";
+	  	ss.width(5);
+	  	ss << setfill('0') << steps;
+	  	ss << ".txt";
+	  	MC.PrintCoordinates( ss.str() );
+	  	cout << "\r" << setprecision(4) 
+	  		<< (double)(steps++ + 1)/MAX_STEPS*100 << "\%";	
+	}
+	stringstream ss;
+	ss << "EnergySeries.txt";
+	for ( int i=0; i < MAX_STEPS; i++ ) 
+		ss << energies[i] << endl;
+	MC.PrintCoordinates( ss.str() );
+
+
+	double energyAv = 0;
+	for ( int i = 0; i < MAX_STEPS; i++ )
+		energyAv += energies[i];	
+	energyAv *= 1./MAX_STEPS;
+	double variance = 0;
+	for ( int i = 0; i < MAX_STEPS; i++ )
+		variance += (energyAv - energies[i])*(energyAv - energies[i]);
+	variance *= 1./(MAX_STEPS);
+
+	cout << "\nEnergy average: ";
+	cout << setprecision(5) << energyAv 
+		<< "\tStandard derivation: " << sqrt(variance) << endl;
 	// cout << "Get squared distance of Particle: " << endl;
 	// for ( int i = 0; i < numOfParticles; i++)
 	// 	for ( int j = i+1; j < numOfParticles; j++ )
 	// 		cout << "# " << i  << ", " << j 
 	// 			<< ":\t"<< MC.GetDistanceSq(i, j) << endl;
 	gettimeofday(&end, NULL);
-	cout << "Calculation time: " 
+	cout << "\n\nCalculation time: " 
 		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 
 				  end.tv_usec - start.tv_usec ) / 1000000. << endl;
 
@@ -70,18 +120,30 @@ int main()
 void readFromFile() {
 	ifstream inputFile("SystemSpecs.txt");
 	string line;
-	getline( inputFile, line ); cout << line << endl;
-	getline( inputFile, line ); cout << line << endl;
-	getline( inputFile, line ); cout << line << endl;
 	if ( inputFile.is_open() ) {
-		getline( inputFile, line ); cout << line << " ";
 		getline( inputFile, line );
-		cout << (numOfParticles = atoi( line.c_str() )) << endl;
-		
-		getline( inputFile, line ); cout << line << " "; 
 		getline( inputFile, line );
-		cout << ( dimOfSystem = atoi( line.c_str() ) ) << endl;
+		( numOfParticles = atoi( line.c_str() ) );
 		
+		getline( inputFile, line );
+		getline( inputFile, line );
+		( dimOfSystem = atoi( line.c_str() ) );
+		
+		getline( inputFile, line );
+		getline( inputFile, line );
+		( sizeOfSys = atoi( line.c_str() ) );
+
+		getline( inputFile, line );
+		getline( inputFile, line );
+		( tempOfSystem = atoi( line.c_str() ) );
+		
+		getline( inputFile, line );
+		getline( inputFile, line );
+		( MC_STEPS = atoi( line.c_str() ) );
+
+		getline( inputFile, line );
+		getline( inputFile, line );
+		( MAX_STEPS = atoi( line.c_str() ) );
 		inputFile.close();
 	}
 }
@@ -104,18 +166,20 @@ void System::PrintCoordinates( string fileName ) const {
 	file.close();
 }
 
-void WriteConditionsToFile() {	
+void writeConditionsToFile() {
+	cout << "Writing Conditions...";
 	stringstream iniConditions;
-	iniConditions << "Number_of_particles:\t";
+	iniConditions << "Number_of_particles:\t" << endl;
 	iniConditions << numOfParticles << endl;
-	iniConditions << "Dimension:\t";
+	iniConditions << "Dimension:\t" << endl;
 	iniConditions << dimOfSystem << endl;
-	iniConditions << "Size:\t";
+	iniConditions << "Size:\t" << endl;
 	iniConditions << sizeOfSys << endl;
-	iniConditions << "Temperature:\t";
+	iniConditions << "Temperature:\t" << endl;
 	iniConditions << tempOfSystem << endl;
 	ofstream file;
-	file.open( "snapshots/InitialConditions.txt" );
+	file.open( "SystemSpecs.txt" );
 	file << iniConditions.str();
 	file.close();
+	cout << " Done." << endl;
 }

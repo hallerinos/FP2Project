@@ -53,7 +53,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	numberOfParticles = newNumberOfParticles;
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
-	MAX_CUTOFF = 5.039;
+	MAX_CUTOFF = 5.039684;
 	forces = 0;
 	forces2 = 0;
 	velos = 0;

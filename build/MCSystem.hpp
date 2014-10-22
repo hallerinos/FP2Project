@@ -22,7 +22,7 @@
 double System::GetEnergyI( int i ) const {
 	double ene = 0;
 	double distSq = 0;
-	double normalisation = 0; //127./16384;
+	double normalisation = 127./16384;
 	
 	for ( int j = 0; j < i; j++ ) {
 		distSq = System::GetDistanceSq( i, j );
@@ -65,8 +65,7 @@ void System::MonteCarloStep( double eps ) {
 	ene -= System::GetEnergyI( choice );
 	if ( ene < 0 ) {
 		// roll a rand in (0, 1) and check Metropolis criteria
-		sigma = (float)rand() / INT_MAX;
-		if ( sigma > exp( 1./tempOfSystem * ene ) ) {
+		if ( ene < -100 || (sigma = (float)rand() / INT_MAX) > exp( 1./tempOfSystem * ene ) ) {
 			// step dismissed - discard coord changes
 			for ( int j = 0; j < dimOfSystem; j++ ) {
 				coords[ choice*dimOfSystem + j ] = tmp[j];
