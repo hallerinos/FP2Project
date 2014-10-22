@@ -36,7 +36,8 @@ class System {
 		double 	GetTemperature() const;
 		//Member Variables
 	private:	
-		int 		numberOfParticles, dimOfSystem, sizeOfSys;
+		int 		numberOfParticles, dimOfSystem;
+		double 	sizeOfSys;
 		double 	MIN_CUTOFF, MAX_CUTOFF; 	// Cutoff Distances for Interaction
 		double 	tempOfSystem;
 		double 	*coords, *velos, *forces, *forces2;
