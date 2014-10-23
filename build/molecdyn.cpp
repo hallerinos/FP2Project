@@ -39,22 +39,22 @@ int main()
 
 	// Output of System Parameters and initial Energies.
 	cout << "System initialized with following parameters: " << endl << endl;
-	cout << "Number of Particles: " << numOfParticles << "\t Density: " << rho;
-	cout << endl << "Boxlength: " << sizeOfSys << "\t Dimension: " 
+	cout << "Number of Particles: \t" << numOfParticles << "\t Density: \t" << rho;
+	cout << endl << "Boxlength: \t\t" << sizeOfSys << "\t Dimension: \t" 
 		<< dimOfSystem << endl;
-	cout << "Initial T: " << tempOfSystem << "\t Thermostat T: " 
-		<< tempOfThermos << endl;
+	cout << "Initial T: \t\t" << tempOfSystem << "\t Thermostat T: \t" 
+		<< tempOfThermos << endl << endl;
  	cout << "Thermostat is turned on for " << stepsThermos << " Snapshots. " 
-	 	<<	"The Couplingfrequency is " << thermCoupling << "." << endl;
+	 	<<	"The Couplingfrequency is " << thermCoupling << "." << endl << endl;
+
+	cout << "*** Initial Values *** " << endl;
+	cout << "Kinetic Energy:\t" << eKin << endl;
+	cout << "Total Energy: \t" << eKin + ePot << endl;	
+	cout << "System Energy: \t" << ePot << endl;
+	cout << "Temperature: \t" << MD.GetTemperature() << endl << endl;
+
  	cout << "Taking " << numberOfSnaps << " Snapshots with " << stepsBetwSnaps 
 		<< " MDSteps of Size " << stepSize << " in between ..." << endl << endl;
-
-	cout << "Initial Values: " << endl;
-	cout << "Kinetic Energy: " << eKin << endl;
-	cout << "Total Energy: " << eKin + ePot << endl;	
-	cout << "System Energy: " << ePot << endl;
-	cout << "Temperature: " << MD.GetTemperature() << endl << endl;
-
 	//open File for Snapshots
 	ofstream file;
 	string fileName = "Snapshots.dat";
@@ -90,7 +90,7 @@ int main()
 	}
 	file.close();
 
-	//Calculating Mean Values
+	//Calculate Mean Values
 	meanTemp = meanTemp * 2 / (numberOfSnaps - stepsThermos) 
 		/ (numOfParticles * dimOfSystem);
 	meanPot = meanPot / (numberOfSnaps - stepsThermos);

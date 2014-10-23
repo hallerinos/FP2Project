@@ -70,7 +70,7 @@ void System::VeloVerletStepMD ( double dT, bool thermostat, double tempThermos, 
 	
 	if ( thermostat == true ){
 		tempa = GetTemperature();
-		double v0 = sqrt ( tempThermos / mass ) *(double) 2 * (rand() % 2 - 0.5);
+		double v0 = sqrt ( tempThermos / mass ) * 2.0 * ( rand()%2 - 0.5);
 		double sigma = sqrt( tempa / numberOfParticles );
 		for ( int i = 0; i < numberOfParticles; i++ ){
 			random = (double) rand() / INT_MAX;
