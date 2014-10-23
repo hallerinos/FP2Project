@@ -33,9 +33,9 @@ int main()
 	}
 		
 	double energyAv = 0;
-	for ( int i = 0; i < len; i=i+29 )
-		energyAv += energies[i+50];	
-	energyAv *= 1./(len/29.-2);
+	for ( int i = 0; i < len; i++ )
+		energyAv += energies[i];	
+	energyAv *= 1./(len);
 	double energyAvSq = energyAv*energyAv;
 	cout << "Energy average: " << energyAv << "\tsquared: " << energyAvSq << endl;
 
@@ -55,7 +55,7 @@ int main()
 		double tp = 0;
 		for ( int i=0; i < len - n; i++ )
 			tp += energies[i]*energies[i+n];
-		tp *= 1./len;
+		tp *= 1./(len-n);
 		tp -= energyAvSq;
 		tp *= 1./(energySqAv - energyAvSq);
 		corr[n] = tp;

@@ -61,8 +61,9 @@ int main()
 	double energies[MAX_STEPS];
 	char choice;
 	cout << "For energy average, calculate " << MAX_STEPS <<
-			" additional MC. Save snapshots ( y/n )?";
-	cout << (choice = 'n');
+			" additional MC. Save snapshots ( y/n )?\n";
+	cin >> choice;
+	// cout << (choice = 'y');
 	cout << "\nProgress:\n";
 	if ( choice == 'n' )
 		while ( steps < MAX_STEPS )	{
@@ -139,18 +140,18 @@ void readFromFile() {
 void System::PrintCoordinates( string fileName ) const {
 	ofstream file;
 	file.open( (string("plots/")+fileName).c_str(), ios::app );
-	file << "Number_of_particles: " << numOfParticles << endl;
-	file << "Size_of_system: " << sizeOfSys << endl;
-	file << "Potential_Energy: " << GetEnergy() << endl;
-	file << "X\t\tY\t\tZ" << endl;
+	// file << "Number_of_particles: " << numOfParticles << endl;
+	// file << "Size_of_system: " << sizeOfSys << endl;
+	// file << "Potential_Energy: " << GetEnergy() << endl;
+	// file << "X\t\tY\t\tZ" << endl;
 	for ( int i = 0; i < numberOfParticles; i++ ) {
 		for ( int j = 0; j < dimOfSystem; j++ ) {
-			file << setprecision(4) << coords[i*dimOfSystem + j] << "\t\t";
+			file << setprecision(4) << coords[i*dimOfSystem + j] << "\t";
 		}
 		file << endl;
 	}
-	file << endl;
-	file << endl;
+	// file << endl;
+	// file << endl;
 	file.close();
 }
 
