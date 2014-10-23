@@ -23,9 +23,9 @@ int main()
 {
 	readFromFile();
 	cout << "Number of Particles: " << numOfParticles;
-	cout << "Size of system: " << sizeOfSys;
-	cout << "\tTemperature: " << tempOfSystem;
-	cout << "\tParticle density: " << 
+	cout << "\tSize of system: " << (double)sizeOfSys;
+	cout << "\t\tTemperature: " << tempOfSystem;
+	cout << "\nParticle density: " << 
 		(double)numOfParticles/(sizeOfSys*sizeOfSys*sizeOfSys) << endl;
 	cout << "Number of MC steps: " << MC_STEPS;
 	
@@ -63,7 +63,7 @@ int main()
 	cout << "For energy average, calculate " << MAX_STEPS <<
 			" additional MC. Save snapshots ( y/n )?";
 	cout << (choice = 'n');
-	cout << "Progress:\n";
+	cout << "\nProgress:\n";
 	if ( choice == 'n' )
 		while ( steps < MAX_STEPS )	{
 			MC.MonteCarloStep( eps );
@@ -82,31 +82,14 @@ int main()
 	stringstream eneSs;
 	ofstream file;
 	file.open( (string("plots/")+"EnergySeries.txt").c_str() );
-	file << "Number_of_particles: " << numOfParticles << endl;
-	file << "Size_of_system: " << sizeOfSys << endl;
-	file << "Energy_Series" << endl;
+	file << "Energy_series_length:\n" << MAX_STEPS << endl;
+	file << "Number_of_particles:\n" << numOfParticles << endl;
+	file << "Size_of_system:\n" << sizeOfSys << endl;
 	for ( int i=0; i < MAX_STEPS; i++ ) 
-		eneSs << energies[i] << endl;
+		eneSs  << setprecision(6) << energies[i] << endl;
 	file << eneSs.str();
 	file.close();
 
-	double energyAv = 0;
-	for ( int i = 0; i < MAX_STEPS; i++ )
-		energyAv += energies[i];	
-	energyAv *= 1./MAX_STEPS;
-	double variance = 0;
-	for ( int i = 0; i < MAX_STEPS; i++ )
-		variance += (energyAv - energies[i])*(energyAv - energies[i]);
-	variance *= 1./(MAX_STEPS);
-
-	cout << "\nEnergy average: ";
-	cout << setprecision(5) << energyAv 
-		<< "\tStandard derivation: " << sqrt(variance) << endl;
-	// cout << "Get squared distance of Particle: " << endl;
-	// for ( int i = 0; i < numOfParticles; i++)
-	// 	for ( int j = i+1; j < numOfParticles; j++ )
-	// 		cout << "# " << i  << ", " << j 
-	// 			<< ":\t"<< MC.GetDistanceSq(i, j) << endl;
 	gettimeofday(&end, NULL);
 	cout << "\n\nCalculation time: " 
 		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 
@@ -133,7 +116,7 @@ void readFromFile() {
 		
 		getline( inputFile, line );
 		getline( inputFile, line );
-		( sizeOfSys = atoi( line.c_str() ) );
+		( sizeOfSys = atof( line.c_str() ) );
 
 		getline( inputFile, line );
 		getline( inputFile, line );
