@@ -27,7 +27,6 @@ int main()
 	struct timeval start, end;
 	gettimeofday(&start, NULL);
 
-	cout << "Size of System: " << sizeOfSys << endl;
 
 	System MD( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys, particleMass );
 	double eKin = MD.GetKinEnergy();
@@ -43,7 +42,7 @@ int main()
 	//Thermostat on
 	bool thermos = 1;
 
-	for ( int j = 0; j < 20; j++){
+	for ( int j = 0; j < 3000; j++){
 	file << "Snapshot_" << j << "------------------------------------" 
 		<< endl << endl;
 	file << "Potential_Energy: " << ePot << endl;
@@ -58,12 +57,12 @@ int main()
 		file << endl;
 	}
 	file << endl;
-	for ( int i = 0; i < 5; i++) 
+	for ( int i = 0; i < 10; i++) 
 		MD.VeloVerletStepMD( 0.001, thermos, 2.0, 10 );
 	//if ( j < 1200 )	MD.AdjustVelos();
 	
 	//Thermostat off after ... Snapshots
-	if ( j == 240 ) thermos = 0;
+	if ( j == 250 ) thermos = 0;
 
 	eKin = MD.GetKinEnergy();
 	ePot = MD.GetEnergy();
@@ -73,7 +72,7 @@ int main()
 	string s = "Snapshot" + ss.str() + ".txt";
 	MD.PrintCoordinates( s );*/
 
-	cout << "\r" << j << " of 2000 Pictures taken";
+	cout << "\r" << j << " of 3000 Pictures taken";
 	}
 	file.close();
 	gettimeofday(&end, NULL);
