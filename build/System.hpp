@@ -119,7 +119,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
 	mass = newMass;
-	MAX_CUTOFF = 5.039;
+	MAX_CUTOFF = 5.039684;
 	forces2 = new double[ numberOfParticles * dimOfSystem ];
 	forces = new double[ numberOfParticles * dimOfSystem ];
 	velos = new double[ numberOfParticles * dimOfSystem ];
@@ -130,7 +130,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	double step = (double) sizeOfSys / sitesPerDim;
 	for ( int i = 0; i < dimOfSystem; i++ ){
 		for ( int j = 0; j < numberOfParticles; )
-			for ( double k = 0 ; k < (sizeOfSys-0.5*step); k+=step ){
+			for ( double k = 0.5*step ; k < (sizeOfSys); k+=step ){
 				for ( int l = 0; l < pow( sitesPerDim ,i); l++ ){
 					coords[ j * dimOfSystem + i ] = k;
 					j++;

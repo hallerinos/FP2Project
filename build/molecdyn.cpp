@@ -14,8 +14,8 @@ using namespace std;
 void readFromFile();
 
 int numOfParticles, dimOfSystem;
-int numberOfSnaps, stepsBetwSnaps, stepsThermos;
-double tempOfSystem, tempOfThermos, rho, sizeOfSys;
+int numberOfSnaps, stepsBetwSnaps, stepsThermos, thermCoupling;
+double tempOfSystem, tempOfThermos, rho, sizeOfSys, stepSize;
 float particleMass = 1;
 
 int main()
@@ -35,11 +35,25 @@ int main()
 	System MD( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys, particleMass );
 	double eKin = MD.GetKinEnergy();
 	double ePot = MD.GetEnergy();
+	double meanTemp = 0, meanPot = 0;
 
+	// Output of System Parameters and initial Energies.
+	cout << "System initialized with following parameters: " << endl << endl;
+	cout << "Number of Particles: " << numOfParticles << "\t Density: " << rho;
+	cout << endl << "Boxlength: " << sizeOfSys << "\t Dimension: " 
+		<< dimOfSystem << endl;
+	cout << "Initial T: " << tempOfSystem << "\t Thermostat T: " 
+		<< tempOfThermos << endl;
+ 	cout << "Thermostat is turned on for " << stepsThermos << " Snapshots. " 
+	 	<<	"The Couplingfrequency is " << thermCoupling << "." << endl;
+ 	cout << "Taking " << numberOfSnaps << " Snapshots with " << stepsBetwSnaps 
+		<< " MDSteps of Size " << stepSize << " in between ..." << endl << endl;
+
+	cout << "Initial Values: " << endl;
 	cout << "Kinetic Energy: " << eKin << endl;
 	cout << "Total Energy: " << eKin + ePot << endl;	
 	cout << "System Energy: " << ePot << endl;
-	cout << "Temperature: " << MD.GetTemperature() << endl;
+	cout << "Temperature: " << MD.GetTemperature() << endl << endl;
 
 	//open File for Snapshots
 	ofstream file;
@@ -52,22 +66,39 @@ int main()
 	for ( int j = 0; j < numberOfSnaps; j++){
 
 		//take Snapshot
-		MD.PrintCoordinates2( fileName , eKin, ePot, j );
+		MD.PrintCoordinates2( fileName , eKin, ePot, j+1 );
 
 		for ( int i = 0; i < stepsBetwSnaps; i++) 
-			MD.VeloVerletStepMD( 0.001, thermos, tempOfThermos, 10 );
+			MD.VeloVerletStepMD( stepSize, thermos, tempOfThermos, thermCoupling );
 		//if ( j < 1200 )	MD.AdjustVelos();
 	
 		//Thermostat off after ... Snapshots
-		if ( j == stepsThermos ) thermos = 0;
+		if ( j == stepsThermos ) {
+			thermos = 0;
+			meanTemp = 0;
+			meanPot = 0;
+		}
 
 		eKin = MD.GetKinEnergy();
 		ePot = MD.GetEnergy();
 
+		meanTemp += eKin;
+		meanPot += ePot;
 
-		cout << "\r" << j << " of " << numberOfSnaps << " Pictures taken";
+		//cout << "\r" << j+1 << " of " << numberOfSnaps << " Pictures taken";
+		cout << "\r" << (int) ((double) (j + 1) / numberOfSnaps * 100) << "% done ...";
 	}
 	file.close();
+
+	//Calculating Mean Values
+	meanTemp = meanTemp * 2 / (numberOfSnaps - stepsThermos) 
+		/ (numOfParticles * dimOfSystem);
+	meanPot = meanPot / (numberOfSnaps - stepsThermos);
+
+	cout << endl << endl << "Mean Values after Thermostat turned off: " << endl;
+	cout << "Temperature: " << meanTemp << "\tPotential Energy: " << meanPot 
+		<< endl << endl;
+	
 	gettimeofday(&end, NULL);
 	cout << "Time needed to do this: " 
 		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 
@@ -112,8 +143,16 @@ void readFromFile() {
 
 		getline (inputFile, line);
 		getline (inputFile, line);
+		( stepSize = atof ( line.c_str() ) );
+		
+		getline (inputFile, line);
+		getline (inputFile, line);
 		( stepsThermos = atoi ( line.c_str() ) );
 
+		getline (inputFile, line);
+		getline (inputFile, line);
+		( thermCoupling = atof ( line.c_str() ) );
+		
 		sizeOfSys = pow ( (double) numOfParticles / rho , 1.0 / dimOfSystem );
 	}
 }
