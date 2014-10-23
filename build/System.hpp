@@ -34,6 +34,7 @@ class System {
 		void 		AdjustVelosDavid( double tempOfThermostat, double coupling );
 		double 	GetKinEnergy() const;
 		double 	GetTemperature() const;
+		void 		PrintCoordinates2( string fileName, double eKin, double ePot, int ShotNumber ) const;
 		//Member Variables
 	private:	
 		int 		numberOfParticles, dimOfSystem;
