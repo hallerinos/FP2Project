@@ -23,9 +23,9 @@ int main()
 {
 	readFromFile();
 	cout << "Number of Particles: " << numOfParticles;
-	cout << "Size of system: " << sizeOfSys;
-	cout << "\tTemperature: " << tempOfSystem;
-	cout << "\tParticle density: " << 
+	cout << "\tSize of system: " << (double)sizeOfSys;
+	cout << "\t\tTemperature: " << tempOfSystem;
+	cout << "\nParticle density: " << 
 		(double)numOfParticles/(sizeOfSys*sizeOfSys*sizeOfSys) << endl;
 	cout << "Number of MC steps: " << MC_STEPS;
 	
@@ -61,9 +61,10 @@ int main()
 	double energies[MAX_STEPS];
 	char choice;
 	cout << "For energy average, calculate " << MAX_STEPS <<
-			" additional MC. Save snapshots ( y/n )?";
-	cout << (choice = 'n');
-	cout << "Progress:\n";
+			" additional MC. Save snapshots ( y/n )?\n";
+	cin >> choice;
+	// cout << (choice = 'y');
+	cout << "\nProgress:\n";
 	if ( choice == 'n' )
 		while ( steps < MAX_STEPS )	{
 			MC.MonteCarloStep( eps );
@@ -82,31 +83,14 @@ int main()
 	stringstream eneSs;
 	ofstream file;
 	file.open( (string("plots/")+"EnergySeries.txt").c_str() );
-	file << "Number_of_particles: " << numOfParticles << endl;
-	file << "Size_of_system: " << sizeOfSys << endl;
-	file << "Energy_Series" << endl;
+	file << "Energy_series_length:\n" << MAX_STEPS << endl;
+	file << "Number_of_particles:\n" << numOfParticles << endl;
+	file << "Size_of_system:\n" << sizeOfSys << endl;
 	for ( int i=0; i < MAX_STEPS; i++ ) 
-		eneSs << energies[i] << endl;
+		eneSs  << setprecision(6) << energies[i] << endl;
 	file << eneSs.str();
 	file.close();
 
-	double energyAv = 0;
-	for ( int i = 0; i < MAX_STEPS; i++ )
-		energyAv += energies[i];	
-	energyAv *= 1./MAX_STEPS;
-	double variance = 0;
-	for ( int i = 0; i < MAX_STEPS; i++ )
-		variance += (energyAv - energies[i])*(energyAv - energies[i]);
-	variance *= 1./(MAX_STEPS);
-
-	cout << "\nEnergy average: ";
-	cout << setprecision(5) << energyAv 
-		<< "\tStandard derivation: " << sqrt(variance) << endl;
-	// cout << "Get squared distance of Particle: " << endl;
-	// for ( int i = 0; i < numOfParticles; i++)
-	// 	for ( int j = i+1; j < numOfParticles; j++ )
-	// 		cout << "# " << i  << ", " << j 
-	// 			<< ":\t"<< MC.GetDistanceSq(i, j) << endl;
 	gettimeofday(&end, NULL);
 	cout << "\n\nCalculation time: " 
 		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 
@@ -133,7 +117,7 @@ void readFromFile() {
 		
 		getline( inputFile, line );
 		getline( inputFile, line );
-		( sizeOfSys = atoi( line.c_str() ) );
+		( sizeOfSys = atof( line.c_str() ) );
 
 		getline( inputFile, line );
 		getline( inputFile, line );
@@ -156,18 +140,18 @@ void readFromFile() {
 void System::PrintCoordinates( string fileName ) const {
 	ofstream file;
 	file.open( (string("plots/")+fileName).c_str(), ios::app );
-	file << "Number_of_particles: " << numOfParticles << endl;
-	file << "Size_of_system: " << sizeOfSys << endl;
-	file << "Potential_Energy: " << GetEnergy() << endl;
-	file << "X\t\tY\t\tZ" << endl;
+	// file << "Number_of_particles: " << numOfParticles << endl;
+	// file << "Size_of_system: " << sizeOfSys << endl;
+	// file << "Potential_Energy: " << GetEnergy() << endl;
+	// file << "X\t\tY\t\tZ" << endl;
 	for ( int i = 0; i < numberOfParticles; i++ ) {
 		for ( int j = 0; j < dimOfSystem; j++ ) {
-			file << setprecision(4) << coords[i*dimOfSystem + j] << "\t\t";
+			file << setprecision(4) << coords[i*dimOfSystem + j] << "\t";
 		}
 		file << endl;
 	}
-	file << endl;
-	file << endl;
+	// file << endl;
+	// file << endl;
 	file.close();
 }
 

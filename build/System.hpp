@@ -13,8 +13,7 @@ using namespace std;
 class System {
 	public:
 		// MC Constructor
-		System( int numPart, int dimSys, double tempSys, double sizeOfSys
-			 	);
+		System( int numPart, int dimSys, double tempSys, double sizeOfSys	);
 		// MD Constructor 
 		System( int numPart, int dimSys, double tempSys, double sizeOfSys, float particleMass );
 		// Destructor

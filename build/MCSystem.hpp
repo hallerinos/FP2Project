@@ -75,5 +75,3 @@ void System::MonteCarloStep( double eps ) {
 	
 	delete randVec;
 }
-
-
