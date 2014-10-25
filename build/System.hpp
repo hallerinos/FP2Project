@@ -216,20 +216,18 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 double System::GetDistanceSq( int partNumOne, int partNumTwo ) const {
 	double dist = 0;
 	double coordDiff = 0;
-	for ( int j = 0; j < dimOfSystem; j++ ) {
+	for ( int j = 0; j < dimOfSystem-1; j++ ) {
 		coordDiff = coords[ partNumTwo*dimOfSystem + j] 
 			- coords[ partNumOne*dimOfSystem + j];
-
-		// use of pow(expr, exponent) is very expensive!
-		// if( coordDiff > sizeOfSys/2 ) {
-		// 	dist += pow( coordDiff - sizeOfSys, 2 );
-		// } else if ( coordDiff < - sizeOfSys/2 ) {
-		// 	dist += pow( coordDiff + sizeOfSys, 2 );
-		// } else dist += pow( coordDiff, 2 );
 		coordDiff = coordDiff - sizeOfSys*round( coordDiff/sizeOfSys );
 		coordDiff*=coordDiff;
 		dist += coordDiff;
 	}
+	coordDiff = coords[ partNumTwo*dimOfSystem + 2] 
+		- coords[ partNumOne*dimOfSystem + 2];
+	coordDiff = coordDiff - 2*sizeOfSys*round( coordDiff/(2*sizeOfSys) );
+	coordDiff*=coordDiff;
+	dist += coordDiff;
 	return dist;
 }
 

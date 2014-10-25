@@ -54,7 +54,7 @@ void System::MonteCarloStep( double eps ) {
 	double sigma = 0;
 	double* randVec = new double[ dimOfSystem ];
 	acceptedSteps++;
-	for ( int j = 0; j < dimOfSystem; j++ ) {
+	for ( int j = 0; j < dimOfSystem-1; j++ ) {
 		// draw a random vector of a unit sphere
  		randVec = System::makeRandomOnUnitSphere( randVec );
 		// save the old coordinates in case of discard
@@ -66,6 +66,16 @@ void System::MonteCarloStep( double eps ) {
 		coords[ choice*dimOfSystem + j ] -= sizeOfSys * 
 			round( coords[ choice*dimOfSystem + j ] / sizeOfSys - 1./2);
 	}
+	// draw a random vector of a unit sphere
+ 	randVec = System::makeRandomOnUnitSphere( randVec );
+	// save the old coordinates in case of discard
+	tmp[2] = coords[ choice*dimOfSystem + 2 ];
+	// do a random step along a unit sphere
+	coords[ choice*dimOfSystem + 2 ] += 
+		eps * randVec[2] * sizeOfSys;
+	// check PBC, use round(...) to avoid if statement
+	coords[ choice*dimOfSystem + 2 ] -= 2 * sizeOfSys * 
+		round( coords[ choice*dimOfSystem + 2 ] / (2*sizeOfSys) - 1./2);
 
 	// ene < 0 => E_before < E_after
 	ene -= System::GetEnergyI( choice );
