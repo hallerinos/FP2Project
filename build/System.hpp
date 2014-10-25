@@ -21,6 +21,7 @@ class System {
 		// Methods used by both Algorithms
 		double 	GetCoordinate( int partNumber, int axis ) const;
 		double 	GetEnergy() const;
+		long	 	GetAcceptedSteps() const;
 		void 		PrintCoordinates( string fileName ) const;
 		// MC Methods
 		double* makeRandomOnUnitSphere( double* vec ) const;
@@ -37,6 +38,7 @@ class System {
 		//Member Variables
 	private:	
 		int 		numberOfParticles, dimOfSystem;
+		long		acceptedSteps;
 		double 	sizeOfSys;
 		double 	MIN_CUTOFF, MAX_CUTOFF; 	// Cutoff Distances for Interaction
 		double 	tempOfSystem;
@@ -54,6 +56,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	numberOfParticles = newNumberOfParticles;
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
+	acceptedSteps = 0;
 	MAX_CUTOFF = 5.039684;
 	forces = 0;
 	forces2 = 0;

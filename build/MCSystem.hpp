@@ -39,6 +39,11 @@ double System::GetEnergyI( int i ) const {
 
 	return ene;
 }
+
+long System::GetAcceptedSteps() const {
+	return acceptedSteps;
+}
+
 /*--------------------------------------------------------------------
  * Monte-Carlo step with Metropolis criteria
  *------------------------------------------------------------------*/
@@ -48,6 +53,7 @@ void System::MonteCarloStep( double eps ) {
 	double ene = System::GetEnergyI( choice );
 	double sigma = 0;
 	double* randVec = new double[ dimOfSystem ];
+	acceptedSteps++;
 	for ( int j = 0; j < dimOfSystem; j++ ) {
 		// draw a random vector of a unit sphere
  		randVec = System::makeRandomOnUnitSphere( randVec );
@@ -70,6 +76,7 @@ void System::MonteCarloStep( double eps ) {
 			for ( int j = 0; j < dimOfSystem; j++ ) {
 				coords[ choice*dimOfSystem + j ] = tmp[j];
 			};
+			acceptedSteps--;
 		}	
 	}
 	

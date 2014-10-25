@@ -27,8 +27,8 @@ int main()
 
 	cout << "Number of Particles: " << numOfParticles;
 	cout << "\tSize of system: " << (double)sizeOfSys;
-	cout << "\t\tTemperature: " << tempOfSystem;
-	cout << "\nParticle density: " << 
+	cout << "\nTemperature: " << tempOfSystem;
+	cout << "\t\tParticle density: " << 
 		(double)numOfParticles/(sizeOfSys*sizeOfSys*sizeOfSys) << endl;
 	cout << "Number of MC steps: " << MC_STEPS;
 	cout << "\tEpsilon: " << eps;
@@ -42,7 +42,8 @@ int main()
 
 	System MC( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys );
 	
-	cout << "\n\nInitial energy: " << setprecision(5) << MC.GetEnergy();
+	cout << "\n\nInitial energy: " << setprecision(10) << MC.GetEnergy()
+		<< " ... starting system equilibration" << endl;
 
 	long steps = 0;
 	
@@ -52,17 +53,19 @@ int main()
 	
 	while ( steps < MC_STEPS )	{
 		MC.MonteCarloStep( eps );
-		// cout << "\r" << ((double)steps++/MC_STEPS*100);
 		steps++;
 	}
 
-	cout << "\t\tFinal energy:";
-	cout << setprecision(5) << MC.GetEnergy() << endl << endl;
+	cout << "Done. Final energy:";
+	cout << setprecision(10) << MC.GetEnergy();
 
+	cout << "\t\tAcceptance ratio: " 
+		<< (double)MC.GetAcceptedSteps()/MC_STEPS << endl << endl;
+	
 	steps = 0;	
 	double* energies = new double[MAX_STEPS];
-	cout << "For energy average, calculate " << MAX_STEPS <<
-			" additional MC. Save snapshots: " << choice;
+	cout << "Measuring... " << MAX_STEPS <<
+			" additional MC. Snapshots are saved: " << choice;
 	cout << "\nProgress:\n";
 	if ( choice == "No" )
 		while ( steps < MAX_STEPS )	{
@@ -72,10 +75,14 @@ int main()
 				<< (double)(steps++ + 1)/MAX_STEPS*100;	
 	} else if ( choice == "Yes" ) 
 	  while ( steps < MAX_STEPS )	{
-			//for ( int i=0; i < numOfParticles; i++ )
-	  		MC.MonteCarloStep( eps );
+	  	MC.MonteCarloStep( eps );
 	  	energies[steps] = MC.GetEnergy();
-	  	MC.PrintCoordinates( to_string(eps) +"Snapshots.txt" );
+	  	if ( steps % 10000 == 0 ) {
+				MC.PrintCoordinates("T_" + to_string(tempOfSystem) + 
+					 "_rho_"+ to_string(
+						 (double)numOfParticles/(sizeOfSys*sizeOfSys*sizeOfSys)
+						 ) + "Snap" + to_string(steps) + ".txt");
+			}
 	  	cout << "\r" << setprecision(4) 
 	  		<< (double)(steps++ + 1)/MAX_STEPS*100;	
 	}
@@ -84,8 +91,7 @@ int main()
 	ofstream file;
 	file.open((string("plots/")+to_string(eps)+"EnergySeries.txt").c_str());
 	for ( int i=0; i < MAX_STEPS; i++ ) 
-		for ( int j=0; j<250; j++ )
-			eneSs  << setprecision(6) << energies[i] << endl;
+			eneSs  << setprecision(10) << energies[i] << endl;
 	file << eneSs.str();
 	file.close();
 
@@ -153,7 +159,7 @@ void System::PrintCoordinates( string fileName ) const {
 	// file << "X\t\tY\t\tZ" << endl;
 	for ( int i = 0; i < numberOfParticles; i++ ) {
 		for ( int j = 0; j < dimOfSystem; j++ ) {
-			file << setprecision(4) << coords[i*dimOfSystem + j] << "\t";
+			file << setprecision(8) << coords[i*dimOfSystem + j] << "\t";
 		}
 		file << endl;
 	}
