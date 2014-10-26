@@ -21,6 +21,7 @@ class System {
 		// Methods used by both Algorithms
 		double 	GetCoordinate( int partNumber, int axis ) const;
 		double 	GetEnergy() const;
+		long	 	GetAcceptedSteps() const;
 		void 		PrintCoordinates( string fileName ) const;
 		// MC Methods
 		double* makeRandomOnUnitSphere( double* vec ) const;
@@ -37,6 +38,7 @@ class System {
 		//Member Variables
 	private:	
 		int 		numberOfParticles, dimOfSystem;
+		long		acceptedSteps;
 		double 	sizeOfSys;
 		double 	MIN_CUTOFF, MAX_CUTOFF; 	// Cutoff Distances for Interaction
 		double 	tempOfSystem;
@@ -54,6 +56,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	numberOfParticles = newNumberOfParticles;
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
+	acceptedSteps = 0;
 	MAX_CUTOFF = 5.039684;
 	forces = 0;
 	forces2 = 0;
@@ -213,20 +216,18 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 double System::GetDistanceSq( int partNumOne, int partNumTwo ) const {
 	double dist = 0;
 	double coordDiff = 0;
-	for ( int j = 0; j < dimOfSystem; j++ ) {
+	for ( int j = 0; j < dimOfSystem-1; j++ ) {
 		coordDiff = coords[ partNumTwo*dimOfSystem + j] 
 			- coords[ partNumOne*dimOfSystem + j];
-
-		// use of pow(expr, exponent) is very expensive!
-		// if( coordDiff > sizeOfSys/2 ) {
-		// 	dist += pow( coordDiff - sizeOfSys, 2 );
-		// } else if ( coordDiff < - sizeOfSys/2 ) {
-		// 	dist += pow( coordDiff + sizeOfSys, 2 );
-		// } else dist += pow( coordDiff, 2 );
 		coordDiff = coordDiff - sizeOfSys*round( coordDiff/sizeOfSys );
 		coordDiff*=coordDiff;
 		dist += coordDiff;
 	}
+	coordDiff = coords[ partNumTwo*dimOfSystem + 2] 
+		- coords[ partNumOne*dimOfSystem + 2];
+	coordDiff = coordDiff - 2*sizeOfSys*round( coordDiff/(2*sizeOfSys) );
+	coordDiff*=coordDiff;
+	dist += coordDiff;
 	return dist;
 }
 

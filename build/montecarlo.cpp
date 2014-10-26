@@ -16,18 +16,22 @@ void writeConditionsToFile();
 
 int numOfParticles, dimOfSystem;
 double sizeOfSys;
-int MC_STEPS, MAX_STEPS;
+long MC_STEPS, MAX_STEPS;
 double tempOfSystem;
+double eps;
+string choice;
 
 int main()
 {
 	readFromFile();
+
 	cout << "Number of Particles: " << numOfParticles;
 	cout << "\tSize of system: " << (double)sizeOfSys;
-	cout << "\t\tTemperature: " << tempOfSystem;
-	cout << "\nParticle density: " << 
+	cout << "\nTemperature: " << tempOfSystem;
+	cout << "\t\tParticle density: " << 
 		(double)numOfParticles/(sizeOfSys*sizeOfSys*sizeOfSys) << endl;
 	cout << "Number of MC steps: " << MC_STEPS;
+	cout << "\tEpsilon: " << eps;
 	
 	// writeConditionsToFile();
 	
@@ -38,10 +42,9 @@ int main()
 
 	System MC( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys );
 	
-	cout << "\tInitial energy: " << setprecision(6) 
-		<< MC.GetEnergy() << endl;
+	cout << "\n\nInitial energy: " << setprecision(10) << MC.GetEnergy()
+		<< " ... starting system equilibration" << endl;
 
-	double eps = 0.025;
 	long steps = 0;
 	
 	// measuring the calculation time
@@ -53,41 +56,42 @@ int main()
 		steps++;
 	}
 
-	cout << "\nMonte Carlo steps: " << steps;
-	cout << "\tFinal energy:";
-	cout << setprecision(5) << MC.GetEnergy() << endl << endl;
+	cout << "Done. Final energy:";
+	cout << setprecision(10) << MC.GetEnergy();
 
+	cout << "\t\tAcceptance ratio: " 
+		<< (double)MC.GetAcceptedSteps()/MC_STEPS << endl << endl;
+	
 	steps = 0;	
-	double energies[MAX_STEPS];
-	char choice;
-	cout << "For energy average, calculate " << MAX_STEPS <<
-			" additional MC. Save snapshots ( y/n )?\n";
-	cin >> choice;
-	// cout << (choice = 'y');
+	double* energies = new double[MAX_STEPS];
+	cout << "Measuring... " << MAX_STEPS <<
+			" additional MC. Snapshots are saved: " << choice;
 	cout << "\nProgress:\n";
-	if ( choice == 'n' )
+	if ( choice == "No" )
 		while ( steps < MAX_STEPS )	{
 			MC.MonteCarloStep( eps );
 			energies[steps] = MC.GetEnergy();
 			cout << "\r" << setprecision(4) 
-				<< (double)(steps++ + 1)/MAX_STEPS*100 << "\%";	
-	} else if ( choice == 'y' ) 
+				<< (double)(steps++ + 1)/MAX_STEPS*100;	
+	} else if ( choice == "Yes" ) 
 	  while ( steps < MAX_STEPS )	{
 	  	MC.MonteCarloStep( eps );
 	  	energies[steps] = MC.GetEnergy();
-	  	MC.PrintCoordinates( "Snapshots.txt" );
+	  	if ( steps % 10000 == 0 ) {
+				MC.PrintCoordinates("T_" + to_string(tempOfSystem) + 
+					 "_rho_"+ to_string(
+						 (double)numOfParticles/(sizeOfSys*sizeOfSys*sizeOfSys)
+						 ) + "Snap" + to_string(steps) + ".txt");
+			}
 	  	cout << "\r" << setprecision(4) 
-	  		<< (double)(steps++ + 1)/MAX_STEPS*100 << "\%";	
+	  		<< (double)(steps++ + 1)/MAX_STEPS*100;	
 	}
 	
 	stringstream eneSs;
 	ofstream file;
-	file.open( (string("plots/")+"EnergySeries.txt").c_str() );
-	file << "Energy_series_length:\n" << MAX_STEPS << endl;
-	file << "Number_of_particles:\n" << numOfParticles << endl;
-	file << "Size_of_system:\n" << sizeOfSys << endl;
+	file.open((string("plots/")+to_string(eps)+"EnergySeries.txt").c_str());
 	for ( int i=0; i < MAX_STEPS; i++ ) 
-		eneSs  << setprecision(6) << energies[i] << endl;
+			eneSs  << setprecision(10) << energies[i] << endl;
 	file << eneSs.str();
 	file.close();
 
@@ -121,15 +125,24 @@ void readFromFile() {
 
 		getline( inputFile, line );
 		getline( inputFile, line );
-		( tempOfSystem = atoi( line.c_str() ) );
+		( tempOfSystem = atof( line.c_str() ) );
 		
 		getline( inputFile, line );
 		getline( inputFile, line );
-		( MC_STEPS = atoi( line.c_str() ) );
+		( MC_STEPS = atol( line.c_str() ) );
 
 		getline( inputFile, line );
 		getline( inputFile, line );
 		( MAX_STEPS = atoi( line.c_str() ) );
+		
+		getline( inputFile, line );
+		getline( inputFile, line );
+		( eps = atof( line.c_str() ) );
+		
+		getline( inputFile, line );
+		getline( inputFile, line );
+		( choice = line.c_str() );
+
 		inputFile.close();
 	}
 }
@@ -146,7 +159,7 @@ void System::PrintCoordinates( string fileName ) const {
 	// file << "X\t\tY\t\tZ" << endl;
 	for ( int i = 0; i < numberOfParticles; i++ ) {
 		for ( int j = 0; j < dimOfSystem; j++ ) {
-			file << setprecision(4) << coords[i*dimOfSystem + j] << "\t";
+			file << setprecision(8) << coords[i*dimOfSystem + j] << "\t";
 		}
 		file << endl;
 	}
@@ -170,7 +183,7 @@ void writeConditionsToFile() {
 	iniConditions << "Temperature:\t" << endl;
 	iniConditions << tempOfSystem << endl;
 	ofstream file;
-	file.open( "SystemSpecs.txt" );
+	file.open( "plots/"+to_string(eps)+"SystemSpecs.txt" );
 	file << iniConditions.str();
 	file.close();
 	cout << " Done." << endl;
