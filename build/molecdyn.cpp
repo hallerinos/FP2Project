@@ -59,6 +59,11 @@ int main()
 	ofstream file;
 	string fileName = "Snapshots.dat";
 	file.open( fileName.c_str() );
+	
+	ofstream energys;  						// Outputs for Correlation
+	ofstream temps;
+	temps.open( "Temperatures.txt" );
+	energys.open( "Energys.txt" );
 
 	//Thermostat on
 	bool thermos = 1;
@@ -75,9 +80,18 @@ int main()
 		//Thermostat off after ... Snapshots
 		if ( j == stepsThermos ) {
 			thermos = 0;
+		}
+		
+		if ( j == 1.5 * stepsThermos ){
 			meanTemp = 0;
 			meanPot = 0;
 		}
+		//  Writing Temp and Pot to output files.
+		if ( j >= 1.5 * stepsThermos ){				
+			temps << eKin * 2 / (numOfParticles * dimOfSystem) << endl;
+			energys << ePot << endl;
+		}
+
 
 		eKin = MD.GetKinEnergy();
 		ePot = MD.GetEnergy();
@@ -91,9 +105,9 @@ int main()
 	file.close();
 
 	//Calculate Mean Values
-	meanTemp = meanTemp * 2 / (numberOfSnaps - stepsThermos) 
+	meanTemp = meanTemp * 2 / (numberOfSnaps - 1.5 * stepsThermos) 
 		/ (numOfParticles * dimOfSystem);
-	meanPot = meanPot / (numberOfSnaps - stepsThermos);
+	meanPot = meanPot / (numberOfSnaps - 1.5 * stepsThermos);
 
 	cout << endl << endl << "Mean Values after Thermostat turned off: " << endl;
 	cout << "Temperature: " << meanTemp << "\tPotential Energy: " << meanPot 
