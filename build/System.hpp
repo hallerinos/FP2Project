@@ -21,7 +21,7 @@ class System {
 		// Methods used by both Algorithms
 		double 	GetCoordinate( int partNumber, int axis ) const;
 		double 	GetEnergy() const;
-		long	 	GetAcceptedSteps() const;
+		long	 	GetAcceptedSteps();
 		void 		PrintCoordinates( string fileName ) const;
 		// MC Methods
 		double* makeRandomOnUnitSphere( double* vec ) const;

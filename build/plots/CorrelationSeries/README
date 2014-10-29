@@ -1,0 +1,10 @@
+All plots regarding correlation series
+
+number of particles = 333
+size of system = 9.41036
+density = 0.1998
+temperature = 0.5
+
+number of MC steps for equilibration = 100000
+
+number of measurement MC steps = 40000

@@ -40,8 +40,10 @@ double System::GetEnergyI( int i ) const {
 	return ene;
 }
 
-long System::GetAcceptedSteps() const {
-	return acceptedSteps;
+long System::GetAcceptedSteps() {
+	int temp = acceptedSteps;
+	acceptedSteps = 0;
+	return temp;
 }
 
 /*--------------------------------------------------------------------
