@@ -1,8 +1,0 @@
-Setup for all phasediagramme plots:
-size of system = 9.41036
-temperature = 0.5
-acceptance ratio roughly around 0.6
-
-density		number of Particles	Epsilon
-0.0498		83			0.007
-0.0996		166			0.00675

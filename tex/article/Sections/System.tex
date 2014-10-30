@@ -22,22 +22,27 @@ The total energy $E_n$ of the system in a state $\ket{n}$ is given by the expres
 \end{align}
 \newpage
 \subsubsection*{Periodic Boundary Conditions}
-For both implementations, periodic boundary conditions (PBC) will be used.
-With PBC there are two important consequences for our System. \\
+For both implementations, periodic boundary conditions (PBC) will be used, which imply two important consequences: \smallskip\\
 First, when a particle reaches the border of the System, it is not reflected back, but transfered to the other side of the box.
+A visualisation can be found in Fig.~\ref{Fig:PBCJump}.
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/PBCjump.pdf}
 \caption[PBC: Jump Case]{A particle in a box with PBC jumps from one side to the other.}
-\end{figure}
-Second, particles can interact with images of other particles behind the border of the box. As a result, the distance vector between two particles is not definite. 
+\label{Fig:PBCJump}
+\end{figure}\\
+Second, particles can interact with images of other particles behind the border of the box. As a result, the distance vector between two particles is not unique.
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.8\textwidth]{Figures/tikz/MinimalDistance.pdf}
-\caption[PBC: Interaction Case]{In the middle is the main simulation box with two particles being simulated, the surounding eight boxes are periodic images of the main box. The distance between the two particles is not definite with PBC because there are multiple ways to get from one particle to the other.}
+\caption[PBC: Interaction Case]{Box $S$ at the center represents the simulation box.
+All other images A - H are induced products of PBC and do not exist in the simulation.
+The crutial thing is the non unique distance between interacting particles as a result.}
 \label{PBCinteraction}
 \end{figure}
-Of course a particle doesn't interact with all the images of one and the same particle, thats why the minimum image convention is used, which means a particle only interacts with the closest image of another particle. In figure (\ref{PBCinteraction}) that would be the image to the right middle.
+A particle neighter interacts with itself nor {\em all} of its images, hence the minimum image convention is applied.
+This means a particle's contribution to the potential energy are interacitons with the {\em closest} images of all other particles.
+In Fig.\ref{PBCinteraction}, the shortest distance is represented with a thick black line.
 
 
 
