@@ -16,7 +16,7 @@ long MAX_STEPS = 40000;
 int main()
 {
 	ifstream energyFile;
-	energyFile.open( "plots/rho_0.199800EnergySeries.txt" );
+	energyFile.open( "plots/rho_0.349800EnergySeries.txt" );
 	
 	string line;
 	double* energies = new double[ MAX_STEPS ];

@@ -30,11 +30,8 @@ int main()
 	struct timeval start, end;
 	gettimeofday(&start, NULL);
 
-	float rho;
-	for ( rho = 0.2; rho < 0.3; rho=rho+0.1 ) {
-		numOfParticles = rho * 2 * sizeOfSys*sizeOfSys*sizeOfSys;
-		do_it();
-	}
+	numOfParticles = 0.35 * 2 * sizeOfSys*sizeOfSys*sizeOfSys;
+	do_it();
 
 	gettimeofday(&end, NULL);
 	cout << "\n\nCalculation time: " 
@@ -49,7 +46,7 @@ void do_it() {
 	cout << "Number of Particles: " << numOfParticles;
 	cout << "\tSize of system: " << (double)sizeOfSys;
 	cout << "\nTemperature: " << tempOfSystem;
-	cout << "\t\tParticle density: " << 
+	cout << "\t\t\tParticle density: " << 
 		(double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys) << endl;
 	cout << "Number of MC steps: " << MC_STEPS;
 	cout << "\tEpsilon: " << eps << endl;
@@ -106,15 +103,16 @@ void do_it() {
 			" additional MC steps. Snapshots are saved: " << choice << endl;
 	if ( choice == "No" )
 		while ( steps < MAX_STEPS )	{
-			for ( int i=0; i < 150*numOfParticles; i++ )
+			for ( int i=0; i < 50*numOfParticles; i++ )
 				MC.MonteCarloStep( eps );
 			energies[steps] = MC.GetEnergy();
 			printf("\rProgress: %.2f \%%",(double)(100*steps++ +1)/MAX_STEPS);
 	} else if ( choice == "Yes" ) 
 	  while ( steps < MAX_STEPS )	{
-			for ( int i=0; i < 150*numOfParticles; i++ )
+			for ( int i=0; i < 50*numOfParticles; i++ )
 	  		MC.MonteCarloStep( eps );
-			MC.PrintCoordinates("rho_"+ to_string(
+			MC.PrintCoordinates("T_" + to_string(tempOfSystem) + "rho_"+ 
+					to_string(
 					 (double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys)
 					 ) + "Snapshots.txt");
 	  	energies[steps] = MC.GetEnergy();
@@ -124,7 +122,7 @@ void do_it() {
 	stringstream eneSs;
 	ofstream file;
 	file.open(
-			"plots/rho_"+to_string((double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys))+"EnergySeries.txt");
+			"plots/T_" + to_string(tempOfSystem) + "rho_"+to_string((double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys))+"EnergySeries.txt");
 	for ( int i=0; i < MAX_STEPS; i++ ) 
 			eneSs  << setprecision(10) << energies[i] << endl;
 	file << eneSs.str();
