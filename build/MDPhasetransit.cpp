@@ -35,8 +35,7 @@ int main()
 
 	System MD( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys, particleMass );
 	double eKin = MD.GetKinEnergy();
-	double ePot = MD.GetEnergy();
-	double meanTemp = 0, meanPot = 0;
+	double ePot = MD.GetEnergy();;
 
 	// Output of System Parameters and initial Energies.
 	cout << "System initialized with following parameters: " << endl << endl;
@@ -65,8 +64,11 @@ int main()
 	temps.open( "Temperatures.txt" );
 	energys.open( "Energys.txt" );*/
 
+	bool thermos;
+	for ( int l = 0; l < 12; l++ ){
 	//Thermostat on
-	bool thermos = 1;
+	
+	thermos = 1;
 
 	for ( int j = 0; j < numberOfSnaps; j++){
 
@@ -82,36 +84,19 @@ int main()
 			thermos = 0;
 		}
 		
-		if ( j == 1.5 * stepsThermos ){
-			meanTemp = 0;
-			meanPot = 0;
-		}
-		/*//  Writing Temp and Pot to output files.
-		if ( j >= 1.5 * stepsThermos ){				
-			temps << eKin * 2 / (numOfParticles * dimOfSystem) << endl;
-			energys << ePot << endl;
-		}*/
-
 
 		eKin = MD.GetKinEnergy();
 		ePot = MD.GetEnergy();
 
-		meanTemp += eKin;
-		meanPot += ePot;
 
 		//cout << "\r" << j+1 << " of " << numberOfSnaps << " Pictures taken";
-		cout << "\r" << (int) ((double) (j + 1) / numberOfSnaps * 100) << "% done ...";
+		cout << "\r" << (int) ((double) (j + 1) / (numberOfSnaps) * 100) << "% done ...";
 	}
+	tempOfThermos += 0.1;
+	cout << "Temperature of Thermostat: " << tempOfThermos << endl;
+	}
+
 	file.close();
-
-	//Calculate Mean Values
-	meanTemp = meanTemp * 2 / (numberOfSnaps - 1.5 * stepsThermos) 
-		/ (numOfParticles * dimOfSystem);
-	meanPot = meanPot / (numberOfSnaps - 1.5 * stepsThermos);
-
-	cout << endl << endl << "Mean Values after Thermostat turned off: " << endl;
-	cout << "Temperature: " << meanTemp << "\tPotential Energy: " << meanPot 
-		<< endl << endl;
 	
 	gettimeofday(&end, NULL);
 	cout << "Time needed to do this: " 
