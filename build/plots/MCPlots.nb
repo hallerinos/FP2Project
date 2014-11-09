@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     44091,       1152]
-NotebookOptionsPosition[     42734,       1106]
-NotebookOutlinePosition[     43087,       1122]
-CellTagsIndexPosition[     43044,       1119]
+NotebookDataLength[     54264,       1408]
+NotebookOptionsPosition[     52620,       1355]
+NotebookOutlinePosition[     52973,       1371]
+CellTagsIndexPosition[     52930,       1368]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -337,7 +337,9 @@ Cell[BoxData[{
    3.6235081727832403`*^9, 3.6235081729392347`*^9}, {3.623551435417519*^9, 
    3.623551439705358*^9}, {3.62355156825686*^9, 3.623551580455739*^9}, {
    3.623639660127619*^9, 3.623639687592201*^9}, 3.623693732088208*^9, {
-   3.623832583210635*^9, 3.6238325867467613`*^9}}]
+   3.623832583210635*^9, 3.6238325867467613`*^9}, {3.6244492774320173`*^9, 
+   3.62444928030995*^9}, {3.6244493106628304`*^9, 3.6244493179109793`*^9}, {
+   3.624449421791828*^9, 3.624449431255509*^9}}]
 }, Closed]],
 
 Cell[CellGroupData[{
@@ -356,18 +358,80 @@ Cell[BoxData[
 
 Cell[BoxData[{
  RowBox[{
+  RowBox[{"energyData", " ", "=", " ", 
+   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"energyData", "=", 
+   RowBox[{"Join", "[", 
+    RowBox[{"energyData", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Import", "[", 
+        RowBox[{
+        "\"\<T_0.200000rho_0.349800EnergySeries.txt\>\"", ",", 
+         "\"\<Table\>\""}], "]"}], "//", "Flatten"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"energyData", "=", 
+   RowBox[{"Join", "[", 
+    RowBox[{"energyData", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Import", "[", 
+        RowBox[{
+        "\"\<T_0.600000rho_0.349800EnergySeries.txt\>\"", ",", 
+         "\"\<Table\>\""}], "]"}], "//", "Flatten"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"energyData", "=", 
+   RowBox[{"Join", "[", 
+    RowBox[{"energyData", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Import", "[", 
+        RowBox[{
+        "\"\<T_0.800000rho_0.349800EnergySeries.txt\>\"", ",", 
+         "\"\<Table\>\""}], "]"}], "//", "Flatten"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"energyData", "=", 
+   RowBox[{"Join", "[", 
+    RowBox[{"energyData", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Import", "[", 
+        RowBox[{
+        "\"\<T_1.000000rho_0.349800EnergySeries.txt\>\"", ",", 
+         "\"\<Table\>\""}], "]"}], "//", "Flatten"}], "}"}]}], "]"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.6244489721411448`*^9, 3.6244490346491413`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
   RowBox[{"numPart", " ", "=", " ", 
    RowBox[{"{", "}"}]}], ";"}], "\n", 
  RowBox[{
   RowBox[{"coordsData", " ", "=", " ", 
-   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"{", "}"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.623505362103236*^9, 3.6235053694501038`*^9}, {
+   3.62354901212708*^9, 3.6235490123306103`*^9}, 3.623553067846126*^9, {
+   3.623575381254121*^9, 3.62357541759271*^9}, {3.623575520939898*^9, 
+   3.623575593092511*^9}, {3.6235756867426367`*^9, 3.623575695830461*^9}, {
+   3.623575738215261*^9, 3.623575760361402*^9}, {3.623577103027679*^9, 
+   3.623577138748951*^9}, {3.623614901183857*^9, 3.623614952148733*^9}, {
+   3.623645333673328*^9, 3.623645404539865*^9}, {3.6244489395639153`*^9, 
+   3.624448949014029*^9}, {3.624449045256897*^9, 3.624449052282229*^9}, 
+   3.6245162724543343`*^9}],
+
+Cell[BoxData[{
  RowBox[{
   RowBox[{"coordsData", "=", 
    RowBox[{"Join", "[", 
     RowBox[{"coordsData", ",", 
      RowBox[{"{", 
       RowBox[{"Import", "[", 
-       RowBox[{"\"\<rho_0.049800Snapshots.txt\>\"", ",", "\"\<Table\>\""}], 
+       RowBox[{
+       "\"\<T_0.200000rho_0.349800Snapshots.txt\>\"", ",", "\"\<Table\>\""}], 
        "]"}], "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"numPart", " ", "=", " ", 
@@ -377,8 +441,47 @@ Cell[BoxData[{
       RowBox[{
        RowBox[{"Length", "[", 
         RowBox[{"coordsData", "[", 
-         RowBox[{"[", "1", "]"}], "]"}], "]"}], "/", "6000"}], "}"}]}], 
-    "]"}]}], ";"}], "\[IndentingNewLine]", 
+         RowBox[{"[", "1", "]"}], "]"}], "]"}], "/", 
+       RowBox[{"Length", "[", 
+        RowBox[{"energyData", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "}"}]}], "]"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.623505362103236*^9, 3.6235053694501038`*^9}, {
+   3.62354901212708*^9, 3.6235490123306103`*^9}, 3.623553067846126*^9, {
+   3.623575381254121*^9, 3.62357541759271*^9}, {3.623575520939898*^9, 
+   3.623575593092511*^9}, {3.6235756867426367`*^9, 3.623575695830461*^9}, {
+   3.623575738215261*^9, 3.623575760361402*^9}, {3.623577103027679*^9, 
+   3.623577138748951*^9}, {3.623614901183857*^9, 3.623614952148733*^9}, {
+   3.623645333673328*^9, 3.623645404539865*^9}, {3.6244489395639153`*^9, 
+   3.624448949014029*^9}, {3.624449045256897*^9, 3.624449052282229*^9}, 
+   3.6245162724543343`*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"coordsData", "=", 
+   RowBox[{"Join", "[", 
+    RowBox[{"coordsData", ",", 
+     RowBox[{"{", 
+      RowBox[{"Import", "[", 
+       RowBox[{
+       "\"\<T_0.400000rho_0.349800Snapshots.txt\>\"", ",", "\"\<Table\>\""}], 
+       "]"}], "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"numPart", " ", "=", " ", 
+   RowBox[{"Join", "[", 
+    RowBox[{"numPart", ",", " ", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Length", "[", 
+        RowBox[{"coordsData", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], "]"}], "/", 
+       RowBox[{"Length", "[", 
+        RowBox[{"energyData", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "}"}]}], "]"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.624516279482945*^9, 3.624516279573135*^9}}],
+
+Cell[BoxData[{
  RowBox[{
   RowBox[{"coordsData", "=", 
    RowBox[{"Join", "[", 
@@ -414,71 +517,56 @@ Cell[BoxData[{
        RowBox[{"Length", "[", 
         RowBox[{"coordsData", "[", 
          RowBox[{"[", "3", "]"}], "]"}], "]"}], "/", "6000"}], "}"}]}], 
-    "]"}]}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"energyData", " ", "=", " ", 
-   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"energyData", "=", 
-   RowBox[{"Join", "[", 
-    RowBox[{"energyData", ",", 
-     RowBox[{"{", 
-      RowBox[{
-       RowBox[{"Import", "[", 
-        RowBox[{
-        "\"\<rho_0.049800EnergySeries.txt\>\"", ",", "\"\<Table\>\""}], "]"}],
-        "//", "Flatten"}], "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"energyData", "=", 
-   RowBox[{"Join", "[", 
-    RowBox[{"energyData", ",", 
-     RowBox[{"{", 
-      RowBox[{
-       RowBox[{"Import", "[", 
-        RowBox[{
-        "\"\<rho_0.099600EnergySeries.txt\>\"", ",", "\"\<Table\>\""}], "]"}],
-        "//", "Flatten"}], "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"energyData", "=", 
-   RowBox[{"Join", "[", 
-    RowBox[{"energyData", ",", 
-     RowBox[{"{", 
-      RowBox[{
-       RowBox[{"Import", "[", 
-        RowBox[{
-        "\"\<rho_0.199800EnergySeries.txt\>\"", ",", "\"\<Table\>\""}], "]"}],
-        "//", "Flatten"}], "}"}]}], "]"}]}], ";"}]}], "Input",
+    "]"}]}], ";"}], "\[IndentingNewLine]"}], "Input",
  CellChangeTimes->{{3.623505362103236*^9, 3.6235053694501038`*^9}, {
    3.62354901212708*^9, 3.6235490123306103`*^9}, 3.623553067846126*^9, {
    3.623575381254121*^9, 3.62357541759271*^9}, {3.623575520939898*^9, 
    3.623575593092511*^9}, {3.6235756867426367`*^9, 3.623575695830461*^9}, {
    3.623575738215261*^9, 3.623575760361402*^9}, {3.623577103027679*^9, 
    3.623577138748951*^9}, {3.623614901183857*^9, 3.623614952148733*^9}, {
-   3.623645333673328*^9, 3.623645404539865*^9}}],
+   3.623645333673328*^9, 3.623645404539865*^9}, {3.6244489395639153`*^9, 
+   3.62444896210623*^9}, {3.6244490432091*^9, 3.624449055524007*^9}}],
 
 Cell[BoxData[
  RowBox[{
   RowBox[{"snaps", "=", 
-   RowBox[{"Manipulate", "[", 
+   RowBox[{"Table", "[", 
     RowBox[{
      RowBox[{"Graphics3D", "[", 
       RowBox[{
-       RowBox[{"Sphere", "[", 
+       RowBox[{"{", 
         RowBox[{
-         RowBox[{"coordsData", "[", 
-          RowBox[{"[", 
-           RowBox[{"i", ",", 
+         RowBox[{"Sphere", "[", 
+          RowBox[{
+           RowBox[{"coordsData", "[", 
+            RowBox[{"[", 
+             RowBox[{"i", ",", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"j", "*", 
+                 RowBox[{"numPart", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}]}], "+", "1"}], ";;", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{"j", "+", "1"}], ")"}], "*", 
+                RowBox[{"numPart", "[", 
+                 RowBox[{"[", "i", "]"}], "]"}]}]}]}], "]"}], "]"}], ",", 
+           "0.5"}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Opacity", "[", "0.2", "]"}], ",", 
+           RowBox[{"Cuboid", "[", 
             RowBox[{
-             RowBox[{
-              RowBox[{"j", "*", 
-               RowBox[{"numPart", "[", 
-                RowBox[{"[", "i", "]"}], "]"}]}], "+", "1"}], ";;", 
-             RowBox[{
-              RowBox[{"(", 
-               RowBox[{"j", "+", "1"}], ")"}], "*", 
-              RowBox[{"numPart", "[", 
-               RowBox[{"[", "i", "]"}], "]"}]}]}]}], "]"}], "]"}], ",", 
-         "0.5"}], "]"}], ",", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"-", ".40"}], ",", 
+               RowBox[{"-", ".40"}], ",", 
+               RowBox[{"-", ".40"}]}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"9.82", ",", "9.82", ",", 
+               RowBox[{"2", "*", "9.62"}]}], "}"}]}], "]"}]}], "}"}]}], "}"}],
+        ",", 
+       RowBox[{"ImageSize", "\[Rule]", "400"}], ",", 
        RowBox[{"PlotRange", "\[Rule]", 
         RowBox[{"{", 
          RowBox[{
@@ -491,28 +579,37 @@ Cell[BoxData[
           RowBox[{"{", 
            RowBox[{
             RowBox[{"-", "1"}], ",", "20"}], "}"}]}], "}"}]}], ",", 
-       RowBox[{"Axes", "\[Rule]", "True"}], ",", 
+       RowBox[{"Axes", "\[Rule]", "False"}], ",", 
+       RowBox[{"Boxed", "\[Rule]", "False"}], ",", 
+       RowBox[{"ViewPoint", "\[Rule]", "Front"}], ",", 
        RowBox[{"PlotLabel", "\[Rule]", 
-        RowBox[{"\"\<Energy: \>\"", "<>", 
-         RowBox[{"ToString", "[", 
-          RowBox[{"energyData", "[", 
-           RowBox[{"[", 
-            RowBox[{"i", ",", 
-             RowBox[{"j", "+", "1"}]}], "]"}], "]"}], "]"}], "<>", 
-         "\"\<\\n\>\""}]}], ",", 
+        RowBox[{"Style", "[", 
+         RowBox[{
+          RowBox[{"\"\<Potential Energy: \>\"", "<>", 
+           RowBox[{"ToString", "[", 
+            RowBox[{"energyData", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", ",", 
+               RowBox[{"j", "+", "1"}]}], "]"}], "]"}], "]"}], "<>", 
+           "\"\<\\n\>\"", "<>", "\"\<Snapshot: \>\"", " ", "<>", " ", 
+           RowBox[{"ToString", "[", 
+            RowBox[{"j", "+", "1"}], "]"}]}], ",", 
+          RowBox[{"FontFamily", "\[Rule]", "\"\<Palatino\>\""}], ",", 
+          RowBox[{"FontSize", "\[Rule]", "25"}]}], "]"}]}], ",", 
        RowBox[{"Method", "\[Rule]", 
         RowBox[{"{", 
-         RowBox[{"\"\<SpherePoints\>\"", "\[Rule]", "12"}], "}"}]}]}], "]"}], 
-     ",", 
+         RowBox[{"\"\<SpherePoints\>\"", "\[Rule]", "100"}], "}"}]}]}], "]"}],
+      ",", 
      RowBox[{"{", 
-      RowBox[{
-       RowBox[{"{", 
-        RowBox[{"i", ",", "1", ",", "\"\<Density\>\""}], "}"}], ",", "1", ",", 
-       RowBox[{"Length", "[", "coordsData", "]"}], ",", "1", ",", 
-       RowBox[{"ControlType", "\[Rule]", "Setter"}]}], "}"}], ",", 
+      RowBox[{"i", ",", "1", ",", 
+       RowBox[{"Length", "[", "coordsData", "]"}], ",", "1"}], "}"}], ",", 
      RowBox[{"{", 
-      RowBox[{"j", ",", "0", ",", "5999", ",", "1"}], "}"}]}], "]"}]}], 
-  ";"}]], "Input",
+      RowBox[{"j", ",", "0", ",", 
+       RowBox[{
+        RowBox[{"Length", "[", 
+         RowBox[{"energyData", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], "]"}], "-", "1"}], ",", "1"}], 
+      "}"}]}], "]"}]}], ";"}]], "Input",
  CellChangeTimes->{{3.623254737824691*^9, 3.623254818077322*^9}, {
    3.623254873904196*^9, 3.623254902236669*^9}, {3.6232550548774757`*^9, 
    3.623255066637868*^9}, {3.623255104018511*^9, 3.623255244752246*^9}, {
@@ -529,7 +626,55 @@ Cell[BoxData[
    3.62357601003769*^9}, {3.623576137601087*^9, 3.623576138994289*^9}, {
    3.623577011921612*^9, 3.6235770456425743`*^9}, 3.6236151378480673`*^9, {
    3.62364652337346*^9, 3.62364652404725*^9}, {3.62364670192517*^9, 
-   3.6236467047266407`*^9}, {3.623646765339954*^9, 3.6236467984848347`*^9}}],
+   3.6236467047266407`*^9}, {3.623646765339954*^9, 3.6236467984848347`*^9}, {
+   3.624449139070595*^9, 3.624449250855517*^9}, {3.624449406920926*^9, 
+   3.624449409356185*^9}, {3.624449521600792*^9, 3.624449556020247*^9}, {
+   3.6244496123089943`*^9, 3.624449626368829*^9}, {3.624449794869911*^9, 
+   3.624449801744801*^9}, {3.624449874147171*^9, 3.624449944811849*^9}, {
+   3.624449983090678*^9, 3.624449995686802*^9}, {3.624450071455646*^9, 
+   3.6244501433423033`*^9}, {3.624450173426921*^9, 3.62445018190237*^9}, {
+   3.624450240911684*^9, 3.6244502611306133`*^9}, {3.624450371576804*^9, 
+   3.624450396061553*^9}, {3.6244511823500757`*^9, 3.6244511837788687`*^9}, {
+   3.624516301668901*^9, 3.624516325314889*^9}, {3.6245164295571337`*^9, 
+   3.6245164360734987`*^9}, {3.624516483365281*^9, 3.624516659410907*^9}}],
+
+Cell[BoxData[
+ RowBox[{"SetDirectory", "[", 
+  RowBox[{
+   RowBox[{"NotebookDirectory", "[", "]"}], "<>", 
+   "\"\<../../tex/article/Figures/animates\>\""}], "]"}]], "Input",
+ CellChangeTimes->{{3.624450410730514*^9, 3.624450469122847*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"delta", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"For", "[", 
+  RowBox[{
+   RowBox[{"j", "=", "0"}], ",", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"delta", "*", "j"}], "+", "1"}], "\[LessEqual]", " ", "50"}], 
+   ",", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Export", "[", 
+     RowBox[{
+      RowBox[{"\"\<MCPhaseSnapsT04\>\"", "<>", 
+       RowBox[{"ToString", "[", "j", "]"}], "<>", "\"\<.png\>\""}], ",", 
+      RowBox[{"Rasterize", "[", 
+       RowBox[{
+        RowBox[{"snaps", "[", 
+         RowBox[{"[", 
+          RowBox[{"1", ",", 
+           RowBox[{
+            RowBox[{"j", "*", "delta"}], "+", "1"}]}], "]"}], "]"}], ",", 
+        RowBox[{"ImageResolution", "\[Rule]", "250"}]}], "]"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"j", "++"}], ";"}]}], "\[IndentingNewLine]", "]"}]}], "Input",
+ CellChangeTimes->{{3.6244504872462997`*^9, 3.624450507175447*^9}, {
+  3.6244505566666718`*^9, 3.624450556759994*^9}, {3.6244506024360847`*^9, 
+  3.624450691317507*^9}, {3.624450753463428*^9, 3.624450796989121*^9}, {
+  3.624451067539839*^9, 3.624451067641424*^9}, {3.6245166678577003`*^9, 
+  3.624516702947279*^9}}],
 
 Cell[BoxData[
  RowBox[{
@@ -885,7 +1030,7 @@ Cell[BoxData[
     RowBox[{"Axes", "\[Rule]", "False"}], ",", 
     RowBox[{"FrameLabel", "\[Rule]", 
      RowBox[{"{", 
-      RowBox[{"\"\<\>\"", ",", "\"\<Correlation\>\""}], "}"}]}], ",", 
+      RowBox[{"\"\<\>\"", ",", "\"\<Energy\>\""}], "}"}]}], ",", 
     RowBox[{"PlotLegends", "\[Rule]", 
      RowBox[{"Placed", "[", 
       RowBox[{
@@ -928,7 +1073,8 @@ Cell[BoxData[
    3.623696890671267*^9, {3.623697016766345*^9, 3.6236972124347267`*^9}, {
    3.623697244711515*^9, 3.623697274271906*^9}, {3.623697452493829*^9, 
    3.623697456095484*^9}, {3.6238323036214867`*^9, 3.623832336926322*^9}, {
-   3.623832699555367*^9, 3.623832834008298*^9}}]
+   3.623832699555367*^9, 3.623832834008298*^9}, {3.624449380207736*^9, 
+   3.624449389785778*^9}}]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -958,7 +1104,7 @@ Cell[BoxData[{
       "\"\<Table\>\""}], "]"}], "//", "Flatten"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"energyData", "=", 
+  RowBox[{"energyDataPlot", "=", 
    RowBox[{"Table", "[", 
     RowBox[{
      RowBox[{"{", 
@@ -967,8 +1113,67 @@ Cell[BoxData[{
         RowBox[{"energyData", "[", 
          RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}], ",", 
      RowBox[{"{", 
-      RowBox[{"i", ",", "1", ",", 
-       RowBox[{"Length", "[", "energyData", "]"}]}], "}"}]}], "]"}]}], 
+      RowBox[{"i", ",", "1", ",", "9"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"energyDataPlot", "=", 
+   RowBox[{"Join", "[", 
+    RowBox[{"energyDataPlot", ",", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"i", ",", 
+         RowBox[{"-", 
+          RowBox[{"energyData", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "10", ",", "90", ",", "10"}], "}"}]}], "]"}]}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"energyDataPlot", "=", 
+   RowBox[{"Join", "[", 
+    RowBox[{"energyDataPlot", ",", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"i", ",", 
+         RowBox[{"-", 
+          RowBox[{"energyData", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "100", ",", "900", ",", "100"}], "}"}]}], "]"}]}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"energyDataPlot", "=", 
+   RowBox[{"Join", "[", 
+    RowBox[{"energyDataPlot", ",", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"i", ",", 
+         RowBox[{"-", 
+          RowBox[{"energyData", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1000", ",", 
+         RowBox[{"10", "^", "4"}], ",", "1000"}], "}"}]}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"energyDataPlot", "=", 
+   RowBox[{"Join", "[", 
+    RowBox[{"energyDataPlot", ",", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"i", ",", 
+         RowBox[{"-", 
+          RowBox[{"energyData", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", 
+         RowBox[{"10", "^", "4"}], ",", 
+         RowBox[{"10", "^", "5"}], ",", 
+         RowBox[{"10", "^", "4"}]}], "}"}]}], "]"}]}], "]"}]}], 
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"energyData2", "=", 
@@ -978,7 +1183,7 @@ Cell[BoxData[{
      "\"\<T_0.5rho_0.349800_200kEnergySeries.txt\>\"", ",", "\"\<Table\>\""}],
       "]"}], "//", "Flatten"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"energyData2", "=", 
+  RowBox[{"energyDataPlot2", "=", 
    RowBox[{"Table", "[", 
     RowBox[{
      RowBox[{"{", 
@@ -987,9 +1192,52 @@ Cell[BoxData[{
         RowBox[{"energyData2", "[", 
          RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}], ",", 
      RowBox[{"{", 
-      RowBox[{"i", ",", "1", ",", 
-       RowBox[{"Length", "[", "energyData2", "]"}]}], "}"}]}], "]"}]}], 
+      RowBox[{"i", ",", "1", ",", "9"}], "}"}]}], "]"}]}], 
   ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"energyDataPlot2", "=", 
+   RowBox[{"Join", "[", 
+    RowBox[{"energyDataPlot2", ",", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"i", ",", 
+         RowBox[{"-", 
+          RowBox[{"energyData2", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "10", ",", "90", ",", "10"}], "}"}]}], "]"}]}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"energyDataPlot2", "=", 
+   RowBox[{"Join", "[", 
+    RowBox[{"energyDataPlot2", ",", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"i", ",", 
+         RowBox[{"-", 
+          RowBox[{"energyData2", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "100", ",", "900", ",", "100"}], "}"}]}], "]"}]}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"energyDataPlot2", "=", 
+   RowBox[{"Join", "[", 
+    RowBox[{"energyDataPlot2", ",", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"i", ",", 
+         RowBox[{"-", 
+          RowBox[{"energyData2", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1000", ",", 
+         RowBox[{"4", "*", 
+          RowBox[{"10", "^", "4"}]}], ",", "1000"}], "}"}]}], "]"}]}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"corrData", " ", "=", " ", 
    RowBox[{
@@ -1021,7 +1269,11 @@ Cell[BoxData[{
   3.6237687525613413`*^9, 3.623768758228015*^9}, {3.6237688118295927`*^9, 
   3.62376885012821*^9}, {3.623831695799027*^9, 3.6238317126668377`*^9}, {
   3.623831758263851*^9, 3.623831767289673*^9}, {3.623831915161648*^9, 
-  3.623831917504491*^9}}],
+  3.623831917504491*^9}, {3.623961772352867*^9, 3.6239618678758087`*^9}, {
+  3.623961914749612*^9, 3.6239619323787193`*^9}, {3.623962051965105*^9, 
+  3.6239620589610863`*^9}, {3.623962101682811*^9, 3.6239621019659643`*^9}}],
+
+Cell[BoxData["energyDataPlot2"], "Input"],
 
 Cell[BoxData[
  RowBox[{
@@ -1052,15 +1304,7 @@ Cell[BoxData[
  RowBox[{"ListLogLinearPlot", "[", 
   RowBox[{
    RowBox[{"{", 
-    RowBox[{
-     RowBox[{"energyData", "[", 
-      RowBox[{"[", 
-       RowBox[{"1", ";;", 
-        RowBox[{"-", "1"}]}], "]"}], "]"}], ",", 
-     RowBox[{"energyData2", "[", 
-      RowBox[{"[", 
-       RowBox[{"1", ";;", 
-        RowBox[{"-", "1"}]}], "]"}], "]"}]}], "}"}], ",", 
+    RowBox[{"energyDataPlot", ",", "energyDataPlot2"}], "}"}], ",", 
    RowBox[{"FrameLabel", "\[Rule]", 
     RowBox[{"{", 
      RowBox[{
@@ -1073,7 +1317,7 @@ Cell[BoxData[
     RowBox[{"{", 
      RowBox[{
       RowBox[{"{", 
-       RowBox[{"0", ",", "200000"}], "}"}], ",", 
+       RowBox[{"0", ",", "100000"}], "}"}], ",", 
       RowBox[{"{", 
        RowBox[{"1300", ",", "2800"}], "}"}]}], "}"}]}], ",", 
    RowBox[{"PlotLegends", "\[Rule]", 
@@ -1092,7 +1336,8 @@ Cell[BoxData[
          "}"}]}], "]"}], ",", 
       RowBox[{"{", 
        RowBox[{"Right", ",", "Center"}], "}"}]}], "]"}]}], ",", 
-   RowBox[{"ImageSize", "\[Rule]", "600"}]}], "]"}]], "Input",
+   RowBox[{"ImageSize", "\[Rule]", "600"}], ",", 
+   RowBox[{"GridLines", "\[Rule]", "Automatic"}]}], "]"}]], "Input",
  CellChangeTimes->{{3.6237381802514544`*^9, 3.62373821182101*^9}, {
   3.623738297433601*^9, 3.6237383136749477`*^9}, {3.6237383656799593`*^9, 
   3.623738422085425*^9}, {3.6237687830849867`*^9, 3.6237687902847958`*^9}, {
@@ -1101,8 +1346,12 @@ Cell[BoxData[
   3.623832100015234*^9, 3.623832164972601*^9}, {3.6238322040799093`*^9, 
   3.623832284405539*^9}, {3.623832367147709*^9, 3.6238324278084917`*^9}, {
   3.623832465267941*^9, 3.623832487257667*^9}, {3.623832649396228*^9, 
-  3.623832649761235*^9}}]
-}, Open  ]]
+  3.623832649761235*^9}, {3.6239617544991198`*^9, 3.6239617555388308`*^9}, {
+  3.623961876826713*^9, 3.6239619018153954`*^9}, {3.6239619369631977`*^9, 
+  3.623961939155098*^9}, {3.6239622012879467`*^9, 3.623962204565351*^9}, {
+  3.623962289945053*^9, 3.623962405776924*^9}, {3.6239625137970257`*^9, 
+  3.623962559838231*^9}}]
+}, Closed]]
 },
 WindowSize->{1280, 752},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
@@ -1124,36 +1373,43 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[580, 22, 156, 2, 44, "Subsection"],
 Cell[739, 26, 9156, 264, 284, "Input"],
-Cell[9898, 292, 1958, 47, 80, "Input"]
+Cell[9898, 292, 2109, 49, 80, "Input"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[11893, 344, 122, 1, 50, "Section"],
-Cell[12018, 347, 314, 7, 28, "Input"],
-Cell[12335, 356, 3615, 100, 216, "Input"],
-Cell[15953, 458, 3254, 73, 63, "Input"],
-Cell[19210, 533, 2285, 44, 46, "Input"],
-Cell[21498, 579, 3731, 78, 114, "Input"],
-Cell[25232, 659, 186, 2, 46, "Input"]
+Cell[12044, 346, 122, 1, 50, "Section"],
+Cell[12169, 349, 314, 7, 28, "Input"],
+Cell[12486, 358, 1573, 48, 97, "Input"],
+Cell[14062, 408, 803, 15, 46, "Input"],
+Cell[14868, 425, 1345, 31, 46, "Input"],
+Cell[16216, 458, 801, 23, 46, "Input"],
+Cell[17020, 483, 1823, 44, 97, "Input"],
+Cell[18846, 529, 5073, 109, 114, "Input"],
+Cell[23922, 640, 240, 5, 28, "Input"],
+Cell[24165, 647, 1187, 29, 97, "Input"],
+Cell[25355, 678, 2285, 44, 46, "Input"],
+Cell[27643, 724, 3731, 78, 114, "Input"],
+Cell[31377, 804, 186, 2, 46, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[25455, 666, 103, 1, 64, "Section"],
-Cell[25561, 669, 442, 9, 28, "Input"],
-Cell[26006, 680, 123, 2, 28, "Input"],
-Cell[26132, 684, 337, 6, 28, "Input"],
-Cell[26472, 692, 2103, 42, 63, "Input"],
-Cell[28578, 736, 2965, 60, 63, "Input"],
-Cell[31546, 798, 1138, 29, 63, "Input"],
-Cell[32687, 829, 920, 23, 28, "Input"],
-Cell[33610, 854, 3119, 76, 80, "Input"]
+Cell[31600, 811, 103, 1, 64, "Section"],
+Cell[31706, 814, 442, 9, 28, "Input"],
+Cell[32151, 825, 123, 2, 28, "Input"],
+Cell[32277, 829, 337, 6, 28, "Input"],
+Cell[32617, 837, 2103, 42, 63, "Input"],
+Cell[34723, 881, 2965, 60, 63, "Input"],
+Cell[37691, 943, 1138, 29, 63, "Input"],
+Cell[38832, 974, 920, 23, 28, "Input"],
+Cell[39755, 999, 3164, 77, 80, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[36766, 935, 103, 1, 64, "Section"],
-Cell[36872, 938, 240, 6, 28, "Input"],
-Cell[37115, 946, 123, 2, 28, "Input"],
-Cell[37241, 950, 2585, 73, 131, "Input"],
-Cell[39829, 1025, 755, 23, 28, "Input"],
-Cell[40587, 1050, 2131, 53, 90, "Input"]
-}, Open  ]]
+Cell[42956, 1081, 103, 1, 64, "Section"],
+Cell[43062, 1084, 240, 6, 28, "Input"],
+Cell[43305, 1092, 123, 2, 28, "Input"],
+Cell[43431, 1096, 6095, 177, 250, "Input"],
+Cell[49529, 1275, 41, 0, 28, "Input"],
+Cell[49573, 1277, 755, 23, 28, "Input"],
+Cell[50331, 1302, 2273, 50, 107, "Input"]
+}, Closed]]
 }
 ]
 *)
