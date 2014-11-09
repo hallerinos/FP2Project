@@ -2,7 +2,6 @@
 It has been already mentioned, that MC approaches can be used to research many body systems which are not solvable analytically.
 Numerical methods simplify this task, but they introduce other challenges - in most cases (especially for large scaling sizes), it is not possible to acces every single state.
 However, for the explanation of the used algorithm, this can be neglected for now.
-
 \subsection{Detailed Balance and the Metropolis Algorithm}
 Consider the particle flow out of state $\ket{i}$
 \begin{align}
@@ -41,17 +40,14 @@ The according proof is short accepting $\Delta E > 0$ without qualification
 This criterion does always accept the trial state, if the energy is lowered and exponentially suppresses those, which raise the energy.
 For the sake of illustration, all simulation steps will be described in detail.
 \begin{enumerate}
-	\item{Initialise the coordinates of all particles - random or sorted}
-	\item{Perform $M$ trial moves $(M \approx\,??)$, i.e.
+	\item{Initialise the coordinates of all particles in a crystal}
+	\item{Perform Monte Carlo moves with an acceptance of roughly \SI{60}{\percent}, i.e.
 		\begin{itemize}
-			\item{Select a particle and move it with vector $\delta r$}
+			\item{Select a particle and move it with vector $\delta \bm r$}
 			\item{Compute the energy difference $\Delta E = E_j - E_i$}
+			\item{Generate a uniformly distributed random number $x$ in $[0, 1]$ and accept the trial move, if eighter $\Delta E>0$ or $x < \exp(-\beta\Delta E)$, discard otherwise}
+			\item{Repeat the previous steps $N$ times, assuming $N$ is the number of particles}
 		\end{itemize}
-	\item{Generate a uniformly distributet random number $x$ in $[0, 1]$ and accept the trial move, if eighter $\Delta E>0$ or $x < \exp(-\beta\Delta E)$, discard otherwise.}
+	\item{In cases where the success ratio of movements is lower than \SI{60}{\percent}, adjust the length of $\delta r$ and try again.}
 }
 \end{enumerate}
-
-\begin{figure}[ht]
-	\includegraphics[width=\textwidth]{Figures/TestFrame.pdf}
-\end{figure}
-% \subsection{Convergency Behaviour}

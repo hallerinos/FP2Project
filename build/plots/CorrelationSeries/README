@@ -1,0 +1,12 @@
+acceptance ratio: 24,49,68
+number of particles = 166
+size of system = 9.41036
+density = 0.1992
+temperature = 1
+
+number of MC steps for equilibration = 200
+number of measurement MC steps = 40000
+
+
+acceptance ratio: 85,35,65
+temperature = 2

@@ -6,13 +6,15 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
+#include <cstdio>
 
 #include "MCSystem.hpp"
 
 using namespace std;
 
 void readFromFile();
-void writeConditionsToFile();
+void writeConditionsToFile(float rho, float ratio);
+void do_it();
 
 int numOfParticles, dimOfSystem;
 double sizeOfSys;
@@ -24,76 +26,12 @@ string choice;
 int main()
 {
 	readFromFile();
-
-	cout << "Number of Particles: " << numOfParticles;
-	cout << "\tSize of system: " << (double)sizeOfSys;
-	cout << "\nTemperature: " << tempOfSystem;
-	cout << "\t\tParticle density: " << 
-		(double)numOfParticles/(sizeOfSys*sizeOfSys*sizeOfSys) << endl;
-	cout << "Number of MC steps: " << MC_STEPS;
-	cout << "\tEpsilon: " << eps;
-	
-	// writeConditionsToFile();
-	
-	// initialise random seed	
-	srand( time(NULL) );		// different seeds
-	// srand( 0 );						// same seed 
-
-
-	System MC( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys );
-	
-	cout << "\n\nInitial energy: " << setprecision(10) << MC.GetEnergy()
-		<< " ... starting system equilibration" << endl;
-
-	long steps = 0;
-	
 	// measuring the calculation time
 	struct timeval start, end;
 	gettimeofday(&start, NULL);
-	
-	while ( steps < MC_STEPS )	{
-		MC.MonteCarloStep( eps );
-		steps++;
-	}
 
-	cout << "Done. Final energy:";
-	cout << setprecision(10) << MC.GetEnergy();
-
-	cout << "\t\tAcceptance ratio: " 
-		<< (double)MC.GetAcceptedSteps()/MC_STEPS << endl << endl;
-	
-	steps = 0;	
-	double* energies = new double[MAX_STEPS];
-	cout << "Measuring... " << MAX_STEPS <<
-			" additional MC. Snapshots are saved: " << choice;
-	cout << "\nProgress:\n";
-	if ( choice == "No" )
-		while ( steps < MAX_STEPS )	{
-			MC.MonteCarloStep( eps );
-			energies[steps] = MC.GetEnergy();
-			cout << "\r" << setprecision(4) 
-				<< (double)(steps++ + 1)/MAX_STEPS*100;	
-	} else if ( choice == "Yes" ) 
-	  while ( steps < MAX_STEPS )	{
-	  	MC.MonteCarloStep( eps );
-	  	energies[steps] = MC.GetEnergy();
-	  	if ( steps % 10000 == 0 ) {
-				MC.PrintCoordinates("T_" + to_string(tempOfSystem) + 
-					 "_rho_"+ to_string(
-						 (double)numOfParticles/(sizeOfSys*sizeOfSys*sizeOfSys)
-						 ) + "Snap" + to_string(steps) + ".txt");
-			}
-	  	cout << "\r" << setprecision(4) 
-	  		<< (double)(steps++ + 1)/MAX_STEPS*100;	
-	}
-	
-	stringstream eneSs;
-	ofstream file;
-	file.open((string("plots/")+to_string(eps)+"EnergySeries.txt").c_str());
-	for ( int i=0; i < MAX_STEPS; i++ ) 
-			eneSs  << setprecision(10) << energies[i] << endl;
-	file << eneSs.str();
-	file.close();
+	numOfParticles = 0.35 * 2 * sizeOfSys*sizeOfSys*sizeOfSys;
+	do_it();
 
 	gettimeofday(&end, NULL);
 	cout << "\n\nCalculation time: " 
@@ -102,6 +40,94 @@ int main()
 
 
 	return 0;
+}
+
+void do_it() {
+	cout << "Number of Particles: " << numOfParticles;
+	cout << "\tSize of system: " << (double)sizeOfSys;
+	cout << "\nTemperature: " << tempOfSystem;
+	cout << "\t\t\tParticle density: " << 
+		(double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys) << endl;
+	cout << "Number of MC steps: " << MC_STEPS;
+	cout << "\tEpsilon: " << eps << endl;
+	// initialise random seed	
+	srand( time(NULL) );		// different seeds
+	// srand( 0 );						// same seed 
+
+	long steps = 0;
+	float optRatio = 0.60;
+	float accRatio;
+	cout << "First, find a good step size... " 
+		<< "Optimum ratio: " << optRatio << endl;
+	// do {
+	// 	System testSys(numOfParticles,dimOfSystem,tempOfSystem,sizeOfSys);
+	// 	while ( steps < 332000 )	{
+	// 		testSys.MonteCarloStep( eps );
+	// 		steps++;
+	// 	}
+	// 	accRatio = (double)testSys.GetAcceptedSteps()/steps;
+	// 	steps = 0;
+	// 	if ( accRatio < optRatio ) {
+	// 		cout << "Bad Ratio. Give a smaller initial MC step size!";
+	// 		break;
+	// 	}
+	// 	if ( accRatio-optRatio<0.015 ) {
+	// 		cout << "Ratio OK: " << accRatio << ", start equilibration...";
+	// 		break;
+	// 	}
+	// 	cout << "Acceptance Ratio bad... " 
+	// 		<< "Ratio: " << accRatio << " new MC step size: " << eps << endl;
+	// 	eps += 0.0002;
+	// } while ( eps > 0 && eps < 0.5 );
+
+	System MC( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys );
+	cout << "\nInitial energy: " 
+		<< setprecision(6) << MC.GetEnergy() << endl;
+	steps = 0;
+	while ( steps < MC_STEPS )	{
+		for ( int i = 0; i < numOfParticles; i++ ) {
+			MC.MonteCarloStep( eps );
+		}
+		accRatio = (double)100*MC.GetAcceptedSteps()/numOfParticles;
+		printf("\rProgress: %.2f \%%",(double)(100*steps++ +1)/MC_STEPS);
+		printf("\r\t\t\tAcceptance Ratio: %.2f \%%",accRatio);
+	}
+	cout << "\nDone. Final energy:";
+	cout << setprecision(10) << MC.GetEnergy();
+	cout << "\nAcceptance ratio: " 
+		<< accRatio << endl << endl;
+	
+	steps = 0;	
+	double* energies = new double[MAX_STEPS];
+	cout << "Measuring... " << MAX_STEPS <<
+			" additional MC steps. Snapshots are saved: " << choice << endl;
+	if ( choice == "No" )
+		while ( steps < MAX_STEPS )	{
+			for ( int i=0; i < 50*numOfParticles; i++ )
+				MC.MonteCarloStep( eps );
+			energies[steps] = MC.GetEnergy();
+			printf("\rProgress: %.2f \%%",(double)(100*steps++ +1)/MAX_STEPS);
+	} else if ( choice == "Yes" ) 
+	  while ( steps < MAX_STEPS )	{
+			for ( int i=0; i < 50*numOfParticles; i++ )
+	  		MC.MonteCarloStep( eps );
+			MC.PrintCoordinates("T_" + to_string(tempOfSystem) + "rho_"+ 
+					to_string(
+					 (double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys)
+					 ) + "Snapshots.txt");
+	  	energies[steps] = MC.GetEnergy();
+			printf("\rProgress: %.2f \%%",(double)(100*steps++ +1)/MAX_STEPS);
+	}
+	
+	stringstream eneSs;
+	ofstream file;
+	file.open(
+			"plots/T_" + to_string(tempOfSystem) + "rho_"+to_string((double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys))+"EnergySeries.txt");
+	for ( int i=0; i < MAX_STEPS; i++ ) 
+			eneSs  << setprecision(10) << energies[i] << endl;
+	file << eneSs.str();
+	file.close();
+	cout << "\nProgramm finished." << endl;
 }
 
 /*--------------------------------------------------------------------
@@ -171,7 +197,7 @@ void System::PrintCoordinates( string fileName ) const {
 /*--------------------------------------------------------------------
  * Write initial settings to a file...
  *------------------------------------------------------------------*/
-void writeConditionsToFile() {
+void writeConditionsToFile(float rho, float ratio) {
 	cout << "Writing Conditions...";
 	stringstream iniConditions;
 	iniConditions << "Number_of_particles:\t" << endl;
@@ -182,8 +208,10 @@ void writeConditionsToFile() {
 	iniConditions << sizeOfSys << endl;
 	iniConditions << "Temperature:\t" << endl;
 	iniConditions << tempOfSystem << endl;
+	iniConditions << "Acceptance Ratio:\t" << endl;
+	iniConditions << ratio << endl;
 	ofstream file;
-	file.open( "plots/"+to_string(eps)+"SystemSpecs.txt" );
+	file.open( "plots/"+to_string(rho)+"SystemSpecs.txt" );
 	file << iniConditions.str();
 	file.close();
 	cout << " Done." << endl;

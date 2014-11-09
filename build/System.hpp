@@ -7,6 +7,7 @@
 #include <iomanip>		// std::setprecision
 #include <climits>
 #include <string>
+#include <thread>
 
 using namespace std;
 
@@ -21,8 +22,10 @@ class System {
 		// Methods used by both Algorithms
 		double 	GetCoordinate( int partNumber, int axis ) const;
 		double 	GetEnergy() const;
-		long	 	GetAcceptedSteps() const;
+		long	 	GetAcceptedSteps();
 		void 		PrintCoordinates( string fileName ) const;
+		void 		FirstHalf( double ene, double normalisation) const;
+		void 		SecondHalf( double ene, double normalisation) const;
 		// MC Methods
 		double* makeRandomOnUnitSphere( double* vec ) const;
 		double 	GetEnergyI( int ) const;
@@ -223,11 +226,13 @@ double System::GetDistanceSq( int partNumOne, int partNumTwo ) const {
 		coordDiff*=coordDiff;
 		dist += coordDiff;
 	}
+/**/
 	coordDiff = coords[ partNumTwo*dimOfSystem + 2] 
 		- coords[ partNumOne*dimOfSystem + 2];
 	coordDiff = coordDiff - 2*sizeOfSys*round( coordDiff/(2*sizeOfSys) );
 	coordDiff*=coordDiff;
 	dist += coordDiff;
+/**/
 	return dist;
 }
 
