@@ -7,7 +7,6 @@
 #include <iomanip>		// std::setprecision
 #include <climits>
 #include <string>
-#include <thread>
 
 using namespace std;
 

@@ -60,10 +60,10 @@ int main()
 	ofstream file;
 	file.open( fileName.c_str() );
 	
-	/*ofstream energys;  						// Outputs for Correlation
+	ofstream energys;  						// Outputs for Correlation
 	ofstream temps;
 	temps.open( "Temperatures.txt" );
-	energys.open( "Energys.txt" );*/
+	energys.open( "Energys.txt" );
 
 	//Thermostat on
 	bool thermos = 1;
@@ -86,11 +86,11 @@ int main()
 			meanTemp = 0;
 			meanPot = 0;
 		}
-		/*//  Writing Temp and Pot to output files.
+		//  Writing Temp and Pot to output files.
 		if ( j >= 1.5 * stepsThermos ){				
 			temps << eKin * 2 / (numOfParticles * dimOfSystem) << endl;
 			energys << ePot << endl;
-		}*/
+		}
 
 
 		eKin = MD.GetKinEnergy();
@@ -103,6 +103,8 @@ int main()
 		cout << "\r" << (int) ((double) (j + 1) / numberOfSnaps * 100) << "% done ...";
 	}
 	file.close();
+	temps.close();
+	energys.close();
 
 	//Calculate Mean Values
 	meanTemp = meanTemp * 2 / (numberOfSnaps - 1.5 * stepsThermos) 
