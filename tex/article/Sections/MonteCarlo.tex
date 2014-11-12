@@ -1,8 +1,8 @@
 \section{Monte Carlo Simulation}
 It has been already mentioned, that MC approaches can be used to research many body systems which are not solvable analytically.
 Numerical methods simplify this task, but they introduce other challenges - in most cases (especially for large scaling sizes), it is not possible to acces every single state.
-However, for the explanation of the used algorithm, this can be neglected for now.
-\subsection{Detailed Balance and the Metropolis Algorithm}
+But since physically important states are located at a small submanifold of a system's Hilbert space, certain methods, e.g. the Metropolis-Algorithm, favor to obtain these states.
+\subsection*{Detailed Balance and the Metropolis Algorithm}
 Consider the particle flow out of state $\ket{i}$
 \begin{align}
 	j^\text{out}_{i} \mathrel{\mathop:}= \sum_j P_i(t) W_{ij},
@@ -48,6 +48,9 @@ For the sake of illustration, all simulation steps will be described in detail.
 			\item{Generate a uniformly distributed random number $x$ in $[0, 1]$ and accept the trial move, if eighter $\Delta E>0$ or $x < \exp(-\beta\Delta E)$, discard otherwise}
 			\item{Repeat the previous steps $N$ times, assuming $N$ is the number of particles}
 		\end{itemize}
-	\item{In cases where the success ratio of movements is lower than \SI{60}{\percent}, adjust the length of $\delta r$ and try again.}
+	\item{In cases where the success ratio of movements is lower than \SI{60}{\percent}, adjust the length $\left|\delta r\right|=\epsilon$ and try again.}
 }
 \end{enumerate}
+To access a good amount of states, each Monte-Carlo steps must show ergo\-dicity.
+For this purpose, the step vector $\delta \bm r$ is a uniformly distributed vector on a sphere with norm $\left|\delta\bm r\right| = \epsilon$ per construction\footnote{Uniformly distributed $u=\cos(\theta)$ and $v=\phi$, the resulting vector via spherical coordinates.}.
+The reason for choosing an acceptance ratio of \SI{60}{\percent} is based on the correlation analysis of quantity measurements.

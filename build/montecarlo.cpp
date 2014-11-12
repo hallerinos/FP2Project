@@ -46,7 +46,7 @@ void do_it() {
 	cout << "Number of Particles: " << numOfParticles;
 	cout << "\tSize of system: " << (double)sizeOfSys;
 	cout << "\nTemperature: " << tempOfSystem;
-	cout << "\t\t\tParticle density: " << 
+	cout << "\t\tParticle density: " << 
 		(double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys) << endl;
 	cout << "Number of MC steps: " << MC_STEPS;
 	cout << "\tEpsilon: " << eps << endl;
