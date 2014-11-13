@@ -130,26 +130,13 @@ double System::GetTemperature() const {
 }
 
 /*-----------------------------------------------------------------
- * Adjust Velocities to Maxwell-Boltzmann Distribution
+ * Adjust Velocities to Temperature
  * --------------------------------------------------------------*/
 
-void System::AdjustVelos() {
-	double vsq = 0, vnew = 0, vmax = sqrt( dimOfSystem * tempOfSystem / mass);
-	double random = 0;
-	double c1 = sqrt( mass / (2 * 3.1416 * dimOfSystem * tempOfSystem) );
-	double c2 = mass / (2 * dimOfSystem * tempOfSystem);
-	for (int i = 0; i < numberOfParticles; i++){
-		vsq = 0;
-		for (int j = 0; j < dimOfSystem; j++)
-			vsq += pow( velos[i*dimOfSystem + j], 2);
-		// Set new Velocity
-		vnew = (double) rand() / INT_MAX * 4 * vmax;
-		random = (double) rand() / INT_MAX;
-		// Check Boltzmann
-		if ( random < (c1 * exp(-c2 *pow(vnew,2))) ){
-			for (int j = 0; j < dimOfSystem; j++)
-				velos[i*dimOfSystem+j] = velos[i*dimOfSystem+j] * vnew / sqrt(vsq);
-		}
+void System::AdjustVelos( double oldMeanT, double newT) {
+	double rescale = sqrt( newT / oldMeanT );
+	for (int i = 0; i < numberOfParticles*dimOfSystem; i++){
+	velos[i] = velos[i] * rescale;
 	}
 }
 
