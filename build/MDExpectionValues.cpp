@@ -14,9 +14,9 @@ using namespace std;
 int main()
 {
 	ifstream energyFile;
-	energyFile.open( "Temperatures.txt" );
+	energyFile.open( "Energys.txt" );
 	string line;
-	int len = 15000;
+	int len = 95000;
 
 	double energies[ len ];
 	for ( int i=0;  i < len; i++) {

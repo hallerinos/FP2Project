@@ -21,8 +21,14 @@
 
 *.mov
 
+<<<<<<< HEAD
+*.nb
+
+*.flv
+=======
 *.flv
 
+>>>>>>> parent of fd7520a... look at my vid, my vid is amazing! give it a lick! ...
 
 *.dat
 

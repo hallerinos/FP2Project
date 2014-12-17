@@ -65,10 +65,8 @@ int main()
 	temps.open( "Temperatures.txt" );
 	energys.open( "Energys.txt" );
 
-	//Thermostat off
-	bool thermos = 0;
-	int counter = 0;
-
+	//Thermostat on
+	bool thermos = 1;
 
 	for ( int j = 0; j < numberOfSnaps; j++){
 
@@ -79,22 +77,15 @@ int main()
 			MD.VeloVerletStepMD( stepSize, thermos, tempOfThermos, thermCoupling );
 		//if ( j < 1200 )	MD.AdjustVelos();
 	
+		//Thermostat off after ... Snapshots
+		if ( j == stepsThermos ) {
+			thermos = 0;
+		}
 		
-		if ( j <= stepsThermos && counter == thermCoupling ){
-			meanTemp = meanTemp * 2 / counter / (dimOfSystem * numOfParticles);
-			cout << "Adjusting current T " << meanTemp << " to " << tempOfSystem
-				<< endl;
-			MD.AdjustVelos( meanTemp, tempOfSystem );
-			counter = 0;
+		if ( j == 1.5 * stepsThermos ){
 			meanTemp = 0;
 			meanPot = 0;
 		}
-
-		if (j == 1.5 * stepsThermos){
-			meanTemp = 0;
-			meanPot = 0;
-		}
-
 		//  Writing Temp and Pot to output files.
 		if ( j >= 1.5 * stepsThermos ){				
 			temps << eKin * 2 / (numOfParticles * dimOfSystem) << endl;
@@ -104,8 +95,7 @@ int main()
 
 		eKin = MD.GetKinEnergy();
 		ePot = MD.GetEnergy();
-		
-		counter++;
+
 		meanTemp += eKin;
 		meanPot += ePot;
 

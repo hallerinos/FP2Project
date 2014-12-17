@@ -7,7 +7,6 @@
 #include <iomanip>		// std::setprecision
 #include <climits>
 #include <string>
-#include <thread>
 
 using namespace std;
 
@@ -33,7 +32,7 @@ class System {
 		double 	GetDistanceSq( int partNumOne, int partNumTwo) const;
 		// MD Methods
 		void 		VeloVerletStepMD( double dT, bool termostat, double tempThermos, double coupling );
-		void 		AdjustVelos();
+		void 		AdjustVelos( double oldMeanTemp, double newTemp );
 		void 		AdjustVelosDavid( double tempOfThermostat, double coupling );
 		double 	GetKinEnergy() const;
 		double 	GetTemperature() const;

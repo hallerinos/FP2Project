@@ -15,9 +15,15 @@ void System::VeloVerletStepMD ( double dT, bool thermostat, double tempThermos, 
 	
 	for (int i = 0; i < dimOfSystem*numberOfParticles; i++){
 		coords[i] = coords[i] + velos[i] * dT + forces[i]*c1;
-		//Periodic Boundary
-		coords[i] = coords[i] 
-			- round( (coords[i] / sizeOfSys - 0.5 ) ) * sizeOfSys;
+	}
+		//Periodic Boundary, Z coordinate gets double length
+	for (int i = 0; i < numberOfParticles; i++){
+		coords[i*dimOfSystem] -= 
+			round( (coords[i*dimOfSystem] / sizeOfSys - 0.5 ) ) * sizeOfSys;
+		coords[i*dimOfSystem + 1] -= 
+			round( (coords[i*dimOfSystem + 1] / sizeOfSys - 0.5 ) ) * sizeOfSys;
+		coords[i*dimOfSystem + 2] -= 
+			round((coords[i*dimOfSystem + 2] / (2*sizeOfSys) - 0.5 )) *2* sizeOfSys;
 	}
 
 	//Calculate new Forces	
@@ -30,14 +36,21 @@ void System::VeloVerletStepMD ( double dT, bool thermostat, double tempThermos, 
 	for ( int i = 0; i < numberOfParticles; i++ ){
 		for ( int j = i+1; j < numberOfParticles; j++ ){
 			rsq = 0;
-
-			for ( int k = 0; k < dimOfSystem; k++ ){
+			
+			//Calculating Distance squared. Seperate for Z coordinate because of
+			//doubled length
+			for ( int k = 0; k < dimOfSystem-1; k++ ){
 				diffV[k] = coords[i*dimOfSystem + k] - coords[j*dimOfSystem + k];
 				// Periodic Boundary
-				diffV[k] = diffV[k] - sizeOfSys * round( diffV[k] / sizeOfSys );
+				diffV[k] -= sizeOfSys * round( diffV[k] / sizeOfSys );
 				
 				rsq += pow(diffV[k],2);
 			}
+				diffV[2] = coords[i*dimOfSystem + 2] - coords[j*dimOfSystem + 2];
+				// Periodic Boundary
+				diffV[2] -= 2*sizeOfSys * round( diffV[2] / (2*sizeOfSys) );
+				
+				rsq += pow(diffV[2],2);
 			
 			//Cutoff Criteria
 			if ( rsq > MAX_CUTOFF ) continue;
@@ -117,26 +130,13 @@ double System::GetTemperature() const {
 }
 
 /*-----------------------------------------------------------------
- * Adjust Velocities to Maxwell-Boltzmann Distribution
+ * Adjust Velocities to Temperature
  * --------------------------------------------------------------*/
 
-void System::AdjustVelos() {
-	double vsq = 0, vnew = 0, vmax = sqrt( dimOfSystem * tempOfSystem / mass);
-	double random = 0;
-	double c1 = sqrt( mass / (2 * 3.1416 * dimOfSystem * tempOfSystem) );
-	double c2 = mass / (2 * dimOfSystem * tempOfSystem);
-	for (int i = 0; i < numberOfParticles; i++){
-		vsq = 0;
-		for (int j = 0; j < dimOfSystem; j++)
-			vsq += pow( velos[i*dimOfSystem + j], 2);
-		// Set new Velocity
-		vnew = (double) rand() / INT_MAX * 4 * vmax;
-		random = (double) rand() / INT_MAX;
-		// Check Boltzmann
-		if ( random < (c1 * exp(-c2 *pow(vnew,2))) ){
-			for (int j = 0; j < dimOfSystem; j++)
-				velos[i*dimOfSystem+j] = velos[i*dimOfSystem+j] * vnew / sqrt(vsq);
-		}
+void System::AdjustVelos( double oldMeanT, double newT) {
+	double rescale = sqrt( newT / oldMeanT );
+	for (int i = 0; i < numberOfParticles*dimOfSystem; i++){
+	velos[i] = velos[i] * rescale;
 	}
 }
 
