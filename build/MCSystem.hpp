@@ -98,39 +98,40 @@ void System::MonteCarloStep( double eps ) {
 
 void System::MonteCarloStep2() {
 	double sigma = (double)(rand()%INT_MAX)/INT_MAX;
+	double draw;
 	acceptedSteps++;
 
-	if( rand()%2 ) {
-		cout << "Particle inserted.";
-		numberOfParticles++;
+	if( rand()%2 || numberOfParticles ) {
 		for( int i=0; i<2; i++){
-			coords[numberOfParticles*dimOfSystem + i] = (double)sizeOfSys*((rand()%INT_MAX)/INT_MAX);
+			draw = sizeOfSys*((double)(rand()%INT_MAX)/INT_MAX);
+			coords[numberOfParticles*dimOfSystem + i] = draw;
 		}
-		coords[numberOfParticles*dimOfSystem + 2] = (double)2*sizeOfSys*((rand()%INT_MAX)/INT_MAX); 
-		double energy = System::GetEnergyI(numberOfParticles);
-		cout << (energy!=energy);
-		if ( energy != energy || energy > 20 || sigma > sizeOfSys*sizeOfSys*2*sizeOfSys/(numberOfParticles+1)*exp(-(energy-chemPot)/tempOfSystem) ) {
+		draw = sizeOfSys*((double)(rand()%INT_MAX)/INT_MAX);
+		coords[numberOfParticles*dimOfSystem + 2] = draw; 
+		numberOfParticles++;
+		double energy = System::GetEnergyI(numberOfParticles-1);
+		if ( energy != energy || sigma > (double)sizeOfSys*sizeOfSys*2*sizeOfSys/(numberOfParticles+1)*exp(-(energy-chemPot)/tempOfSystem) ) {
 			acceptedSteps--;
 			for( int i=0; i<dimOfSystem; i++ )
 				coords[numberOfParticles*dimOfSystem + i] = 0;
+			numberOfParticles--;
 		}
-	} else { 	
-		cout << "Particle deleted.";
+	} else {	
 		int choice = rand() % numberOfParticles;
 		double tp[dimOfSystem];
 		double energy = System::GetEnergyI(choice);
 		for( int i=0; i<dimOfSystem; i++ ) {
-			tp[i] = coords[numberOfParticles*dimOfSystem + i];
+			tp[i] = coords[choice*dimOfSystem + i];
 			for ( int j=choice; j<numberOfParticles-1; j++)
 				coords[j*dimOfSystem+i]=coords[(j+1)*dimOfSystem+i];
 			coords[numberOfParticles*dimOfSystem + i] = 0;
 		}
 		numberOfParticles--;
-		if ( energy > 20 || sigma > sizeOfSys*sizeOfSys*2*sizeOfSys/(numberOfParticles+1)*exp((energy-chemPot)/tempOfSystem) ) {
+		if ( sigma > (double)(numberOfParticles+1)/sizeOfSys*sizeOfSys*2*sizeOfSys*exp((energy-chemPot)/tempOfSystem) ) {
 			acceptedSteps--;
-			numberOfParticles++;
 			for( int i=0; i<dimOfSystem; i++ )
 				coords[numberOfParticles*dimOfSystem + i] = tp[i];
+			numberOfParticles++;
 		}
 	}
 }

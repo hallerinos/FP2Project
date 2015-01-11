@@ -22,6 +22,7 @@ class System {
 		double 	GetCoordinate( int partNumber, int axis ) const;
 		double 	GetEnergy() const;
 		long	 	GetAcceptedSteps();
+		int 		GetNumberOfParts() const { return numberOfParticles;};
 		void 		PrintCoordinates( string fileName ) const;
 		void 		FirstHalf( double ene, double normalisation) const;
 		void 		SecondHalf( double ene, double normalisation) const;

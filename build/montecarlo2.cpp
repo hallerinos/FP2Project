@@ -31,7 +31,6 @@ int main()
 	struct timeval start, end;
 	gettimeofday(&start, NULL);
 
-	numOfParticles = 100;
 	cout << "Number of Particles: " << numOfParticles;
 	cout << "\tSize of system: " << (double)sizeOfSys;
 	cout << "\nTemperature: " << tempOfSystem;
@@ -47,9 +46,11 @@ int main()
 	System MC( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys, chemPot );
 	cout << "\nInitial energy: " 
 		<< setprecision(6) << MC.GetEnergy() << endl;
-	MC.MonteCarloStep2();
+	for( long i=0; i<MC_STEPS; i++)
+		MC.MonteCarloStep2();
 	cout << "\nFinal energy: " 
 		<< setprecision(6) << MC.GetEnergy() << endl;
+	cout << "Number of particles: " << MC.GetNumberOfParts()/(2*sizeOfSys*sizeOfSys*sizeOfSys);
 
 	gettimeofday(&end, NULL);
 	cout << "\n\nCalculation time: " 
