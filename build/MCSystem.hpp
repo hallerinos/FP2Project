@@ -95,3 +95,48 @@ void System::MonteCarloStep( double eps ) {
 	
 	delete randVec;
 }
+
+void System::MonteCarloStep2() {
+	double sigma = (double)(rand()%INT_MAX)/INT_MAX;
+	acceptedSteps++;
+
+	if( rand()%2 ) {
+		cout << "Particle inserted.";
+		numberOfParticles++;
+		for( int i=0; i<2; i++){
+			coords[numberOfParticles*dimOfSystem + i] = (double)sizeOfSys*((rand()%INT_MAX)/INT_MAX);
+		}
+		coords[numberOfParticles*dimOfSystem + 2] = (double)2*sizeOfSys*((rand()%INT_MAX)/INT_MAX); 
+		double energy = System::GetEnergyI(numberOfParticles);
+		cout << (energy!=energy);
+		if ( energy != energy || energy > 20 || sigma > sizeOfSys*sizeOfSys*2*sizeOfSys/(numberOfParticles+1)*exp(-(energy-chemPot)/tempOfSystem) ) {
+			acceptedSteps--;
+			for( int i=0; i<dimOfSystem; i++ )
+				coords[numberOfParticles*dimOfSystem + i] = 0;
+		}
+	} else { 	
+		cout << "Particle deleted.";
+		int choice = rand() % numberOfParticles;
+		double tp[dimOfSystem];
+		double energy = System::GetEnergyI(choice);
+		for( int i=0; i<dimOfSystem; i++ ) {
+			tp[i] = coords[numberOfParticles*dimOfSystem + i];
+			for ( int j=choice; j<numberOfParticles-1; j++)
+				coords[j*dimOfSystem+i]=coords[(j+1)*dimOfSystem+i];
+			coords[numberOfParticles*dimOfSystem + i] = 0;
+		}
+		numberOfParticles--;
+		if ( energy > 20 || sigma > sizeOfSys*sizeOfSys*2*sizeOfSys/(numberOfParticles+1)*exp((energy-chemPot)/tempOfSystem) ) {
+			acceptedSteps--;
+			numberOfParticles++;
+			for( int i=0; i<dimOfSystem; i++ )
+				coords[numberOfParticles*dimOfSystem + i] = tp[i];
+		}
+	}
+}
+
+void System::InsertParticle() {
+}
+
+void System::DeleteParticle() {
+}

@@ -13,7 +13,7 @@ using namespace std;
 class System {
 	public:
 		// MC Constructor
-		System( int numPart, int dimSys, double tempSys, double sizeOfSys	);
+		System( int numPart, int dimSys, double tempSys, double sizeOfSys, double chemPot	);
 		// MD Constructor 
 		System( int numPart, int dimSys, double tempSys, double sizeOfSys, float particleMass );
 		// Destructor
@@ -29,6 +29,9 @@ class System {
 		double* makeRandomOnUnitSphere( double* vec ) const;
 		double 	GetEnergyI( int ) const;
 		void 		MonteCarloStep( double eps );
+		void 		MonteCarloStep2();
+		void 		InsertParticle();
+		void 		DeleteParticle();
 		double 	GetDistanceSq( int partNumOne, int partNumTwo) const;
 		// MD Methods
 		void 		VeloVerletStepMD( double dT, bool termostat, double tempThermos, double coupling );
@@ -43,7 +46,8 @@ class System {
 		long		acceptedSteps;
 		double 	sizeOfSys;
 		double 	MIN_CUTOFF, MAX_CUTOFF; 	// Cutoff Distances for Interaction
-		double 	tempOfSystem;
+		long 		MAX_NUMOFPARTS;
+		double 	tempOfSystem, chemPot;
 		double 	*coords, *velos, *forces, *forces2;
 		float 	mass;
 };
@@ -52,18 +56,19 @@ class System {
  * Constructor that initialises n*D random coordinates
  *------------------------------------------------------------------*/
 System::System( int newNumberOfParticles, int newDimOfSystem, 
-		double newTempOfSystem, double newSizeOfSys) {
-
+		double newTempOfSystem, double newSizeOfSys, double newChemPot) {
+	chemPot = newChemPot;
 	tempOfSystem = newTempOfSystem;
 	numberOfParticles = newNumberOfParticles;
 	dimOfSystem = newDimOfSystem;
 	sizeOfSys = newSizeOfSys;
 	acceptedSteps = 0;
 	MAX_CUTOFF = 5.039684;
+	MAX_NUMOFPARTS = 2000;
 	forces = 0;
 	forces2 = 0;
 	velos = 0;
-	coords = new double[ numberOfParticles * dimOfSystem ];
+	coords = new double[ MAX_NUMOFPARTS * dimOfSystem ];
 
 	// for ( int i3 = 0; i3 < numberOfParticles; i3++ )
 	// for ( int  d = 0;  d < dimOfSystem			; d++ ) 
@@ -73,7 +78,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	// 	coords[(i1 + numberOfParticles*(i2 + numberOfParticles*i3))*3 + d] 
 	// 		= 0.5/numberOfParticles+ ( (d==0)?(double)i1/numberOfParticles : (d==1)?(double)i2/numberOfParticles: (double)i3/ numberOfParticles );
 	//  }
-	
+		
 	// Initialization of particle locations on lattice
 	int sitesPerDim = ceil( pow( numberOfParticles, (1.0/dimOfSystem) ) );
 	double step = (double) sizeOfSys / sitesPerDim;
