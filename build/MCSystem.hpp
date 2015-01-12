@@ -154,7 +154,7 @@ void System::MonteCarloStep2() {
 
 		if ( energy < chemPot ) {
 			// calculate metropolis criterion
-			metropolis = (double)(numberOfParticles+1)/(sizeOfSys*sizeOfSys*2*sizeOfSys)*exp((energy-chemPot)/tempOfSystem);
+			metropolis = (double)(numberOfParticles+1)/(sizeOfSys*sizeOfSys*2*sizeOfSys)*exp((-energy-chemPot)/tempOfSystem);
 			if ( sigma > metropolis ) {
 				// reject the step
 				acceptedSteps--;
