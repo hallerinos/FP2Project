@@ -113,7 +113,7 @@ void System::MonteCarloStep2() {
 			coords[numberOfParticles*dimOfSystem + i] = draw;
 		}
 		// z-length is twice as long as x,y
-		draw = 2*sizeOfSys*((double)(rand()%INT_MAX)/INT_MAX);
+		draw = 2*sizeOfSys*((double)(rand()%(INT_MAX))/(INT_MAX));
 		coords[numberOfParticles*dimOfSystem + 2] = draw; 
 		numberOfParticles++;
 		// energy of the new particle
@@ -121,7 +121,7 @@ void System::MonteCarloStep2() {
 
 		if ( energy > chemPot ) {
 			// calculate metropolis criterion
-			metropolis = (double)sizeOfSys*sizeOfSys*2*sizeOfSys/(numberOfParticles+1)*exp(-(energy-chemPot)/tempOfSystem);
+			metropolis = (double)sizeOfSys*sizeOfSys*2*sizeOfSys/numberOfParticles*exp(-(energy-chemPot)/tempOfSystem);
 			// test if random number is larger than metropolis
 			if ( sigma > metropolis ) {
 				// reject the step

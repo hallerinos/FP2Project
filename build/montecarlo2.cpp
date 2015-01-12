@@ -48,14 +48,26 @@ int main()
 		<< setprecision(6) << MC.GetEnergy() << endl;
 	for( long i=0; i<MC_STEPS; i++)
 		MC.MonteCarloStep2();
-	cout << "\nFinal energy: " 
-		<< setprecision(6) << MC.GetEnergy() << endl;
-	cout << "Number of particles: " << MC.GetNumberOfParts()/(2*sizeOfSys*sizeOfSys*sizeOfSys);
+	for( long i=0; i<MC_STEPS; i++) {
+		for ( int j=0; j<100; j++ ) {
+			MC.MonteCarloStep2();
+	}
+	cout << setprecision(3) << MC.GetEnergy() << "\t" << MC.GetNumberOfParts() << endl; 
+	}
+	MC.PrintCoordinates("T_" + to_string(tempOfSystem) + "rho_"+ 
+			to_string(
+			 (double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys)
+			 ) + "Snapshots.txt");
+	cout << INT_MAX;
+	// cout << "\nFinal energy: " 
+	// 	<< setprecision(6) << MC.GetEnergy() << endl;
+	// cout << "Number of particles: " << MC.GetNumberOfParts() << endl;
+	// cout << "Density:             " << MC.GetNumberOfParts()/(2*sizeOfSys*sizeOfSys*sizeOfSys) << endl;
 
-	gettimeofday(&end, NULL);
-	cout << "\n\nCalculation time: " 
-		<< ( (end.tv_sec  - start.tv_sec )*1000000 + 
-				  end.tv_usec - start.tv_usec ) / 1000000. << endl;
+	// gettimeofday(&end, NULL);
+	// cout << "\n\nCalculation time: " 
+	// 	<< ( (end.tv_sec  - start.tv_sec )*1000000 + 
+	// 			  end.tv_usec - start.tv_usec ) / 1000000. << endl;
 
 
 	return 0;
