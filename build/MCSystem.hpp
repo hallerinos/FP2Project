@@ -101,7 +101,12 @@ void System::MonteCarloStep2() {
 	double draw;
 	acceptedSteps++;
 
-	if( rand()%2 || numberOfParticles ) {
+	int insOrDel = rand()%2;
+	cout << "Insert or Delete: " << insOrDel;
+
+	// insert or delete
+	if( insOrDel  || !numberOfParticles ) {
+		// put
 		for( int i=0; i<2; i++){
 			draw = sizeOfSys*((double)(rand()%INT_MAX)/INT_MAX);
 			coords[numberOfParticles*dimOfSystem + i] = draw;
@@ -110,7 +115,7 @@ void System::MonteCarloStep2() {
 		coords[numberOfParticles*dimOfSystem + 2] = draw; 
 		numberOfParticles++;
 		double energy = System::GetEnergyI(numberOfParticles-1);
-		if ( energy != energy || sigma > (double)sizeOfSys*sizeOfSys*2*sizeOfSys/(numberOfParticles+1)*exp(-(energy-chemPot)/tempOfSystem) ) {
+		if ( sigma > (double)sizeOfSys*sizeOfSys*2*sizeOfSys/(numberOfParticles+1)*exp(-(energy-chemPot)/tempOfSystem) ) {
 			acceptedSteps--;
 			for( int i=0; i<dimOfSystem; i++ )
 				coords[numberOfParticles*dimOfSystem + i] = 0;
