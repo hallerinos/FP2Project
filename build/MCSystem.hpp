@@ -103,12 +103,10 @@ void System::MonteCarloStep2() {
 	acceptedSteps++;
 
 	int insOrDel = rand()%2;
-	cout << "Insert or Delete: " << insOrDel;
 
 	// insert or delete
 	if( insOrDel  || !numberOfParticles ) {
 		// Insertion Case
-		//
 		// put new particle at the end of the coords array
 		for( int i=0; i<2; i++){
 			draw = sizeOfSys*((double)(rand()%INT_MAX)/INT_MAX);
@@ -134,10 +132,8 @@ void System::MonteCarloStep2() {
 			}
 		}	
 	} else {	
-		// Deletion Case
-		//
 		double tp[dimOfSystem];
-		
+		// Deletion Case
 		// choose particle for deletion
 		int choice = rand() % numberOfParticles;
 		// energy of this particle
@@ -147,7 +143,7 @@ void System::MonteCarloStep2() {
 			tp[i] = coords[choice*dimOfSystem + i];
 			for ( int j=choice; j<numberOfParticles-1; j++)
 				coords[j*dimOfSystem+i]=coords[(j+1)*dimOfSystem+i];
-			// set the last value to 0
+			// set the last values to 0
 			coords[(numberOfParticles-1)*dimOfSystem + i] = 0;
 		}
 		numberOfParticles--;
