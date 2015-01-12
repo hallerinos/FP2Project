@@ -107,6 +107,8 @@ void System::MonteCarloStep2() {
 
 	// insert or delete
 	if( insOrDel  || !numberOfParticles ) {
+		// Insertion Case
+		//
 		// put new particle at the end of the coords array
 		for( int i=0; i<2; i++){
 			draw = sizeOfSys*((double)(rand()%INT_MAX)/INT_MAX);
@@ -132,27 +134,28 @@ void System::MonteCarloStep2() {
 			}
 		}	
 	} else {	
-		int choice = rand() % numberOfParticles;
+		// Deletion Case
+		//
 		double tp[dimOfSystem];
+		
+		// choose particle for deletion
+		int choice = rand() % numberOfParticles;
 		double energy = System::GetEnergyI(choice);
 		for( int i=0; i<dimOfSystem; i++ ) {
 			tp[i] = coords[choice*dimOfSystem + i];
 			for ( int j=choice; j<numberOfParticles-1; j++)
 				coords[j*dimOfSystem+i]=coords[(j+1)*dimOfSystem+i];
-			coords[numberOfParticles*dimOfSystem + i] = 0;
+			coords[(numberOfParticles-1)*dimOfSystem + i] = 0;
 		}
 		numberOfParticles--;
-		if ( sigma > (double)(numberOfParticles+1)/sizeOfSys*sizeOfSys*2*sizeOfSys*exp((energy-chemPot)/tempOfSystem) ) {
-			acceptedSteps--;
-			for( int i=0; i<dimOfSystem; i++ )
-				coords[numberOfParticles*dimOfSystem + i] = tp[i];
-			numberOfParticles++;
+		if ( energy < chemPot ) {
+			metropolis = (double)(numberOfParticles+1)/sizeOfSys*sizeOfSys*2*sizeOfSys*exp((energy-chemPot)/tempOfSystem);
+			if ( sigma > metropolis ) {
+				acceptedSteps--;
+				for( int i=0; i<dimOfSystem; i++ )
+					coords[numberOfParticles*dimOfSystem + i] = tp[i];
+				numberOfParticles++;
+			}
 		}
 	}
-}
-
-void System::InsertParticle() {
-}
-
-void System::DeleteParticle() {
 }
