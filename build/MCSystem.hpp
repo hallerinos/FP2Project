@@ -98,6 +98,7 @@ void System::MonteCarloStep( double eps ) {
 
 void System::MonteCarloStep2() {
 	double sigma = (double)(rand()%INT_MAX)/INT_MAX;
+	double metropolis;
 	double draw;
 	acceptedSteps++;
 
@@ -106,21 +107,30 @@ void System::MonteCarloStep2() {
 
 	// insert or delete
 	if( insOrDel  || !numberOfParticles ) {
-		// put
+		// put new particle at the end of the coords array
 		for( int i=0; i<2; i++){
 			draw = sizeOfSys*((double)(rand()%INT_MAX)/INT_MAX);
 			coords[numberOfParticles*dimOfSystem + i] = draw;
 		}
-		draw = sizeOfSys*((double)(rand()%INT_MAX)/INT_MAX);
+		// z-length is twice as long as x,y
+		draw = 2*sizeOfSys*((double)(rand()%INT_MAX)/INT_MAX);
 		coords[numberOfParticles*dimOfSystem + 2] = draw; 
 		numberOfParticles++;
+		// energy of the new particle
 		double energy = System::GetEnergyI(numberOfParticles-1);
-		if ( sigma > (double)sizeOfSys*sizeOfSys*2*sizeOfSys/(numberOfParticles+1)*exp(-(energy-chemPot)/tempOfSystem) ) {
-			acceptedSteps--;
-			for( int i=0; i<dimOfSystem; i++ )
-				coords[numberOfParticles*dimOfSystem + i] = 0;
-			numberOfParticles--;
-		}
+
+		if ( energy > chemPot ) {
+			// calculate metropolis criterion
+			metropolis = (double)sizeOfSys*sizeOfSys*2*sizeOfSys/(numberOfParticles+1)*exp(-(energy-chemPot)/tempOfSystem);
+			// test if random number is larger than metropolis
+			if ( sigma > metropolis ) {
+				// reject the step
+				acceptedSteps--;
+				numberOfParticles--;
+				for( int i=0; i<dimOfSystem; i++ )
+					coords[numberOfParticles*dimOfSystem + i] = 0;
+			}
+		}	
 	} else {	
 		int choice = rand() % numberOfParticles;
 		double tp[dimOfSystem];
