@@ -140,17 +140,23 @@ void System::MonteCarloStep2() {
 		
 		// choose particle for deletion
 		int choice = rand() % numberOfParticles;
+		// energy of this particle
 		double energy = System::GetEnergyI(choice);
 		for( int i=0; i<dimOfSystem; i++ ) {
+			// save value for rejection case
 			tp[i] = coords[choice*dimOfSystem + i];
 			for ( int j=choice; j<numberOfParticles-1; j++)
 				coords[j*dimOfSystem+i]=coords[(j+1)*dimOfSystem+i];
+			// set the last value to 0
 			coords[(numberOfParticles-1)*dimOfSystem + i] = 0;
 		}
 		numberOfParticles--;
+
 		if ( energy < chemPot ) {
-			metropolis = (double)(numberOfParticles+1)/sizeOfSys*sizeOfSys*2*sizeOfSys*exp((energy-chemPot)/tempOfSystem);
+			// calculate metropolis criterion
+			metropolis = (double)(numberOfParticles+1)/(sizeOfSys*sizeOfSys*2*sizeOfSys)*exp((energy-chemPot)/tempOfSystem);
 			if ( sigma > metropolis ) {
+				// reject the step
 				acceptedSteps--;
 				for( int i=0; i<dimOfSystem; i++ )
 					coords[numberOfParticles*dimOfSystem + i] = tp[i];
