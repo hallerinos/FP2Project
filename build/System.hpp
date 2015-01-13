@@ -43,7 +43,7 @@ class System {
 	private:	
 		int 		numberOfParticles, dimOfSystem;
 		long		acceptedSteps;
-		double 	sizeOfSys;
+		double 	sizeOfSys, volume;
 		double 	MIN_CUTOFF, MAX_CUTOFF; 	// Cutoff Distances for Interaction
 		long 		MAX_NUMOFPARTS;
 		double 	tempOfSystem, chemPot;
@@ -64,9 +64,11 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	acceptedSteps = 0;
 	MAX_CUTOFF = 5.039684;
 	MAX_NUMOFPARTS = 2000;
+	MIN_CUTOFF = 0.2;
 	forces = 0;
 	forces2 = 0;
 	velos = 0;
+	volume = sizeOfSys*sizeOfSys*sizeOfSys;
 	coords = new double[ MAX_NUMOFPARTS * dimOfSystem ];
 
 	// for ( int i3 = 0; i3 < numberOfParticles; i3++ )
@@ -222,20 +224,20 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 double System::GetDistanceSq( int partNumOne, int partNumTwo ) const {
 	double dist = 0;
 	double coordDiff = 0;
-	for ( int j = 0; j < dimOfSystem-1; j++ ) {
+	for ( int j = 0; j < dimOfSystem; j++ ) {
 		coordDiff = coords[ partNumTwo*dimOfSystem + j] 
 			- coords[ partNumOne*dimOfSystem + j];
 		coordDiff = coordDiff - sizeOfSys*round( coordDiff/sizeOfSys );
 		coordDiff*=coordDiff;
 		dist += coordDiff;
 	}
-/**/
+/*
 	coordDiff = coords[ partNumTwo*dimOfSystem + 2] 
 		- coords[ partNumOne*dimOfSystem + 2];
 	coordDiff = coordDiff - 2*sizeOfSys*round( coordDiff/(2*sizeOfSys) );
 	coordDiff*=coordDiff;
 	dist += coordDiff;
-/**/
+*/
 	return dist;
 }
 

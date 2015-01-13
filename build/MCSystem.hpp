@@ -101,7 +101,7 @@ void System::MonteCarloStep( double eps ) {
  *------------------------------------------------------------------*/
 void System::MonteCarloStep2() {
 	// roll random number for the metropolis test
-	double sigma = (double)(rand()%INT_MAX)/INT_MAX;
+	double sigma = (double)rand()/RAND_MAX;
 	// double for metropolis criteria
 	double metropolis;
 	acceptedSteps++;
@@ -115,21 +115,24 @@ void System::MonteCarloStep2() {
 		//
 		// put a new particle at the end of the coords array
 		// roll random point in the box
-		for( int i=0; i<2; i++){
-			draw = sizeOfSys*((double)(rand()%INT_MAX)/INT_MAX);
+		double energy;
+		for( int i=0; i<dimOfSystem; i++){
+			draw = sizeOfSys*(double)rand()/RAND_MAX;
 			coords[numberOfParticles*dimOfSystem + i] = draw;
 		}
+		/*
 		// z-length is twice as long as x,y
-		draw = 2*sizeOfSys*((double)(rand()%(INT_MAX))/(INT_MAX));
+		draw = 2*sizeOfSys*((double)(rand()/RAND_MAX));
 		coords[numberOfParticles*dimOfSystem + 2] = draw; 
+		*/
 		// after this, the new entry of coords has to be considered
 		// in the methods 
 		numberOfParticles++;
 		// energy of the new particle
-		double energy = System::GetEnergyI(numberOfParticles-1);
-
+		energy = System::GetEnergyI(numberOfParticles-1);
+		
 		// calculate metropolis criterion
-		metropolis = (double)sizeOfSys*sizeOfSys*2*sizeOfSys/(numberOfParticles+1)*exp(-(energy-chemPot)/tempOfSystem);
+		metropolis = (double)volume/(numberOfParticles+1)*exp(-(energy-chemPot)/tempOfSystem);
 		if ( sigma > min(1.,metropolis) ) {
 			// reject the configuration, undo changes 
 			acceptedSteps--;
@@ -159,7 +162,7 @@ void System::MonteCarloStep2() {
 		numberOfParticles--;
 
 		// calculate metropolis criterion
-		metropolis = (double)(numberOfParticles+1)/(sizeOfSys*sizeOfSys*2*sizeOfSys)*exp(-(energy+chemPot)/tempOfSystem);
+		metropolis = (double)(numberOfParticles+1)/volume*exp(-(-energy+chemPot)/tempOfSystem);
 		if ( sigma > min(1.0,metropolis) ) {
 			// reject the configuration, undo changes
 			acceptedSteps--;
