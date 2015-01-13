@@ -47,7 +47,7 @@ long System::GetAcceptedSteps() {
 }
 
 /*--------------------------------------------------------------------
- * Monte-Carlo step with Metropolis criteria
+ * NVT Monte-Carlo step with Metropolis criteria
  *------------------------------------------------------------------*/
 void System::MonteCarloStep( double eps ) {
 	int choice = rand() % numberOfParticles;
@@ -96,18 +96,25 @@ void System::MonteCarloStep( double eps ) {
 	delete randVec;
 }
 
+/*--------------------------------------------------------------------
+ * uVT Monte-Carlo step with Metropolis criteria
+ *------------------------------------------------------------------*/
 void System::MonteCarloStep2() {
+	// roll random number for the metropolis test
 	double sigma = (double)(rand()%INT_MAX)/INT_MAX;
+	// double for metropolis criteria
 	double metropolis;
-	double draw;
 	acceptedSteps++;
 
 	int insOrDel = rand()%2;
 
 	// insert or delete
 	if( insOrDel  || !numberOfParticles ) {
+		double draw;
 		// Insertion Case
-		// put new particle at the end of the coords array
+		//
+		// put a new particle at the end of the coords array
+		// roll random point in the box
 		for( int i=0; i<2; i++){
 			draw = sizeOfSys*((double)(rand()%INT_MAX)/INT_MAX);
 			coords[numberOfParticles*dimOfSystem + i] = draw;
@@ -115,32 +122,35 @@ void System::MonteCarloStep2() {
 		// z-length is twice as long as x,y
 		draw = 2*sizeOfSys*((double)(rand()%(INT_MAX))/(INT_MAX));
 		coords[numberOfParticles*dimOfSystem + 2] = draw; 
+		// after this, the new entry of coords has to be considered
+		// in the methods 
 		numberOfParticles++;
 		// energy of the new particle
 		double energy = System::GetEnergyI(numberOfParticles-1);
 
-		if ( energy > chemPot ) {
-			// calculate metropolis criterion
-			metropolis = (double)sizeOfSys*sizeOfSys*2*sizeOfSys/numberOfParticles*exp(-(energy-chemPot)/tempOfSystem);
-			// test if random number is larger than metropolis
-			if ( sigma > metropolis ) {
-				// reject the step
-				acceptedSteps--;
-				numberOfParticles--;
-				for( int i=0; i<dimOfSystem; i++ )
-					coords[numberOfParticles*dimOfSystem + i] = 0;
-			}
-		}	
+		// calculate metropolis criterion
+		metropolis = (double)sizeOfSys*sizeOfSys*2*sizeOfSys/(numberOfParticles+1)*exp(-(energy-chemPot)/tempOfSystem);
+		if ( sigma > min(1.,metropolis) ) {
+			// reject the configuration, undo changes 
+			acceptedSteps--;
+			numberOfParticles--;
+			for( int i=0; i<dimOfSystem; i++ )
+				coords[numberOfParticles*dimOfSystem + i] = 0;
+		}
 	} else {	
-		double tp[dimOfSystem];
 		// Deletion Case
-		// choose particle for deletion
+		//
+		// tp array to save coordinates for the particle, which 
+		// will be deleted
+		double tp[dimOfSystem];
+		// randomly choose a particle 
 		int choice = rand() % numberOfParticles;
 		// energy of this particle
 		double energy = System::GetEnergyI(choice);
 		for( int i=0; i<dimOfSystem; i++ ) {
-			// save value for rejection case
+			// save coordinates
 			tp[i] = coords[choice*dimOfSystem + i];
+			// overwrite the coordinates
 			for ( int j=choice; j<numberOfParticles-1; j++)
 				coords[j*dimOfSystem+i]=coords[(j+1)*dimOfSystem+i];
 			// set the last values to 0
@@ -148,16 +158,14 @@ void System::MonteCarloStep2() {
 		}
 		numberOfParticles--;
 
-		if ( energy < chemPot ) {
-			// calculate metropolis criterion
-			metropolis = (double)(numberOfParticles+1)/(sizeOfSys*sizeOfSys*2*sizeOfSys)*exp((-energy-chemPot)/tempOfSystem);
-			if ( sigma > metropolis ) {
-				// reject the step
-				acceptedSteps--;
-				for( int i=0; i<dimOfSystem; i++ )
-					coords[numberOfParticles*dimOfSystem + i] = tp[i];
-				numberOfParticles++;
-			}
+		// calculate metropolis criterion
+		metropolis = (double)(numberOfParticles+1)/(sizeOfSys*sizeOfSys*2*sizeOfSys)*exp(-(energy+chemPot)/tempOfSystem);
+		if ( sigma > min(1.0,metropolis) ) {
+			// reject the configuration, undo changes
+			acceptedSteps--;
+			for( int i=0; i<dimOfSystem; i++ )
+				coords[numberOfParticles*dimOfSystem + i] = tp[i];
+			numberOfParticles++;
 		}
 	}
 }
