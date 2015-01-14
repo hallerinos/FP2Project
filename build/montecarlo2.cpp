@@ -49,7 +49,7 @@ int main()
 	for( long i=0; i<MC_STEPS; i++)
 		MC.MonteCarloStep2();
 	for( long i=0; i<MC_STEPS; i++) {
-		for ( int j=0; j<1000; j++ ) {
+		for ( int j=0; j<MAX_STEPS; j++ ) {
 			MC.MonteCarloStep2();
 		}
 		cout << setprecision(3) << MC.GetEnergy() << "\t" << MC.GetNumberOfParts() << endl; 
