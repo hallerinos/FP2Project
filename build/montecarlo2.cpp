@@ -197,23 +197,23 @@ void readFromFile() {
 /*--------------------------------------------------------------------
  * Print Coordinates to a *.txt file
  *------------------------------------------------------------------*/
-void System::PrintCoordinates( string fileName ) const {
-	ofstream file;
-	file.open( (string("plots/")+fileName).c_str(), ios::app );
-	// file << "Number_of_particles: " << numOfParticles << endl;
-	// file << "Size_of_system: " << sizeOfSys << endl;
-	// file << "Potential_Energy: " << GetEnergy() << endl;
-	// file << "X\t\tY\t\tZ" << endl;
-	for ( int i = 0; i < numberOfParticles; i++ ) {
-		for ( int j = 0; j < dimOfSystem; j++ ) {
-			file << setprecision(8) << coords[i*dimOfSystem + j] << "\t";
-		}
-		file << endl;
-	}
-	// file << endl;
-	// file << endl;
-	file.close();
-}
+// void System::PrintCoordinates( string fileName ) const {
+// 	ofstream file;
+// 	file.open( (string("plots/")+fileName).c_str(), ios::app );
+// 	// file << "Number_of_particles: " << numOfParticles << endl;
+// 	// file << "Size_of_system: " << sizeOfSys << endl;
+// 	// file << "Potential_Energy: " << GetEnergy() << endl;
+// 	// file << "X\t\tY\t\tZ" << endl;
+// 	for ( int i = 0; i < numberOfParticles; i++ ) {
+// 		for ( int j = 0; j < dimOfSystem; j++ ) {
+// 			file << setprecision(8) << coords[i*dimOfSystem + j] << "\t";
+// 		}
+// 		file << endl;
+// 	}
+// 	// file << endl;
+// 	// file << endl;
+// 	file.close();
+// }
 
 /*--------------------------------------------------------------------
  * Write initial settings to a file...
