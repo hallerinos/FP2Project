@@ -23,6 +23,7 @@ class System {
 		double 	GetEnergy() const;
 		long	 	GetAcceptedSteps();
 		int 		GetNumberOfParts() const { return numberOfParticles;};
+		long 		GetCounter();
 		void 		PrintCoordinates( string fileName ) const;
 		void 		FirstHalf( double ene, double normalisation) const;
 		void 		SecondHalf( double ene, double normalisation) const;
@@ -31,6 +32,7 @@ class System {
 		double 	GetEnergyI( int ) const;
 		void 		MonteCarloStep( double eps );
 		void 		MonteCarloStep2();
+		void 		MonteCarloStep3( int min );
 		double 	GetDistanceSq( int partNumOne, int partNumTwo) const;
 		// MD Methods
 		void 		VeloVerletStepMD( double dT, bool termostat, double tempThermos, double coupling );
@@ -42,7 +44,7 @@ class System {
 		//Member Variables
 	private:	
 		int 		numberOfParticles, dimOfSystem;
-		long		acceptedSteps;
+		long		acceptedSteps, counter;
 		double 	sizeOfSys, volume;
 		double 	MIN_CUTOFF, MAX_CUTOFF; 	// Cutoff Distances for Interaction
 		long 		MAX_NUMOFPARTS;
@@ -68,6 +70,7 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	forces = 0;
 	forces2 = 0;
 	velos = 0;
+	counter = 0;
 	volume = sizeOfSys*sizeOfSys*sizeOfSys;
 	coords = new double[ MAX_NUMOFPARTS * dimOfSystem ];
 

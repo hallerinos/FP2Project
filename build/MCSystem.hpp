@@ -46,6 +46,12 @@ long System::GetAcceptedSteps() {
 	return temp;
 }
 
+long System::GetCounter() {
+	int temp = counter;
+	counter = 0;
+	return temp;
+}
+
 /*--------------------------------------------------------------------
  * NVT Monte-Carlo step with Metropolis criteria
  *------------------------------------------------------------------*/
@@ -110,6 +116,81 @@ void System::MonteCarloStep2() {
 
 	// insert or delete
 	if( insOrDel  || !numberOfParticles ) {
+		double draw;
+		// Insertion Case
+		//
+		// put a new particle at the end of the coords array
+		// roll random point in the box
+		double energy;
+		for( int i=0; i<dimOfSystem; i++){
+			draw = sizeOfSys*(double)rand()/RAND_MAX;
+			coords[numberOfParticles*dimOfSystem + i] = draw;
+		}
+		/*
+		// z-length is twice as long as x,y
+		draw = 2*sizeOfSys*((double)(rand()/RAND_MAX));
+		coords[numberOfParticles*dimOfSystem + 2] = draw; 
+		*/
+		// after this, the new entry of coords has to be considered
+		// in the methods 
+		numberOfParticles++;
+		// energy of the new particle
+		energy = System::GetEnergyI(numberOfParticles-1);
+		
+		// calculate metropolis criterion
+		metropolis = (double)volume/(numberOfParticles+1)*exp(-(energy-chemPot)/tempOfSystem);
+		if ( sigma > min(1.,metropolis) ) {
+			// reject the configuration, undo changes 
+			acceptedSteps--;
+			numberOfParticles--;
+			for( int i=0; i<dimOfSystem; i++ )
+				coords[numberOfParticles*dimOfSystem + i] = 0;
+		}
+	} else {	
+		// Deletion Case
+		//
+		// tp array to save coordinates for the particle, which 
+		// will be deleted
+		double tp[dimOfSystem];
+		// randomly choose a particle 
+		int choice = rand() % numberOfParticles;
+		// energy of this particle
+		double energy = System::GetEnergyI(choice);
+		for( int i=0; i<dimOfSystem; i++ ) {
+			// save coordinates
+			tp[i] = coords[choice*dimOfSystem + i];
+			// overwrite the coordinates
+			for ( int j=choice; j<numberOfParticles-1; j++)
+				coords[j*dimOfSystem+i]=coords[(j+1)*dimOfSystem+i];
+			// set the last values to 0
+			coords[(numberOfParticles-1)*dimOfSystem + i] = 0;
+		}
+		numberOfParticles--;
+
+		// calculate metropolis criterion
+		metropolis = (double)(numberOfParticles+1)/volume*exp(-(-energy+chemPot)/tempOfSystem);
+		if ( sigma > min(1.0,metropolis) ) {
+			// reject the configuration, undo changes
+			acceptedSteps--;
+			for( int i=0; i<dimOfSystem; i++ )
+				coords[numberOfParticles*dimOfSystem + i] = tp[i];
+			numberOfParticles++;
+		}
+	}
+}
+
+/*--------------------------------------------------------------------
+ * uVT Monte-Carlo step with Metropolis criteria
+ *------------------------------------------------------------------*/
+void System::MonteCarloStep3( int minParts ) {
+	// roll random number for the metropolis test
+	double sigma = (double)rand()/RAND_MAX;
+	// double for metropolis criteria
+	double metropolis;
+
+	// insert or delete
+	if ( numberOfParticles <= minParts ) {
+		counter++;
 		double draw;
 		// Insertion Case
 		//

@@ -28,36 +28,42 @@ int main()
 {
 	readFromFile();
 	// measuring the calculation time
-	struct timeval start, end;
-	gettimeofday(&start, NULL);
+	// struct timeval start, end;
+	// gettimeofday(&start, NULL);
 
+	cout << "Initial Settings" << endl
+			 << "----------------" << endl;
 	cout << "Number of Particles: " << numOfParticles;
 	cout << "\tSize of system: " << (double)sizeOfSys;
 	cout << "\nTemperature: " << tempOfSystem;
 	cout << "\t\tParticle density: " << 
-		(double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys) << endl;
+		(double)numOfParticles/(sizeOfSys*sizeOfSys*sizeOfSys) << endl;
 	cout << "Number of MC steps: " << MC_STEPS;
-	cout << "\tEpsilon: " << eps << endl;
 	cout << "Chemical Potential: " << chemPot << endl;
 	// initialise random seed	
 	srand( time(NULL) );		// different seeds
 	// srand( 0 );						// same seed 
 	
 	System MC( numOfParticles, dimOfSystem, tempOfSystem, sizeOfSys, chemPot );
-	cout << "\nInitial energy: " 
-		<< setprecision(6) << MC.GetEnergy() << endl;
-	for( long i=0; i<MC_STEPS; i++)
-		MC.MonteCarloStep2();
-	for( long i=0; i<MC_STEPS; i++) {
-		for ( int j=0; j<MAX_STEPS; j++ ) {
-			MC.MonteCarloStep2();
+	
+	cout << "Occurency N_(i+1)/N_i" << endl
+		<< "\t  i \t i+1" << endl;
+	long counts;
+	for ( int i=0; i<1000; i++ ) {
+		for ( int j=0; j< MC_STEPS; j++ )
+			MC.MonteCarloStep3( i );
+		MC.GetCounter();
+		for( long j=0; j<MAX_STEPS; j++) {
+			MC.MonteCarloStep3( i );
 		}
-		cout << setprecision(3) << MC.GetEnergy() << "\t" << MC.GetNumberOfParts() << endl; 
+		counts = MC.GetCounter();
+		cout  << i+1 << "/" << i << "\t" 
+			<< (MAX_STEPS - counts) << "\t" << counts << endl;
 	}
-	MC.PrintCoordinates("T_" + to_string(tempOfSystem) + "rho_"+ 
-			to_string(
-			 (double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys)
-			 ) + "Snapshots.txt");
+	// MC.PrintCoordinates("T_" + to_string(tempOfSystem) + "rho_"+ 
+	// 		to_string(
+	// 		 (double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys)
+	// 		 ) + "Snapshots.txt");
 	// cout << "\nFinal energy: " 
 	// 	<< setprecision(6) << MC.GetEnergy() << endl;
 	// cout << "Number of particles: " << MC.GetNumberOfParts() << endl;
