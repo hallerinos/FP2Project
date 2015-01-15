@@ -28,8 +28,8 @@ int main()
 {
 	readFromFile();
 	// measuring the calculation time
-	// struct timeval start, end;
-	// gettimeofday(&start, NULL);
+	struct timeval start, end;
+	gettimeofday(&start, NULL);
 
 	cout << "Number of Particles: " << numOfParticles;
 	cout << "\tSize of system: " << (double)sizeOfSys;
@@ -54,10 +54,10 @@ int main()
 		}
 		cout << setprecision(3) << MC.GetEnergy() << "\t" << MC.GetNumberOfParts() << endl; 
 	}
-	// MC.PrintCoordinates("T_" + to_string(tempOfSystem) + "rho_"+ 
-	// 		to_string(
-	// 		 (double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys)
-	// 		 ) + "Snapshots.txt");
+	MC.PrintCoordinates("T_" + to_string(tempOfSystem) + "rho_"+ 
+			to_string(
+			 (double)numOfParticles/(2*sizeOfSys*sizeOfSys*sizeOfSys)
+			 ) + "Snapshots.txt");
 	// cout << "\nFinal energy: " 
 	// 	<< setprecision(6) << MC.GetEnergy() << endl;
 	// cout << "Number of particles: " << MC.GetNumberOfParts() << endl;

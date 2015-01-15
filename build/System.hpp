@@ -23,7 +23,6 @@ class System {
 		double 	GetEnergy() const;
 		long	 	GetAcceptedSteps();
 		int 		GetNumberOfParts() const { return numberOfParticles;};
-		double 	GetWeights() const { return weights;};
 		void 		PrintCoordinates( string fileName ) const;
 		void 		FirstHalf( double ene, double normalisation) const;
 		void 		SecondHalf( double ene, double normalisation) const;
@@ -47,7 +46,7 @@ class System {
 		double 	sizeOfSys, volume;
 		double 	MIN_CUTOFF, MAX_CUTOFF; 	// Cutoff Distances for Interaction
 		long 		MAX_NUMOFPARTS;
-		double 	tempOfSystem, chemPot, weights;
+		double 	tempOfSystem, chemPot;
 		double 	*coords, *velos, *forces, *forces2;
 		float 	mass;
 };
@@ -69,7 +68,6 @@ System::System( int newNumberOfParticles, int newDimOfSystem,
 	forces = 0;
 	forces2 = 0;
 	velos = 0;
-	weights = 1;
 	volume = sizeOfSys*sizeOfSys*sizeOfSys;
 	coords = new double[ MAX_NUMOFPARTS * dimOfSystem ];
 

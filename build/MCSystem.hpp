@@ -133,8 +133,7 @@ void System::MonteCarloStep2() {
 		
 		// calculate metropolis criterion
 		metropolis = (double)volume/(numberOfParticles+1)*exp(-(energy-chemPot)/tempOfSystem);
-		if ( sigma < min(1.,metropolis) ) {
-		} else {
+		if ( sigma > min(1.,metropolis) ) {
 			// reject the configuration, undo changes 
 			acceptedSteps--;
 			numberOfParticles--;
@@ -164,9 +163,7 @@ void System::MonteCarloStep2() {
 
 		// calculate metropolis criterion
 		metropolis = (double)(numberOfParticles+1)/volume*exp(-(-energy+chemPot)/tempOfSystem);
-		if ( sigma < min(1.0, metropolis) ) {
-
-		} else {
+		if ( sigma > min(1.0,metropolis) ) {
 			// reject the configuration, undo changes
 			acceptedSteps--;
 			for( int i=0; i<dimOfSystem; i++ )
