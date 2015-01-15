@@ -33,6 +33,7 @@ class System {
 		void 		MonteCarloStep( double eps );
 		void 		MonteCarloStep2();
 		void 		MonteCarloStep3( int min );
+		void		AddParticle();
 		double 	GetDistanceSq( int partNumOne, int partNumTwo) const;
 		// MD Methods
 		void 		VeloVerletStepMD( double dT, bool termostat, double tempThermos, double coupling );

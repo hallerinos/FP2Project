@@ -255,3 +255,23 @@ void System::MonteCarloStep3( int minParts ) {
 	if ( numberOfParticles == minParts )
 		counter++;
 }
+
+//---------------------------------------------------------------
+//ADD Particle if numberofpaticles != minparts
+//---------------------------------------------------------------
+
+void System::AddParticle(){
+		double draw;
+		for( int i=0; i<dimOfSystem; i++){
+			draw = sizeOfSys*(double)rand()/RAND_MAX;
+			coords[numberOfParticles*dimOfSystem + i] = draw;
+		}
+		/*
+		// z-length is twice as long as x,y
+		draw = 2*sizeOfSys*((double)(rand()/RAND_MAX));
+		coords[numberOfParticles*dimOfSystem + 2] = draw; 
+		*/
+		// after this, the new entry of coords has to be considered
+		// in the methods 
+		numberOfParticles++;
+}
