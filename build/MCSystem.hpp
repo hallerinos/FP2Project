@@ -190,7 +190,6 @@ void System::MonteCarloStep3( int minParts ) {
 
 	// insert or delete
 	if ( numberOfParticles <= minParts ) {
-		counter++;
 		double draw;
 		// Insertion Case
 		//
@@ -221,7 +220,7 @@ void System::MonteCarloStep3( int minParts ) {
 			for( int i=0; i<dimOfSystem; i++ )
 				coords[numberOfParticles*dimOfSystem + i] = 0;
 		}
-	} else {	
+	} else {
 		// Deletion Case
 		//
 		// tp array to save coordinates for the particle, which 
@@ -252,4 +251,7 @@ void System::MonteCarloStep3( int minParts ) {
 			numberOfParticles++;
 		}
 	}
+
+	if ( numberOfParticles == minParts )
+		counter++;
 }
