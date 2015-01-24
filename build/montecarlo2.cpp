@@ -224,22 +224,22 @@ void readFromFile() {
 /*--------------------------------------------------------------------
  * Write initial settings to a file...
  *------------------------------------------------------------------*/
-void writeConditionsToFile(float rho, float ratio) {
-	cout << "Writing Conditions...";
-	stringstream iniConditions;
-	iniConditions << "Number_of_particles:\t" << endl;
-	iniConditions << numOfParticles << endl;
-	iniConditions << "Dimension:\t" << endl;
-	iniConditions << dimOfSystem << endl;
-	iniConditions << "Size:\t" << endl;
-	iniConditions << sizeOfSys << endl;
-	iniConditions << "Temperature:\t" << endl;
-	iniConditions << tempOfSystem << endl;
-	iniConditions << "Acceptance Ratio:\t" << endl;
-	iniConditions << ratio << endl;
-	ofstream file;
-	file.open( "plots/"+to_string(rho)+"SystemSpecs.txt" );
-	file << iniConditions.str();
-	file.close();
-	cout << " Done." << endl;
-}
+// void writeConditionsToFile(float rho, float ratio) {
+// 	cout << "Writing Conditions...";
+// 	stringstream iniConditions;
+// 	iniConditions << "Number_of_particles:\t" << endl;
+// 	iniConditions << numOfParticles << endl;
+// 	iniConditions << "Dimension:\t" << endl;
+// 	iniConditions << dimOfSystem << endl;
+// 	iniConditions << "Size:\t" << endl;
+// 	iniConditions << sizeOfSys << endl;
+// 	iniConditions << "Temperature:\t" << endl;
+// 	iniConditions << tempOfSystem << endl;
+// 	iniConditions << "Acceptance Ratio:\t" << endl;
+// 	iniConditions << ratio << endl;
+// 	ofstream file;
+// 	file.open( "plots/"+to_string(rho)+"SystemSpecs.txt" );
+// 	file << iniConditions.str();
+// 	file.close();
+// 	cout << " Done." << endl;
+// }

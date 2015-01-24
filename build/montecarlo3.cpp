@@ -51,21 +51,22 @@ int main()
 		<< "\t  i \t i+1" << endl;
 	ofstream propabs;
 	propabs.open ( fileName.c_str() );
-	propabs << "mu = " << chemPot << "\t" << "T = " << tempOfSystem << endl;
+	propabs << "mu = " << chemPot << "\t" << "T = " << tempOfSystem << "\t"
+		<< "a = " << sizeOfSys << endl;
 	long countsA,countsB,j;
 	for ( int i=numOfParticles; i<MAX_STEPS; i++ ) {
 		if (MC.GetNumberOfParts() < i) MC.AddParticle();
 		countsA=0;
 		countsB=0;
 		j=0;
-		while ( (j<MC_STEPS || countsB<10) ){
+		while ( (j<MC_STEPS || countsB<1) ){
 			MC.MonteCarloStep3( i );
 			if ( MC.GetNumberOfParts() == i ) countsA++; else countsB++;
 			j++;
 		}
 		cout  << i+1 << "/" << i << "\t" 
 			<< (double)countsB / countsA << "\t" << countsB << endl;
-		propabs << i+1 << "/" << i << "\t" << (double)countsB/countsA << endl;
+		propabs << i+1 << "/" << i << "\t" << (double)countsB/countsA << "\t" << countsB << "\t" << countsA << endl;
 	}
 	propabs.close();
 	// MC.PrintCoordinates("T_" + to_string(tempOfSystem) + "rho_"+ 
