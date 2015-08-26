@@ -4,11 +4,13 @@
 using namespace std;
 
 void foo() {
-	printf("Do this. ");
+	for ( int i=1 ; i < 10; i++)
+		printf("Do this. ");
 }
 
 void bar( ) { 
-	printf("Do that. ");
+	for ( int j=1 ; j < 10; j++)
+		printf("Do that. ");
 }
 
 int main()
